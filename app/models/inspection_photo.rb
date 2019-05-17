@@ -1,0 +1,2 @@
+class InspectionPhoto < ApplicationRecord
+end

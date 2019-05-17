@@ -1,0 +1,2 @@
+class CarInspection < ApplicationRecord
+end

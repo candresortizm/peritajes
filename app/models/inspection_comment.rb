@@ -1,0 +1,2 @@
+class InspectionComment < ApplicationRecord
+end

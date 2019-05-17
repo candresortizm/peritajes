@@ -1,0 +1,2 @@
+class CarProcess < ApplicationRecord
+end
