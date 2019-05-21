@@ -15,6 +15,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     build_resource(sign_up_params)
     resource.type="Client" if resource.type.nil?
     if resource.save!
+      sign_in(resource)
       redirect_to benchmark_index_path
     end
   end
