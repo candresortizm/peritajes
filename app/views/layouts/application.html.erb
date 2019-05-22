@@ -10,6 +10,12 @@
   </head>
 
   <body>
+    <%if !current_user.nil?%>
+      <%= link_to('Procesos', processes_index_path, method: :get) %>
+      <%= link_to('Preguntas', questions_index_path, method: :get) %>
+      <%= link_to('Peritajes', benchmarks_index_path, method: :get) %>
+      
+    <%end%>
     <%= yield %>
   </body>
 </html>
