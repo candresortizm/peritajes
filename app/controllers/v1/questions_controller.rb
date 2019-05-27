@@ -6,10 +6,13 @@ class V1::QuestionsController < ApplicationController
     end
 
     def create
-        @all = Question.all
+        Question.new(question_params).save!
+        redirect_to index_questions_path
     end
 
     def new
+        @question = Question.new
+        @categories = QuestionCategory.all
     end
 
     def update
@@ -21,7 +24,13 @@ class V1::QuestionsController < ApplicationController
     end
 
     def get_categories
-        @categories=Category.all
-        render json:{categories:@categories}
+        @categories=QuestionCategory.all
+        # render json:{categories:@categories}
+    end
+
+    private
+
+    def question_params
+        params.require(:question).permit(:text_query,:question_type,:question_category_id)
     end
 end

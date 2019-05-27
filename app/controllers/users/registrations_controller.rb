@@ -16,7 +16,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
     resource.type="Client" if resource.type.nil?
     if resource.save!
       sign_in(resource)
-      redirect_to benchmark_index_path
+      case resource.type
+      when "SuperUser"    #compare to 1
+        puts "SuperUser" 
+      when "BrandAdmin"    #compare to 2
+        puts "BrandAdmin"
+      when "CarExpert"    #compare to 2
+        puts "CarExpert"
+      when "BrandAdmin"    #compare to 2
+        puts "BrandAdmin"
+      else
+        puts "Client"
+      end
+      redirect_to benchmarks_index_path
     end
   end
 

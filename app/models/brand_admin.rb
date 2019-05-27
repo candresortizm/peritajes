@@ -1,0 +1,3 @@
+class BrandAdmin < User
+  
+end

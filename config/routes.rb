@@ -14,7 +14,10 @@ Rails.application.routes.draw do
       get :index, as: 'processes_index'
     end
     scope :questions, controller: :questions do
-      get :index, as: 'questions_index'
+      get :new, as: 'new_question'
+      get :get_categories, as: 'get_categories'
+      get :index, as: 'index_questions'
+      post :create, as: 'create_question'
     end
   end
 

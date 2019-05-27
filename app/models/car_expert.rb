@@ -1,0 +1,2 @@
+class CarExpert < User
+end

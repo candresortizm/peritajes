@@ -1,7 +1,12 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+SuperUser.create(email: 'super@admin.com', password: 'password', password_confirmation: 'password',type: 'SuperUser')
+
+Brand.create(name: 'AutoLab', address: 'Av. NQS # 70 - 16', telephone: '7429249',nit: '123456456')
+
+BrandAdmin.create(email: 'admin@autolab.com', password: 'password', password_confirmation: 'password',type: 'BrandAdmin',brand_id:1)
+
+QuestionCategory.create(name:"Motor",order:1)
+QuestionCategory.create(name:"Interior",order:2)
+QuestionCategory.create(name:"Exterior",order:3)
+QuestionCategory.create(name:"Parte baja",order:4)
+QuestionCategory.create(name:"Alineación y llantas",order:5)
+QuestionCategory.create(name:"Accesorios",order:6)
