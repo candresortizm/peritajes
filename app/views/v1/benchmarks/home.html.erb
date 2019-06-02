@@ -1,0 +1,10 @@
+<h1>Benchmarks Home</h1>
+<%= form_tag(benchmarks_search_path, method: "post") do %>
+  <%= label_tag(:q, "Ingrese la placa del vehìculo:") %>
+  <%= text_field_tag(:plate) %>
+  <%= submit_tag("Buscar") %>
+<% end %>
+
+<%if current_user.nil?%>
+<%= link_to('LogIn', new_user_session_path, method: :get) %>
+<%end%>

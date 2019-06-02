@@ -1,0 +1,8 @@
+<h1>Benchmarks Results</h1>
+<%@all_results.each do |element|%>
+<h1><%=element%></h1>
+<%end%>
+
+<%if current_user.nil?%>
+<%= link_to('LogIn', new_user_session_path, method: :get) %>
+<%end%>

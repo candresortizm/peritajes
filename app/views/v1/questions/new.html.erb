@@ -1,12 +1,15 @@
 <h1>New Questions</h1>
 
 <%= form_for @question, url: {action: "create"}, html: {class: "nifty_form"} do |f| %>
-  <%= f.text_field :text_query %>
-  <%= f.text_field :question_type %>
-  <%= f.select "question_category_id", options_from_collection_for_select(@categories, "id", "name") %>
+  <%= f.label :text_query, 'Texto en la pregunta' %>
+  <%= f.text_field :text_query %></br>
+  <%= f.label :question_type, 'Tipo de pregunta' %>
+  <%= f.text_field :question_type %></br>
+  <%= f.label :question_category, 'Categorìa de la pregunta' %>
+  <%= f.select "question_category_id", options_from_collection_for_select(@categories, "id", "name") %></br>
   <%= f.submit "Crear" %>
 <% end %>
 
 <li>
-  <%= link_to('Logout', destroy_user_session_path, method: :delete) %>        
+  <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
 </li>

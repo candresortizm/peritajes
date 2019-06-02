@@ -1,0 +1,17 @@
+<h1>New Brand</h1>
+
+<%= form_for @brand, url: {action: "create"}, html: {class: "nifty_form"} do |f| %>
+  <%= f.label :name, 'Nombre' %>
+  <%= f.text_field :name %></br>
+  <%= f.label :address, 'Dirección' %>
+  <%= f.text_field :address %></br>
+  <%= f.label :telephone, 'Teléfono' %>
+  <%= f.text_field :telephone %></br>
+  <%= f.label :nit, 'NIT' %>
+  <%= f.text_field :nit %></br>
+  <%= f.submit "Crear" %>
+<% end %>
+
+<li>
+  <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
+</li>

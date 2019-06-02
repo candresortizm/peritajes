@@ -2,14 +2,16 @@ class V1::BrandsController < ApplicationController
     before_action :authenticate_user!
 
     def index
-        @all = CarInspection.all
+        @all = Brand.all
     end
 
     def new
+      @brand = Brand.new
     end
 
     def create
-        @all = CarInspection.all
+      Brand.new(brand_params).save!
+      redirect_to brands_index_path
     end
 
     def update
@@ -18,5 +20,11 @@ class V1::BrandsController < ApplicationController
 
     def edit
         @all = CarInspection.all
+    end
+
+    private
+
+    def brand_params
+      params.require(:brand).permit(:name,:address,:telephone,:nit)
     end
 end

@@ -1,0 +1,2 @@
+class Dispatcher < User
+end

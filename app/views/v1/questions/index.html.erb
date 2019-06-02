@@ -1,17 +1,17 @@
 <h1>Questions</h1>
 <li>
-  <%= link_to('New', new_question_path, method: :get) %>        
+  <%= link_to('New', new_question_path, method: :get) %>
 </li>
 <%@all.each do |element|%>
-<h1><%=element.text_query%></h1>
+<p><%=element.text_query%></p>
 <%end%>
 
 <li>
-  <%= link_to('Logout', destroy_user_session_path, method: :delete) %>        
+  <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
 </li>
 
 <li>
-  <%= link_to('Get Questions Categories', get_categories_path, method: :get, remote: true) %>        
+  <%= link_to('Get Questions Categories', get_categories_path, method: :get, remote: true) %>
 </li>
 
 <h3 id="demo"></h3>

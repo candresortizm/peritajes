@@ -1,9 +1,9 @@
 <h1>Benchmarks</h1>
 <%@all.each do |element|%>
-<h1><%=element%></h1>
+<p><%=element%></p>
 <%end%>
 
 
 <li>
-  <%= link_to('Logout', destroy_user_session_path, method: :delete) %>        
+  <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
 </li>

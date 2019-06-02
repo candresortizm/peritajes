@@ -9,6 +9,12 @@ Rails.application.routes.draw do
   scope module: 'v1' do
     scope :benchmarks, controller: :benchmarks do
       get :index, as: 'benchmarks_index'
+      post :search, as: 'benchmarks_search'
+    end
+    scope :brands, controller: :brands do
+      get :index, as: 'brands_index'
+      post :create, as: 'create_brand'
+      get :new, as: 'new_brand'
     end
     scope :processes, controller: :processes do
       get :index, as: 'processes_index'
@@ -21,7 +27,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: 'v1/benchmarks#index'
-  
+  root to: 'v1/benchmarks#home'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
