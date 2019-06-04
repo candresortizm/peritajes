@@ -1,0 +1,43 @@
+<h1>New Benchmark</h1>
+
+<%= form_tag create_benchmark_path, method: :post, id: "benchmark_form", multipart: true do %>
+  <%@questions.each do |question_category|%>
+    <h3><%=question_category[0].name%></h3>
+    <%question_category[1].each do |question|%>
+      <h3><%=question.text_query%></h3>
+      <%case question.question_type%>
+      <%when "range"%>
+        <label for="male">Pésimo</label>
+        <input type="radio" name="yes" id="yes" value="0"><br>
+        <label for="male">Malo</label>
+        <input type="radio" name="gender" id="male" value="1"><br>
+        <label for="male">Aceptable</label>
+        <input type="radio" name="gender" id="male" value="2"><br>
+        <label for="male">Bueno</label>
+        <input type="radio" name="gender" id="male" value="3"><br>
+      <%when "yes_or_no"%>
+        <label for="male">Si</label>
+        <input type="radio" name="gender" id="male" value="1"><br>
+        <label for="male">No</label>
+        <input type="radio" name="gender" id="male" value="3"><br>
+      <%when "yes_no_na"%>
+        <label for="male">Si</label>
+        <input type="radio" name="gender" id="male" value="1"><br>
+        <label for="male">No</label>
+        <input type="radio" name="gender" id="male" value="3"><br>
+        <label for="male">No aplica</label>
+        <input type="radio" name="gender" id="male" value="0"><br>
+      <%else%>
+        <label><%=question.question_type%></label>
+      <%end%>
+    <%end%>
+    <label> Comentarios para <%= question_category[0].name %> </label>
+    <textarea class="form-control" name='comment_<%= "question_category[0].id" %>' rows="6"></textarea>
+    <hr>
+  <%end%>
+  <%= submit_tag("Finalizar") %>
+<% end %>
+
+<li>
+  <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
+</li>

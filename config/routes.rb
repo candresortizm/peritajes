@@ -8,8 +8,10 @@ Rails.application.routes.draw do
 
   scope module: 'v1' do
     scope :benchmarks, controller: :benchmarks do
+      get :new, as: 'new_benchmark'
       get :index, as: 'benchmarks_index'
       post :search, as: 'benchmarks_search'
+      post :create, as: 'create_benchmark'
     end
     scope :brands, controller: :brands do
       get :index, as: 'brands_index'

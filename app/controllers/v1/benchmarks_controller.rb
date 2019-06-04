@@ -13,10 +13,12 @@ class V1::BenchmarksController < ApplicationController
     end
 
     def new
+      @benchmark = CarInspection.new
+      @questions = QuestionCategory.includes(:questions).all.map{ |category| [category,category.questions] }
     end
 
     def create
-        @all = CarInspection.all
+      binding.pry
     end
 
     def update

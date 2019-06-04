@@ -13,6 +13,7 @@ class V1::QuestionsController < ApplicationController
     def new
         @question = Question.new
         @categories = QuestionCategory.all
+        @question_types = QUERY_TYPES
     end
 
     def update

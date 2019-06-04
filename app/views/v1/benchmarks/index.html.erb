@@ -3,7 +3,9 @@
 <p><%=element%></p>
 <%end%>
 
-
+<%if current_user.type.eql?("CarExpert")%>
+  <%= link_to('New Benchmark', new_benchmark_path, method: :get) %>
+<%end%>
 <li>
   <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
 </li>

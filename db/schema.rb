@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_17_045823) do
+ActiveRecord::Schema.define(version: 2019_06_04_041905) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,16 @@ ActiveRecord::Schema.define(version: 2019_05_17_045823) do
     t.string "nit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "car_answers", force: :cascade do |t|
+    t.bigint "car_id"
+    t.bigint "question_id"
+    t.string "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_id"], name: "index_car_answers_on_car_id"
+    t.index ["question_id"], name: "index_car_answers_on_question_id"
   end
 
   create_table "car_inspections", force: :cascade do |t|
@@ -132,6 +142,8 @@ ActiveRecord::Schema.define(version: 2019_05_17_045823) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "car_answers", "cars"
+  add_foreign_key "car_answers", "questions"
   add_foreign_key "car_inspections", "cars"
   add_foreign_key "car_processes", "cars"
   add_foreign_key "cars", "car_types"
