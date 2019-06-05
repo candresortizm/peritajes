@@ -25,12 +25,12 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
   end
 
   create_table "car_answers", force: :cascade do |t|
-    t.bigint "car_id"
+    t.bigint "car_inspection_id"
     t.bigint "question_id"
     t.integer "answer"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["car_id"], name: "index_car_answers_on_car_id"
+    t.index ["car_inspection_id"], name: "index_car_answers_on_car_inspection_id"
     t.index ["question_id"], name: "index_car_answers_on_question_id"
   end
 
@@ -149,7 +149,7 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "car_answers", "cars"
+  add_foreign_key "car_answers", "car_inspections"
   add_foreign_key "car_answers", "questions"
   add_foreign_key "car_inspections", "cars"
   add_foreign_key "car_processes", "cars"
