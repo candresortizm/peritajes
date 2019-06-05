@@ -8,25 +8,37 @@
       <%case question.question_type%>
       <%when "range"%>
         <label for="male">Pésimo</label>
-        <input type="radio" name="yes" id="yes" value="0"><br>
+        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="0"><br>
         <label for="male">Malo</label>
-        <input type="radio" name="gender" id="male" value="1"><br>
+        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="1"><br>
         <label for="male">Aceptable</label>
-        <input type="radio" name="gender" id="male" value="2"><br>
+        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="2"><br>
         <label for="male">Bueno</label>
-        <input type="radio" name="gender" id="male" value="3"><br>
+        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="3"><br>
       <%when "yes_or_no"%>
         <label for="male">Si</label>
-        <input type="radio" name="gender" id="male" value="1"><br>
+        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="1"><br>
         <label for="male">No</label>
-        <input type="radio" name="gender" id="male" value="3"><br>
+        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="3"><br>
       <%when "yes_no_na"%>
         <label for="male">Si</label>
-        <input type="radio" name="gender" id="male" value="1"><br>
+        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="1"><br>
         <label for="male">No</label>
-        <input type="radio" name="gender" id="male" value="3"><br>
+        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="3"><br>
         <label for="male">No aplica</label>
-        <input type="radio" name="gender" id="male" value="0"><br>
+        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="0"><br>
+      <%when "good_bad"%>
+        <label for="male">Si</label>
+        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="1"><br>
+        <label for="male">No</label>
+        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="3"><br>
+      <%when "good_bad_na"%>
+        <label for="male">Si</label>
+        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="1"><br>
+        <label for="male">No</label>
+        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="3"><br>
+        <label for="male">No aplica</label>
+        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="0"><br>
       <%else%>
         <label><%=question.question_type%></label>
       <%end%>

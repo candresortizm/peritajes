@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
   create_table "car_answers", force: :cascade do |t|
     t.bigint "car_id"
     t.bigint "question_id"
-    t.string "answer"
+    t.integer "answer"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["car_id"], name: "index_car_answers_on_car_id"
@@ -38,6 +38,8 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
     t.bigint "car_id", null: false
     t.integer "car_expert_id"
     t.string "owner", null: false
+    t.decimal "Kilometraje", null: false
+    t.string "color", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["car_expert_id"], name: "index_car_inspections_on_car_expert_id"
@@ -122,8 +124,13 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
     t.string "text_query", null: false
     t.string "question_type", null: false
     t.string "options", default: [], array: true
+    t.integer "points", null: false
+    t.integer "order", null: false
+    t.string "key", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_questions_on_key"
+    t.index ["question_category_id", "order"], name: "index_questions_on_question_category_id_and_order", unique: true
     t.index ["question_category_id"], name: "index_questions_on_question_category_id"
   end
 
