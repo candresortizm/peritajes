@@ -15,6 +15,10 @@ QuestionCategory.create(name:"Parte baja",order:4)
 QuestionCategory.create(name:"Alineación y llantas",order:5)
 QuestionCategory.create(name:"Accesorios",order:6)
 
+CarType.new(name:"SUV").save!
+CarType.new(name:"Hatchback").save!
+CarType.new(name:"Sedan").save!
+
 Question.create([
   { key: "paint_cond", text_query: "Condición de la pintura", question_category_id: 3, question_type: "range",order: 1, points: 40 },
   { key: "floors", text_query: "Tapetes", question_category_id: 2, question_type: "range", order: 1, points: 2 },

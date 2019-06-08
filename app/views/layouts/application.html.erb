@@ -9,7 +9,7 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body style="margin:6%;">
     <%if !current_user.nil?%>
       <%case current_user.type%>
       <%when "SuperUser"%>

@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
     t.bigint "car_id", null: false
     t.integer "car_expert_id"
     t.string "owner", null: false
-    t.decimal "Kilometraje", null: false
+    t.decimal "kilometraje", null: false
     t.string "color", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

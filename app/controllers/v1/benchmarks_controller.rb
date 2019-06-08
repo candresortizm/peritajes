@@ -14,7 +14,7 @@ class V1::BenchmarksController < ApplicationController
 
   def new
     @benchmark = CarInspection.new
-    @questions = QuestionCategory.includes(:questions).all.map{ |category| [category,category.questions] }
+    @questions = QuestionCategory.includes(:questions).first(2).map{ |category| [category,category.questions.last(2)] }
   end
 
   def create
@@ -32,12 +32,19 @@ class V1::BenchmarksController < ApplicationController
   private
 
   def benchmark_params
-    params.require(:benchmark).permit(
-      attributes: [
-        :from,
-        :until,
-        :offer_id,
-        :condition_id
+    params.require(:car_inspection).permit(
+      :owner,
+      :kilometraje,
+      :color,
+      car_answers_attributes:[
+        :id,
+        :question_id,
+        :answer
+      ],
+      inspection_comments_attributes:[
+        :id,
+        :question_category_id,
+        :comment
       ]
     )
   end

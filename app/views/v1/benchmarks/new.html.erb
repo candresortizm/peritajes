@@ -1,50 +1,59 @@
 <h1>New Benchmark</h1>
 
-<%= form_tag create_benchmark_path, method: :post, id: "benchmark_form", multipart: true do %>
+<%= form_for @benchmark, url:create_benchmark_path, method: :post, id: "benchmark_form", multipart: true do |f|%>
+  <%= f.label(:owner, "Dueño") %>
+  <%= f.text_field :owner %>
+  <%= f.label(:kilometraje, "Kilometraje") %>
+  <%= f.text_field :kilometraje %>
+  <%= f.label(:color, "Color") %>
+  <%= f.text_field :color %>
   <%@questions.each do |question_category|%>
     <h3><%=question_category[0].name%></h3>
-    <%question_category[1].each do |question|%>
+    <%question_category[1].each_with_index do |question,index|%>
       <h3><%=question.text_query%></h3>
-      <%case question.question_type%>
-      <%when "range"%>
-        <label for="male">Pésimo</label>
-        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="0"><br>
-        <label for="male">Malo</label>
-        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="1"><br>
-        <label for="male">Aceptable</label>
-        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="2"><br>
-        <label for="male">Bueno</label>
-        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="3"><br>
-      <%when "yes_or_no"%>
-        <label for="male">Si</label>
-        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="1"><br>
-        <label for="male">No</label>
-        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="3"><br>
-      <%when "yes_no_na"%>
-        <label for="male">Si</label>
-        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="1"><br>
-        <label for="male">No</label>
-        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="3"><br>
-        <label for="male">No aplica</label>
-        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="0"><br>
-      <%when "good_bad"%>
-        <label for="male">Si</label>
-        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="1"><br>
-        <label for="male">No</label>
-        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="3"><br>
-      <%when "good_bad_na"%>
-        <label for="male">Si</label>
-        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="1"><br>
-        <label for="male">No</label>
-        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="3"><br>
-        <label for="male">No aplica</label>
-        <input type="radio" name="<%="answers[#{question_category[0].name}][#{question.key}]"%>" id="<%="answers[#{question_category[0].name}][#{question.key}]"%>" value="0"><br>
-      <%else%>
-        <label><%=question.question_type%></label>
+      <%= f.fields_for :car_answers, @benchmark.car_answers.build do |fm| %>
+      <%= fm.hidden_field :question_id, value: question.id %>
+        <%case question.question_type%>
+        <%when "range"%>
+          <%= fm.radio_button(:answer, "0") %>
+          <%= fm.label(:very_bad, "Pésimo") %>
+          <%= fm.radio_button(:answer, "1") %>
+          <%= fm.label(:bad, "Malo") %>
+          <%= fm.radio_button(:answer, "2") %>
+          <%= fm.label(:so_so, "Regular") %>
+          <%= fm.radio_button(:answer, "3") %>
+          <%= fm.label(:good, "Bueno") %>
+        <%when "yes_or_no"%>
+          <%= fm.radio_button(:answer, "0") %>
+          <%= fm.label(:very_bad, "Si") %>
+          <%= fm.radio_button(:answer, "3") %>
+          <%= fm.label(:bad, "No") %>
+        <%when "yes_no_na"%>
+          <%= fm.radio_button(:answer, "1") %>
+          <%= fm.label(:bad, "Si") %>
+          <%= fm.radio_button(:answer, "3") %>
+          <%= fm.label(:so_so, "No") %>
+          <%= fm.radio_button(:answer, "0") %>
+          <%= fm.label(:good, "No aplica") %>
+        <%when "good_bad"%>
+          <%= fm.radio_button(:answer, "1") %>
+          <%= fm.label(:bad, "Si") %>
+          <%= fm.radio_button(:answer, "3") %>
+          <%= fm.label(:good, "No") %>
+        <%when "good_bad_na"%>
+          <%= fm.radio_button(:answer, "1") %>
+          <%= fm.label(:bad, "Si") %>
+          <%= fm.radio_button(:answer, "3") %>
+          <%= fm.label(:so_so, "No") %>
+          <%= fm.radio_button(:answer, "0") %>
+          <%= fm.label(:good, "No aplica") %>
+        <%else%>
+          <label><%=question.question_type%></label>
+        <%end%>
       <%end%>
     <%end%>
     <label> Comentarios para <%= question_category[0].name %> </label>
-    <textarea class="form-control" name='comment_<%= "question_category[0].id" %>' rows="6"></textarea>
+    <textarea class="form-control" name="commet_<%=question_category[0].id%>" rows="6"></textarea>
     <hr>
   <%end%>
   <%= submit_tag("Finalizar") %>
