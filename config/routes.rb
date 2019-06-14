@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       # get :show, as: 'show_benchmark'
       get 'show/:benchmark_id',to: 'benchmarks#show', as:'show_benchmark'
       post :search, as: 'benchmarks_search'
+      get :search, to: 'benchmarks#home'
       post :create, as: 'create_benchmark'
     end
     scope :brands, controller: :brands do

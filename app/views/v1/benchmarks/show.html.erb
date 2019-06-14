@@ -5,78 +5,79 @@
     id: "benchmark_form",
     :html => {class: 'new_benchmark'}, multipart: true do |f|%>
   <%= f.label(:owner, "Dueño") %>
-  <%= f.text_field :owner %><br>
+  <%= f.text_field :owner, disabled: true %><br>
   <%= f.label(:kilometraje, "Kilometraje") %>
-  <%= f.text_field :kilometraje %><br>
+  <%= f.text_field :kilometraje, disabled: true %><br>
   <%= f.label(:color, "Color") %>
-  <%= f.text_field :color %><br>
+  <%= f.text_field :color, disabled: true %><br>
   <br>
   <br>
   <%= f.fields_for :car do |car|%>
     <%= car.label(:car_type, "Tipo de carro") %>
-    <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name") %></br>
+    <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name",selected: @benchmark.car.car_type_id.to_s) %></br>
     <%= car.label(:car_brand, "Marca") %>
-    <%= car.text_field :car_brand %><br>
+    <%= car.text_field :car_brand, disabled: true %><br>
     <%= car.label(:model, "Modelo") %>
-    <%= car.text_field :model %><br>
+    <%= car.text_field :model, disabled: true %><br>
     <%= car.label(:year, "Año") %>
-    <%= car.text_field :year %><br>
+    <%= car.text_field :year, disabled: true %><br>
     <%= car.label(:year, "VIN") %>
-    <%= car.text_field :vin %><br>
+    <%= car.text_field :vin, disabled: true %><br>
     <%= car.label(:year, "Placa") %>
-    <%= car.text_field :plate %><br>
+    <%= car.text_field :plate, disabled: true %><br>
   <%end%>
   <br>
   <br>
   <%@questions.each do |question_category|%>
     <h3><%=question_category[0].name%></h3>
     <%question_category[1].each_with_index do |question,index|%>
-      <h3><%=question.text_query%></h3>
-      <%= f.fields_for :car_answers, @benchmark.car_answers do |car_answer| %>
-      <%= car_answer.hidden_field :question_id, value: question.id %>
-        <%case question.question_type%>
+      <h3><%=question[0].text_query%></h3>
+      <%= f.fields_for :car_answers, question[1] do |car_answer| %>
+        <%case question[0].question_type%>
         <%when "range"%>
-          <%= car_answer.radio_button(:answer, "0") %>
+          <%= car_answer.radio_button(:answer, "0", disabled: true) %>
           <%= car_answer.label(:very_bad, "Pésimo") %>
-          <%= car_answer.radio_button(:answer, "1") %>
+          <%= car_answer.radio_button(:answer, "1", disabled: true) %>
           <%= car_answer.label(:bad, "Malo") %>
-          <%= car_answer.radio_button(:answer, "2") %>
+          <%= car_answer.radio_button(:answer, "2", disabled: true) %>
           <%= car_answer.label(:so_so, "Regular") %>
-          <%= car_answer.radio_button(:answer, "3") %>
+          <%= car_answer.radio_button(:answer, "3", disabled: true) %>
           <%= car_answer.label(:good, "Bueno") %>
         <%when "yes_or_no"%>
-          <%= car_answer.radio_button(:answer, "0") %>
+          <%= car_answer.radio_button(:answer, "0", disabled: true) %>
           <%= car_answer.label(:very_bad, "Si") %>
-          <%= car_answer.radio_button(:answer, "3") %>
+          <%= car_answer.radio_button(:answer, "3", disabled: true) %>
           <%= car_answer.label(:bad, "No") %>
         <%when "yes_no_na"%>
-          <%= car_answer.radio_button(:answer, "1") %>
+          <%= car_answer.radio_button(:answer, "1", disabled: true) %>
           <%= car_answer.label(:bad, "Si") %>
-          <%= car_answer.radio_button(:answer, "3") %>
+          <%= car_answer.radio_button(:answer, "3", disabled: true) %>
           <%= car_answer.label(:so_so, "No") %>
-          <%= car_answer.radio_button(:answer, "0") %>
+          <%= car_answer.radio_button(:answer, "0", disabled: true) %>
           <%= car_answer.label(:good, "No aplica") %>
         <%when "good_bad"%>
-          <%= car_answer.radio_button(:answer, "1") %>
+          <%= car_answer.radio_button(:answer, "1", disabled: true) %>
           <%= car_answer.label(:bad, "Si") %>
-          <%= car_answer.radio_button(:answer, "3") %>
+          <%= car_answer.radio_button(:answer, "3", disabled: true) %>
           <%= car_answer.label(:good, "No") %>
         <%when "good_bad_na"%>
-          <%= car_answer.radio_button(:answer, "1") %>
+          <%= car_answer.radio_button(:answer, "1", disabled: true) %>
           <%= car_answer.label(:bad, "Si") %>
-          <%= car_answer.radio_button(:answer, "3") %>
+          <%= car_answer.radio_button(:answer, "3", disabled: true) %>
           <%= car_answer.label(:so_so, "No") %>
-          <%= car_answer.radio_button(:answer, "0") %>
+          <%= car_answer.radio_button(:answer, "0", disabled: true) %>
           <%= car_answer.label(:good, "No aplica") %>
         <%else%>
           <label><%=question.question_type%></label>
         <%end%>
       <%end%>
     <%end%>
-    <%= f.fields_for :inspection_comments, @benchmark.inspection_comments do |inspection_comment| %>
-      <label> Comentarios para <%= question_category[0].name %> </label>
-      <%= inspection_comment.hidden_field :question_category_id, value: question_category[0].id %>
-      <%= inspection_comment.text_area :comment, rows: '6' %>
+    <%if !@comments.empty?%>
+      <%= f.fields_for :inspection_comments, @comments[question_category[0].id] do |inspection_comment| %>
+        <label> Comentarios para <%= question_category[0].name %> </label>
+        <%= inspection_comment.hidden_field :question_category_id, value: question_category[0].id %>
+        <%= inspection_comment.text_area :comment, rows: '6', disabled: true %>
+      <%end%>
     <%end%>
     <hr>
   <%end%>

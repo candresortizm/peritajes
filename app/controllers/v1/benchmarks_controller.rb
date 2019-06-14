@@ -2,7 +2,7 @@ class V1::BenchmarksController < ApplicationController
   before_action :authenticate_user!, except: [:search,:home,:show]
 
   def index
-      @all = CarInspection.where(car_expert_id:current_user.id)
+      @all = current_user.car_inspections
   end
 
   def search
@@ -30,9 +30,15 @@ class V1::BenchmarksController < ApplicationController
   end
 
   def show
-    @benchmark = CarInspection.includes(:car,:car_answers,:inspection_comments).find(params[:benchmark_id])
+    @benchmark = CarInspection.includes(:car).find(params[:benchmark_id])
     @car_types = CarType.all
-    @questions = QuestionCategory.includes(:questions).first(2).map{ |category| [category,category.questions.last(2)] }
+    @comments = InspectionComment.where(car_inspection_id: params[:benchmark_id]).map{|element| [element.question_category_id,element]}.to_h
+    @questions = CarAnswer.includes(question: :question_category).where(
+                        car_inspection_id:params[:benchmark_id]).group_by{ |variable|
+                          (variable.question.question_category)
+                        }.map{ |category,answers|
+                          [category,answers.map{|answer| [answer.question,answer]}]
+                        }
   end
 
   private
