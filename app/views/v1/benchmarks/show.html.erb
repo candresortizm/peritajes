@@ -4,7 +4,6 @@
     url:create_benchmark_path, method: :post,
     id: "benchmark_form",
     :html => {class: 'new_benchmark'}, multipart: true do |f|%>
-  <%= f.hidden_field :car_expert_id, value: current_user.id %>
   <%= f.label(:owner, "Dueño") %>
   <%= f.text_field :owner %><br>
   <%= f.label(:kilometraje, "Kilometraje") %>
@@ -13,7 +12,7 @@
   <%= f.text_field :color %><br>
   <br>
   <br>
-  <%= f.fields_for :car_attributes do |car|%>
+  <%= f.fields_for :car do |car|%>
     <%= car.label(:car_type, "Tipo de carro") %>
     <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name") %></br>
     <%= car.label(:car_brand, "Marca") %>
@@ -33,7 +32,7 @@
     <h3><%=question_category[0].name%></h3>
     <%question_category[1].each_with_index do |question,index|%>
       <h3><%=question.text_query%></h3>
-      <%= f.fields_for :car_answers, @benchmark.car_answers.build do |car_answer| %>
+      <%= f.fields_for :car_answers, @benchmark.car_answers do |car_answer| %>
       <%= car_answer.hidden_field :question_id, value: question.id %>
         <%case question.question_type%>
         <%when "range"%>
@@ -74,16 +73,15 @@
         <%end%>
       <%end%>
     <%end%>
-    <%= f.fields_for :inspection_comments, @benchmark.inspection_comments.build do |inspection_comment| %>
+    <%= f.fields_for :inspection_comments, @benchmark.inspection_comments do |inspection_comment| %>
       <label> Comentarios para <%= question_category[0].name %> </label>
       <%= inspection_comment.hidden_field :question_category_id, value: question_category[0].id %>
       <%= inspection_comment.text_area :comment, rows: '6' %>
     <%end%>
     <hr>
   <%end%>
-  <%= submit_tag("Finalizar") %>
 <% end %>
 
 <li>
-  <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
+  <%= link_to('Inicio', root_path) %>
 </li>

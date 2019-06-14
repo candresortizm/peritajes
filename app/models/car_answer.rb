@@ -1,5 +1,5 @@
 class CarAnswer < ApplicationRecord
-  belongs_to :car_instance
+  belongs_to :car_inspection
+  belongs_to :question
 
-  # validates_presence_of :car_inspection_id, :content
 end

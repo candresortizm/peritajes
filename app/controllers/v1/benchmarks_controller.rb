@@ -1,8 +1,8 @@
 class V1::BenchmarksController < ApplicationController
-  before_action :authenticate_user!, except: [:search,:home]
+  before_action :authenticate_user!, except: [:search,:home,:show]
 
   def index
-      @all = CarInspection.all
+      @all = CarInspection.where(car_expert_id:current_user.id)
   end
 
   def search
@@ -13,36 +13,49 @@ class V1::BenchmarksController < ApplicationController
   end
 
   def new
-    @benchmark = CarInspection.new
-    @questions = QuestionCategory.includes(:questions).first(2).map{ |category| [category,category.questions.last(2)] }
+    ActiveRecord::Base.transaction do
+      @benchmark = CarInspection.new
+      @car_types = CarType.all
+      @questions = QuestionCategory.includes(:questions).first(2).map{ |category| [category,category.questions.last(2)] }
+    end
   end
 
   def create
-    binding.pry
+    ActiveRecord::Base.transaction do
+      benchmark = CarInspection.new(benchmark_params)
+      if benchmark.save
+        redirect_to benchmarks_index_path
+      end
+    end
   end
 
-  def update
-      @all = CarInspection.all
-  end
-
-  def edit
-      @all = CarInspection.all
+  def show
+    @benchmark = CarInspection.includes(:car,:car_answers,:inspection_comments).find(params[:benchmark_id])
+    @car_types = CarType.all
+    @questions = QuestionCategory.includes(:questions).first(2).map{ |category| [category,category.questions.last(2)] }
   end
 
   private
 
   def benchmark_params
     params.require(:car_inspection).permit(
+      :car_expert_id,
       :owner,
       :kilometraje,
       :color,
+      car_attributes:[
+        :car_brand,
+        :model,
+        :year,
+        :vin,
+        :plate,
+        :car_type_id
+      ],
       car_answers_attributes:[
-        :id,
         :question_id,
         :answer
       ],
       inspection_comments_attributes:[
-        :id,
         :question_category_id,
         :comment
       ]
