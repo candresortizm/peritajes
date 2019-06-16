@@ -6,12 +6,10 @@ class CreateQuestions < ActiveRecord::Migration[5.2]
       t.string :question_type, null:false
       t.string :options, array:true, default:[]
       t.integer :points, null:false
-      t.integer :order, null:false
+      t.integer :order_question, null:false
       t.string :key, index:true, null:false
 
       t.timestamps
     end
-
-    add_index :questions, [:question_category_id, :order], unique: true
   end
 end

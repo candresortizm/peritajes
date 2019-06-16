@@ -73,6 +73,8 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["car_type_id"], name: "index_cars_on_car_type_id"
+    t.index ["plate"], name: "index_cars_on_plate"
+    t.index ["vin"], name: "index_cars_on_vin"
   end
 
   create_table "document_types", force: :cascade do |t|
@@ -114,7 +116,7 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
 
   create_table "question_categories", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "order", null: false
+    t.integer "order_category", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -125,12 +127,11 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
     t.string "question_type", null: false
     t.string "options", default: [], array: true
     t.integer "points", null: false
-    t.integer "order", null: false
+    t.integer "order_question", null: false
     t.string "key", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_questions_on_key"
-    t.index ["question_category_id", "order"], name: "index_questions_on_question_category_id_and_order", unique: true
     t.index ["question_category_id"], name: "index_questions_on_question_category_id"
   end
 

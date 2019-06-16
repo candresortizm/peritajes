@@ -14,7 +14,7 @@
   <br>
   <%= f.fields_for :car do |car|%>
     <%= car.label(:car_type, "Tipo de carro") %>
-    <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name",selected: @benchmark.car.car_type_id.to_s) %></br>
+    <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name", selected: @benchmark.car.car_type_id.to_s),{}, {:disabled=> true} %></br>
     <%= car.label(:car_brand, "Marca") %>
     <%= car.text_field :car_brand, disabled: true %><br>
     <%= car.label(:model, "Modelo") %>
@@ -67,8 +67,10 @@
           <%= car_answer.label(:so_so, "No") %>
           <%= car_answer.radio_button(:answer, "0", disabled: true) %>
           <%= car_answer.label(:good, "No aplica") %>
+        <%when "text"%>
+          <%= car_answer.text_field :answer, disabled: true %><br>
         <%else%>
-          <label><%=question.question_type%></label>
+          <label><%=question[0].question_type%></label>
         <%end%>
       <%end%>
     <%end%>

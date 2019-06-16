@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   scope module: 'v1' do
     scope :benchmarks, controller: :benchmarks do
       get :new, as: 'new_benchmark'
+      get :validation, as: 'validation_benchmark'
       get :index, as: 'benchmarks_index'
       # get :show, as: 'show_benchmark'
       get 'show/:benchmark_id',to: 'benchmarks#show', as:'show_benchmark'

@@ -12,11 +12,16 @@ class V1::BenchmarksController < ApplicationController
   def home
   end
 
+  def validation
+  end
+
   def new
     ActiveRecord::Base.transaction do
+      car = Car.find_by(plate:params[:plate])
       @benchmark = CarInspection.new
+      @benchmark.car = !car.nil? ? car : Car.new(plate:params[:plate])
       @car_types = CarType.all
-      @questions = QuestionCategory.includes(:questions).first(2).map{ |category| [category,category.questions.last(2)] }
+      @questions = QuestionCategory.includes(:questions).order(order_category: :desc).to_a.map{ |category| [category,category.questions.order(order_question: :desc).to_a] }
     end
   end
 
@@ -25,6 +30,8 @@ class V1::BenchmarksController < ApplicationController
       benchmark = CarInspection.new(benchmark_params)
       if benchmark.save
         redirect_to benchmarks_index_path
+      else
+        binding.pry
       end
     end
   end
@@ -49,6 +56,7 @@ class V1::BenchmarksController < ApplicationController
       :owner,
       :kilometraje,
       :color,
+      :car_id,
       car_attributes:[
         :car_brand,
         :model,
