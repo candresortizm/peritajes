@@ -97,16 +97,16 @@
         <%= inspection_comment.text_area :comment, rows: '6', disabled: true %>
       <%end%>
     <%end%>
-    <%all_points += 1%>
+    <%all_points += category_total%>
     <%all_car += category_car%>
     <h1>TOTAL CATEGORY: <%=category_total%></h1>
     <h1>TOTAL CAR: <%=category_car%></h1>
     <h1>PERCENTAGE: <%=category_car*100/category_total%>%</h1>
   <%end%>
   <br>
-  <h1>TOTAL POINTS: <%all_points%></h1>
-  <h1>TOTAL CAR: <%all_car%></h1>
-  <h1>PERCENTAGE CAR: <%all_car*100/all_points%></h1>
+  <h1>TOTAL POINTS: <%=all_points%></h1>
+  <h1>TOTAL CAR: <%=all_car%></h1>
+  <h1>PERCENTAGE CAR: <%=all_car*100/all_points%>%</h1>
   <hr>
 <% end %>
 
