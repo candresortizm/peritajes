@@ -1,9 +1,11 @@
-<h1>New Benchmark</h1>
+<h1>Inspección</h1>
 
 <%= form_for @benchmark,
     url:create_benchmark_path, method: :post,
     id: "benchmark_form",
     :html => {class: 'new_benchmark'}, multipart: true do |f|%>
+  <%= f.label(:created_at, "Fecha") %>
+  <%= f.text_field :created_at, value:@benchmark.created_at.getlocal.strftime("%Y-%m-%d %H:%M"), disabled: true %><br>
   <%= f.label(:owner, "Dueño") %>
   <%= f.text_field :owner, disabled: true %><br>
   <%= f.label(:kilometraje, "Kilometraje") %>
@@ -28,43 +30,55 @@
   <%end%>
   <br>
   <br>
+  <%all_car = 0%>
+  <%all_points = 0%>
   <%@questions.each do |question_category|%>
     <h3><%=question_category[0].name%></h3>
+    <%category_total=0%>
+    <%category_car=0%>
     <%question_category[1].each_with_index do |question,index|%>
       <h3><%=question[0].text_query%></h3>
       <%= f.fields_for :car_answers, question[1] do |car_answer| %>
         <%case question[0].question_type%>
         <%when "range"%>
-          <%= car_answer.radio_button(:answer, "0", disabled: true) %>
-          <%= car_answer.label(:very_bad, "Pésimo") %>
-          <%= car_answer.radio_button(:answer, "1", disabled: true) %>
-          <%= car_answer.label(:bad, "Malo") %>
-          <%= car_answer.radio_button(:answer, "2", disabled: true) %>
-          <%= car_answer.label(:so_so, "Regular") %>
-          <%= car_answer.radio_button(:answer, "3", disabled: true) %>
-          <%= car_answer.label(:good, "Bueno") %>
+          <%category_car+=((question[1].answer-1)/2)*question[0].points%>
+          <%category_total+=question[0].points%>
+          <%= car_answer.radio_button(:answer, "1", {disabled: true}) %>
+          <%= car_answer.label(:bad, "Mal") %>
+          <%= car_answer.radio_button(:answer, "2", {disabled: true}) %>
+          <%= car_answer.label(:so_so, "Aceptable") %>
+          <%= car_answer.radio_button(:answer, "3", {disabled: true}) %>
+          <%= car_answer.label(:Good, "Bien") %>
         <%when "yes_or_no"%>
-          <%= car_answer.radio_button(:answer, "0", disabled: true) %>
-          <%= car_answer.label(:very_bad, "Si") %>
+          <%category_car+=((question[1].answer-1)/2)*question[0].points%>
+          <%category_total+=question[0].points if question[1].answer!=1%>
           <%= car_answer.radio_button(:answer, "3", disabled: true) %>
+          <%= car_answer.label(:very_bad, "Si") %>
+          <%= car_answer.radio_button(:answer, "1", disabled: true) %>
           <%= car_answer.label(:bad, "No") %>
         <%when "yes_no_na"%>
-          <%= car_answer.radio_button(:answer, "1", disabled: true) %>
-          <%= car_answer.label(:bad, "Si") %>
+          <%category_car+=((question[1].answer-1)/2)*question[0].points if question[1].answer!=0%>
+          <%category_total+=question[0].points if question[1].answer!=0%>
           <%= car_answer.radio_button(:answer, "3", disabled: true) %>
+          <%= car_answer.label(:bad, "Si") %>
+          <%= car_answer.radio_button(:answer, "1", disabled: true) %>
           <%= car_answer.label(:so_so, "No") %>
           <%= car_answer.radio_button(:answer, "0", disabled: true) %>
           <%= car_answer.label(:good, "No aplica") %>
         <%when "good_bad"%>
-          <%= car_answer.radio_button(:answer, "1", disabled: true) %>
-          <%= car_answer.label(:bad, "Si") %>
+          <%category_car+=((question[1].answer-1)/2)*question[0].points%>
+          <%category_total+=question[0].points if question[1].answer!=1%>
           <%= car_answer.radio_button(:answer, "3", disabled: true) %>
+          <%= car_answer.label(:bad, "Si") %>
+          <%= car_answer.radio_button(:answer, "1", disabled: true) %>
           <%= car_answer.label(:good, "No") %>
         <%when "good_bad_na"%>
+          <%category_car+=((question[1].answer-1)/2)*question[0].points if question[1].answer!=0%>
+          <%category_total+=question[0].points if question[1].answer!=0%>
           <%= car_answer.radio_button(:answer, "1", disabled: true) %>
-          <%= car_answer.label(:bad, "Si") %>
+          <%= car_answer.label(:bad, "Bien") %>
           <%= car_answer.radio_button(:answer, "3", disabled: true) %>
-          <%= car_answer.label(:so_so, "No") %>
+          <%= car_answer.label(:so_so, "Mal") %>
           <%= car_answer.radio_button(:answer, "0", disabled: true) %>
           <%= car_answer.label(:good, "No aplica") %>
         <%when "text"%>
@@ -74,15 +88,26 @@
         <%end%>
       <%end%>
     <%end%>
+    <br>
+    <br>
     <%if !@comments.empty?%>
       <%= f.fields_for :inspection_comments, @comments[question_category[0].id] do |inspection_comment| %>
-        <label> Comentarios para <%= question_category[0].name %> </label>
+        <label> Comentarios para <%= question_category[0].name %> </label><br>
         <%= inspection_comment.hidden_field :question_category_id, value: question_category[0].id %>
         <%= inspection_comment.text_area :comment, rows: '6', disabled: true %>
       <%end%>
     <%end%>
-    <hr>
+    <%all_points += 1%>
+    <%all_car += category_car%>
+    <h1>TOTAL CATEGORY: <%=category_total%></h1>
+    <h1>TOTAL CAR: <%=category_car%></h1>
+    <h1>PERCENTAGE: <%=category_car*100/category_total%>%</h1>
   <%end%>
+  <br>
+  <h1>TOTAL POINTS: <%all_points%></h1>
+  <h1>TOTAL CAR: <%all_car%></h1>
+  <h1>PERCENTAGE CAR: <%all_car*100/all_points%></h1>
+  <hr>
 <% end %>
 
 <li>

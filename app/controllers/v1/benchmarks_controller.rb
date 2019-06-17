@@ -30,8 +30,6 @@ class V1::BenchmarksController < ApplicationController
       benchmark = CarInspection.new(benchmark_params)
       if benchmark.save
         redirect_to benchmarks_index_path
-      else
-        binding.pry
       end
     end
   end

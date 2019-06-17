@@ -1,4 +1,4 @@
-<h1>New Benchmark</h1>
+<h1>Nueva inspección</h1>
 
 <%= form_for @benchmark,
     url:create_benchmark_path, method: :post,
@@ -38,37 +38,35 @@
       <%= car_answer.hidden_field :question_id, value: question.id %>
         <%case question.question_type%>
         <%when "range"%>
-          <%= car_answer.radio_button(:answer, "0", {required: true}) %>
-          <%= car_answer.label(:very_bad, "Pésimo") %>
-          <%= car_answer.radio_button(:answer, "1", {required: true}) %>
-          <%= car_answer.label(:bad, "Malo") %>
-          <%= car_answer.radio_button(:answer, "2", {required: true}) %>
-          <%= car_answer.label(:so_so, "Regular") %>
-          <%= car_answer.radio_button(:answer, "3", {required: true}) %>
-          <%= car_answer.label(:good, "Bueno") %>
+          <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:bad, "Mal") %>
+          <%= car_answer.radio_button(:answer, "2", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:so_so, "Aceptable") %>
+          <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:Good, "Bien") %>
         <%when "yes_or_no"%>
-          <%= car_answer.radio_button(:answer, "0", {required: true}) %>
+          <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
           <%= car_answer.label(:very_bad, "Si") %>
-          <%= car_answer.radio_button(:answer, "3", {required: true}) %>
+          <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
           <%= car_answer.label(:bad, "No") %>
         <%when "yes_no_na"%>
-          <%= car_answer.radio_button(:answer, "1", {required: true}) %>
+          <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
           <%= car_answer.label(:bad, "Si") %>
-          <%= car_answer.radio_button(:answer, "3", {required: true}) %>
+          <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
           <%= car_answer.label(:so_so, "No") %>
-          <%= car_answer.radio_button(:answer, "0", {required: true}) %>
+          <%= car_answer.radio_button(:answer, "0", {required: true, data:{'question-type':question.question_type}}) %>
           <%= car_answer.label(:good, "No aplica") %>
         <%when "good_bad"%>
-          <%= car_answer.radio_button(:answer, "1", {required: true}) %>
-          <%= car_answer.label(:bad, "Si") %>
-          <%= car_answer.radio_button(:answer, "3", {required: true}) %>
-          <%= car_answer.label(:good, "No") %>
+          <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:bad, "Bien") %>
+          <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:good, "Mal") %>
         <%when "good_bad_na"%>
-          <%= car_answer.radio_button(:answer, "1", {required: true}) %>
-          <%= car_answer.label(:bad, "Si") %>
-          <%= car_answer.radio_button(:answer, "3", {required: true}) %>
-          <%= car_answer.label(:so_so, "No") %>
-          <%= car_answer.radio_button(:answer, "0", {required: true}) %>
+          <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:bad, "Bien") %>
+          <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:so_so, "Mal") %>
+          <%= car_answer.radio_button(:answer, "0", {required: true, data:{'question-type':question.question_type}}) %>
           <%= car_answer.label(:good, "No aplica") %>
         <%when "text"%>
           <%= car_answer.text_field :answer, required: true %><br>
@@ -89,5 +87,5 @@
 <% end %>
 
 <li>
-  <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
+  <%= link_to('Cerrar sesión', destroy_user_session_path, method: :delete) %>
 </li>

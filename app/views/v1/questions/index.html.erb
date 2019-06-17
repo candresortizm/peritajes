@@ -1,13 +1,13 @@
-<h1>Questions</h1>
+<h1>Preguntas</h1>
 <li>
-  <%= link_to('New', new_question_path, method: :get) %>
+  <%= link_to('Nueva pregunta', new_question_path, method: :get) %>
 </li>
 <%@all.each do |element|%>
 <p><%=element.text_query%></p>
 <%end%>
 
 <li>
-  <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
+  <%= link_to('Cerrar sesión', destroy_user_session_path, method: :delete) %>
 </li>
 
 <li>

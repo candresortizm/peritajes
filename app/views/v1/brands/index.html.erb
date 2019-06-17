@@ -1,11 +1,11 @@
-<h1>Brands</h1>
+<h1>Marcas</h1>
 <%@all.each do |element|%>
 <p><%=element.name%></p>
 <%end%>
 <li>
-  <%= link_to('New', new_brand_path, method: :get) %>
+  <%= link_to('Nueva marca', new_brand_path, method: :get) %>
 </li>
 
 <li>
-  <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
+  <%= link_to('Cerrar sesión', destroy_user_session_path, method: :delete) %>
 </li>

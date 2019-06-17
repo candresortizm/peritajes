@@ -1,7 +1,8 @@
 QUERY_TYPES= [
-  ["Radio","radio"],
-  ["Si o No","yes_no"],
+  ["Rango [1,4]","range"],
+  ["Si o No","yes_or_no"],
   ["Si, no o no aplica","yes_no_na"],
   ["Bien o mal","good_bad"],
-  ["Bien,mal o no aplica","good_bad_na"]
+  ["Bien,mal o no aplica","good_bad_na"],
+  ["Texto","text"]
 ]

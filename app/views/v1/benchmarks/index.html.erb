@@ -1,5 +1,5 @@
 <section class="index_benchmarks">
-  <h1>Benchmarks</h1>
+  <h1>Inspecciones</h1>
   <table>
     <thead>
       <tr>
@@ -20,8 +20,8 @@
   </table>
 </section>
 <%if current_user.type.eql?("CarExpert")%>
-  <%= link_to('New Benchmark', validation_benchmark_path, method: :get) %>
+  <%= link_to('Nueva Inspección', validation_benchmark_path, method: :get) %>
 <%end%>
 <li>
-  <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
+  <%= link_to('Cerrar sesión', destroy_user_session_path, method: :delete) %>
 </li>
