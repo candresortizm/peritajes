@@ -70,6 +70,10 @@ class V1::BenchmarksController < ApplicationController
       inspection_comments_attributes:[
         :question_category_id,
         :comment
+      ],
+      inspection_photos_attributes:[
+        :question_category_id,
+        :image
       ]
     )
   end

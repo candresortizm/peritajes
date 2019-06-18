@@ -90,7 +90,7 @@
     <%end%>
     <br>
     <br>
-    <%if !@comments.empty?%>
+    <%if !@comments[question_category[0].id].nil? %>
       <%= f.fields_for :inspection_comments, @comments[question_category[0].id] do |inspection_comment| %>
         <label> Comentarios para <%= question_category[0].name %> </label><br>
         <%= inspection_comment.hidden_field :question_category_id, value: question_category[0].id %>

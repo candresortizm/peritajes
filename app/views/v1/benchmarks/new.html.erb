@@ -81,6 +81,14 @@
       <%= inspection_comment.hidden_field :question_category_id, value: question_category[0].id %>
       <%= inspection_comment.text_area :comment, rows: '6' %>
     <%end%>
+    <%= f.fields_for :inspection_photos, @benchmark.inspection_photos.build do |inspection_photo| %>
+      <div class="upload carthumb photoshoot__upload">
+        <label> Foto para <%= question_category[0].name %> </label>
+        <%= inspection_photo.hidden_field :question_category_id, value: question_category[0].id %>
+        <%= inspection_photo.file_field(:image, accept: 'image/png,image/gif,image/jpeg') %>
+        <img class="img-thumbnail center-block" alt="your image" target="_blank" src="#" style="display: none;">
+      </div>
+    <%end%>
     <hr>
   <%end%>
   <%= submit_tag("Finalizar") %>
@@ -89,3 +97,28 @@
 <li>
   <%= link_to('Cerrar sesión', destroy_user_session_path, method: :delete) %>
 </li>
+
+<script type="text/javascript">
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            // Remove class upload, the one that has the background image
+            var $parent = $(input).closest('div.carthumb');
+            $($parent).removeClass("upload");
+            // Show the img tag
+            $($parent).find('img').show();
+
+            // Change the src of the img tag to the img loaded
+            $($parent).find('img').attr('src', reader.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  // Everytime the [input:file] change do
+  $(":file").change(function(){
+      readURL(this);
+  });
+</script>

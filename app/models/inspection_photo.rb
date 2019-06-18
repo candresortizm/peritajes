@@ -1,3 +1,5 @@
 class InspectionPhoto < ApplicationRecord
-  belong_to :car_inspection
+  belongs_to :car_inspection
+
+  mount_uploader :image, ImageUploader
 end
