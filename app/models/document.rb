@@ -1,4 +1,4 @@
 class Document < ApplicationRecord
-  belong_to :document_type
-  belong_to :car
+  belongs_to :document_type
+  belongs_to :car
 end
