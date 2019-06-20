@@ -81,5 +81,5 @@ test:
 production:
   <<: *default
   database: peritajes_no_api_production
-  username: peritajes_no_api
+  username: andres
   password: <%= ENV['PERITAJES_DATABASE_PASSWORD'] %>

@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
     when "SuperUser"    #compare to 1
       index_questions_path
     when "BrandAdmin"    #compare to 2
-      benchmarks_index_path
+      brand_admin_home_path
     when "CarExpert"    #compare to 2
       benchmarks_index_path
     when "BrandAdmin"    #compare to 2

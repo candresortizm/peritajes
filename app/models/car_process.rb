@@ -1,4 +1,4 @@
 class CarProcess < ApplicationRecord
-  belong_to :car
-  belong_to :dispatcher
+  belongs_to :car
+  belongs_to :dispatcher
 end
