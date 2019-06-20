@@ -11,7 +11,6 @@ Rails.application.routes.draw do
       get :new, as: 'new_benchmark'
       get :validation, as: 'validation_benchmark'
       get :index, as: 'benchmarks_index'
-      # get :show, as: 'show_benchmark'
       get 'show/:benchmark_id',to: 'benchmarks#show', as:'show_benchmark'
       post :search, as: 'benchmarks_search'
       get :search, to: 'benchmarks#home'
@@ -21,6 +20,8 @@ Rails.application.routes.draw do
       get :index, as: 'brands_index'
       post :create, as: 'create_brand'
       get :new, as: 'new_brand'
+      get :admin_home, as: 'brand_admin_home'
+      get :new_user, as: "new_brand_user"
     end
     scope :processes, controller: :processes do
       get :index, as: 'processes_index'

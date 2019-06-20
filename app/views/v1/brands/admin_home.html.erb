@@ -1,0 +1,62 @@
+<h1>Peritajes</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Fecha</th>
+      <th>Dueño</th>
+      <th>Perito</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%@inspections.each do |element|%>
+      <tr onclick="location.href='<%= show_benchmark_path(element) %>'">
+        <td><%=element.created_at%></td>
+        <td><%=element.owner%></td>
+        <td><%=element.car_expert.email%></td>
+      </tr>
+    <%end%>
+  </tbody>
+</table>
+<h1>Peritos</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Fecha vinculación</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%@car_experts.each do |element|%>
+      <tr>
+        <td><%=element.created_at%></td>
+        <td><%=element.email%></td>
+      </tr>
+    <%end%>
+  </tbody>
+</table>
+<%= link_to('Nuevo perito', new_brand_user_path(type:"CarExpert"), method: :get) %>
+<h1>Tramitadores</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Fecha vinculación</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%@dispatchers.each do |element|%>
+      <tr>
+        <td><%=element.created_at%></td>
+        <td><%=element.email%></td>
+      </tr>
+    <%end%>
+  </tbody>
+</table>
+<%= link_to('Nuevo tramitador', new_brand_user_path(type:"Dispatcher"), method: :get) %>
+<li>
+  <%= link_to('Nuevo marca', new_brand_path, method: :get) %>
+</li>
+
+<li>
+  <%= link_to('Cerrar sesión', destroy_user_session_path, method: :delete) %>
+</li>
