@@ -40,6 +40,9 @@ gem 'carrierwave-aws'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
+# Bootstrap for columns and styles manage
+gem 'bootstrap', '~> 4.3.1'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

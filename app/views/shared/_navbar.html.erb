@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="<%=root_path%>">Inicio</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <%if !current_user.nil?%>
+        <%case current_user.type%>
+        <%when "SuperUser"%>
+          <%= link_to('Empresas', brands_index_path, method: :get,class:"nav-item nav-link") %>
+          <%= link_to('Preguntas', index_questions_path, method: :get,class:"nav-item nav-link") %>
+        <%when "BrandAdmin"%>
+          <%= link_to('Procesos', processes_index_path, method: :get,class:"nav-item nav-link") %>
+          <%= link_to('Peritajes', benchmarks_index_path, method: :get,class:"nav-item nav-link") %>
+        <%when "CarExpert"%>
+          <%= link_to('Peritajes', benchmarks_index_path, method: :get,class:"nav-item nav-link") %>
+        <%when "Dispatcher"%>
+          <%= link_to('Procesos', processes_index_path, method: :get,class:"nav-item nav-link") %>
+        <%end%>
+
+      <%end%>
+    </div>
+    <ul class="navbar-nav ml-auto">
+      <%if !current_user.nil?%>
+        <%= link_to('Cerrar sesión', destroy_user_session_path, method: :delete, class:"nav-item nav-link") %>
+      <%else%>
+        <%= link_to('Iniciar sesión', new_user_session_path, method: :get, class:"nav-item nav-link") %>
+      <%end%>
+    </ul>
+  </div>
+</nav>

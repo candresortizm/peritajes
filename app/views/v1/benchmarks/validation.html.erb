@@ -4,7 +4,3 @@
   <%= text_field_tag(:plate) %>
   <%= submit_tag("Buscar") %>
 <% end %>
-
-<%if current_user.nil?%>
-<%= link_to('Iniciar sesión', new_user_session_path, method: :get) %>
-<%end%>

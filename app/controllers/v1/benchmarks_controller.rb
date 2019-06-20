@@ -2,7 +2,11 @@ class V1::BenchmarksController < ApplicationController
   before_action :authenticate_user!, except: [:search,:home,:show]
 
   def index
+    if current_user.type.eql?("CarExpert")
       @all = current_user.car_inspections
+    elsif current_user.type.eql?("BrandAdmin")
+      @all = CarInspection.where(car_expert_id:CarExpert.where(brand_id:current_user.brand_id).select(:id))
+    end
   end
 
   def search
