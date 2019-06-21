@@ -17,7 +17,7 @@
   <%= f.fields_for :car_attributes, @benchmark.car do |car|%>
     <%= car.label(:car_type, "Tipo de carro") %>
     <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name",selected: @benchmark.car.car_type_id),{include_blank: "Seleccione"}, {required:true, disabled:!@benchmark.car.id.nil?} %></br>
-    <%= car.label(:car_brand, "Empresa") %>
+    <%= car.label(:car_brand, "Marca") %>
     <%= car.text_field :car_brand, disabled: !@benchmark.car.id.nil?, required: true %><br>
     <%= car.label(:model, "Modelo") %>
     <%= car.text_field :model, disabled: !@benchmark.car.id.nil?, required: true %><br>

@@ -20,9 +20,12 @@
 
 $(document).ready( function () {
   $(".plate_input").on("keypress", function () {
-   $input=$(this);
-   setTimeout(function () {
-    $input.val($input.val().toUpperCase());
-  },50);
+    $input=$(this);
+    setTimeout(function () {
+      $input.val($input.val().toUpperCase());
+    },50);
   })
- })
+  setTimeout(function(){
+    $('.alert').fadeOut(1000);
+  }, 4000);
+})

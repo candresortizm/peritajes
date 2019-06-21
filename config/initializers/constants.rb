@@ -1,5 +1,5 @@
 QUERY_TYPES= [
-  ["Rango [1,4]","range"],
+  ["Rango [1,3]","range"],
   ["Si o No","yes_or_no"],
   ["Si, no o no aplica","yes_no_na"],
   ["Bien o mal","good_bad"],
