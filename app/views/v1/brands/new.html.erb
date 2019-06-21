@@ -9,5 +9,17 @@
   <%= f.text_field :telephone %></br>
   <%= f.label :nit, 'NIT' %>
   <%= f.text_field :nit %></br>
+  <%= f.fields_for :brand_admins, @brand.brand_admins.build do |brand_admin| %>
+    <%= brand_admin.hidden_field :type, value: "BrandAdmin" %>
+      <%= brand_admin.label :admin_email %>
+      <%= brand_admin.email_field :email, autofocus: true, autocomplete: "email" %><br />
+      <%= brand_admin.label :admin_password %>
+      <% if @minimum_password_length %>
+        <em>(<%= @minimum_password_length %> characters minimum)</em>
+      <% end %>
+      <%= brand_admin.password_field :password, autocomplete: "new-password" %><br />
+      <%= brand_admin.label :admin_password_confirmation %>
+      <%= brand_admin.password_field :password_confirmation, autocomplete: "new-password" %><br />
+  <%end%>
   <%= f.submit "Crear" %>
 <% end %>

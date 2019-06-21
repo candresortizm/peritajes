@@ -41,7 +41,17 @@ class V1::BrandsController < ApplicationController
   private
 
   def brand_params
-    params.require(:brand).permit(:name,:address,:telephone,:nit)
+    params.require(:brand).permit(
+      :name,
+      :address,
+      :telephone,
+      :nit,
+      brand_admins_attributes:[
+        :email,
+        :password,
+        :password_confirmation
+      ]
+    )
   end
 
   def brand_user_params
