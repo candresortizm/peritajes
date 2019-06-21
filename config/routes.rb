@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       get :index, as: 'benchmarks_index'
       get 'show/:benchmark_id',to: 'benchmarks#show', as:'show_benchmark'
       post :search, as: 'benchmarks_search'
-      get :search, to: 'benchmarks#home'
+      get :search, to: 'benchmarks#init'
       post :create, as: 'create_benchmark'
     end
     scope :brands, controller: :brands do
@@ -35,7 +35,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: 'v1/benchmarks#home'
+  root to: 'v1/other_pages#home'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

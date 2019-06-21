@@ -17,8 +17,7 @@ class V1::BenchmarksController < ApplicationController
     end
   end
 
-  def home
-    redirect_to brand_admin_home_path if !current_user.nil? and current_user.type.eql?("BrandAdmin")
+  def init 
   end
 
   def validation
