@@ -11,9 +11,14 @@ class V1::BenchmarksController < ApplicationController
 
   def search
     @all_results=CarInspection.where(car_id:Car.where(plate:params[:plate]).select(:id))
+    if @all_results.empty?
+      flash[:warning] = "No se han encontrado peritajes para la placa #{params[:plate]}"
+      redirect_to root_path
+    end
   end
 
   def home
+    redirect_to brand_admin_home_path if !current_user.nil? and current_user.type.eql?("BrandAdmin")
   end
 
   def validation
@@ -21,6 +26,7 @@ class V1::BenchmarksController < ApplicationController
 
   def new
     ActiveRecord::Base.transaction do
+      params[:plate]=params[:plate].upcase
       car = Car.find_by(plate:params[:plate])
       @benchmark = CarInspection.new
       @benchmark.car = !car.nil? ? car : Car.new(plate:params[:plate])

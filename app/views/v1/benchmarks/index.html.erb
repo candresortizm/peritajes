@@ -1,5 +1,5 @@
 <section class="index_benchmarks">
-  <h1>Inspecciones</h1>
+  <h1>Peritajes</h1>
   <table>
     <thead>
       <tr>
@@ -20,5 +20,5 @@
   </table>
 </section>
 <%if current_user.type.eql?("CarExpert")%>
-  <%= link_to('Nueva Inspección', validation_benchmark_path, method: :get) %>
+  <%= link_to('Nuevo peritaje', validation_benchmark_path, method: :get) %>
 <%end%>

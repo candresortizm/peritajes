@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     scope :brands, controller: :brands do
       get :index, as: 'brands_index'
       post :create, as: 'create_brand'
+      post :create_user, as: 'create_user'
       get :new, as: 'new_brand'
       get :admin_home, as: 'brand_admin_home'
       get :new_user, as: "new_brand_user"

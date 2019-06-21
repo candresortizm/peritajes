@@ -12,9 +12,19 @@
   <body>
     <!-- Navigation bar partial -->
     <%= render 'shared/navbar' %>
+    <%if !flash.empty?%>
+      <% flash.each do |name, msg| -%>
+        <div class="alert alert-<%=name.eql?("alert") ? 'danger' : name.eql?("notice") ? 'success' : name%>  alert-dismissible fade show" role="alert">
+          <%= msg %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+     <% end -%>
+     <%flash.clear%>
+  <%end%>
     <div class="wrapper">
       <%= yield %>
     </div>
-</div>
   </body>
 </html>

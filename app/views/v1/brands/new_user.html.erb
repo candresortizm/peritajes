@@ -1,6 +1,6 @@
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-
+<%= form_for(@user, url: create_user_path) do |f| %>
+  <%= f.hidden_field :type, value: @user.type %>
+  <%= f.hidden_field :brand_id, value:current_user.brand_id %>
   <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>

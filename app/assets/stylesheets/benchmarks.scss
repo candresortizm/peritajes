@@ -8,8 +8,9 @@
   }
 }
 
-.index_benchmarks{
+.index_benchmarks{;
   table {
+    border-radius: 10px;
     tbody>tr{
       cursor: pointer;
     }

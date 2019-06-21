@@ -1,4 +1,4 @@
-<h1>Inspección</h1>
+<h1>Peritaje</h1>
 
 <%= form_for @benchmark,
     url:create_benchmark_path, method: :post,
@@ -17,7 +17,7 @@
   <%= f.fields_for :car do |car|%>
     <%= car.label(:car_type, "Tipo de carro") %>
     <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name", selected: @benchmark.car.car_type_id.to_s),{}, {:disabled=> true} %></br>
-    <%= car.label(:car_brand, "Marca") %>
+    <%= car.label(:car_brand, "Empresa") %>
     <%= car.text_field :car_brand, disabled: true %><br>
     <%= car.label(:model, "Modelo") %>
     <%= car.text_field :model, disabled: true %><br>
@@ -26,7 +26,7 @@
     <%= car.label(:year, "VIN") %>
     <%= car.text_field :vin, disabled: true %><br>
     <%= car.label(:year, "Placa") %>
-    <%= car.text_field :plate, disabled: true %><br>
+    <%= car.text_field :plate, disabled: true, class:"plate_input" %><br>
   <%end%>
   <br>
   <br>
@@ -37,7 +37,7 @@
     <%category_total=0%>
     <%category_car=0%>
     <%question_category[1].each_with_index do |question,index|%>
-      <h3><%=question[0].text_query%></h3>
+      <p><%=question[0].text_query%></p>
       <%= f.fields_for :car_answers, question[1] do |car_answer| %>
         <%case question[0].question_type%>
         <%when "range"%>
@@ -107,5 +107,4 @@
   <h1>PUNTOS POSIBLES: <%=all_points%></h1>
   <h1>PUNTOS CARRO: <%=all_car%></h1>
   <h1>PORCENTAJE CARRO: <%=all_car*100/all_points%>%</h1>
-  <hr>
 <% end %>

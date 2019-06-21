@@ -17,3 +17,12 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require_tree .
+
+$(document).ready( function () {
+  $(".plate_input").on("keypress", function () {
+   $input=$(this);
+   setTimeout(function () {
+    $input.val($input.val().toUpperCase());
+  },50);
+  })
+ })
