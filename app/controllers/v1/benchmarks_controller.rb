@@ -1,5 +1,5 @@
 class V1::BenchmarksController < ApplicationController
-  before_action :authenticate_user!, except: [:search,:home,:show]
+  before_action :authenticate_user!, except: [:init,:home,:show]
 
   def index
     if current_user.type.eql?("CarExpert")
@@ -17,7 +17,7 @@ class V1::BenchmarksController < ApplicationController
     end
   end
 
-  def init 
+  def init
   end
 
   def validation
