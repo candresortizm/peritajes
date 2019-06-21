@@ -19,3 +19,6 @@
     </tbody>
   </table>
 </section>
+<%if current_user.type.eql?("CarExpert")%>
+  <%= link_to('Nueva Inspección', validation_benchmark_path, method: :get) %>
+<%end%>
