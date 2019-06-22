@@ -1,12 +1,12 @@
-SuperUser.create(email: 'super@admin.com', password: 'password', password_confirmation: 'password')
+SuperUser.create(email: "super@admin.com", password: "password", password_confirmation: "password")
 
-Brand.create(name: 'AutoLab', address: 'Av. NQS # 70 - 16', telephone: '7429249',nit: '123456456')
+Brand.create(name: "AutoLab", address: "Av. NQS # 70 - 16", telephone: "7429249",nit: "123456456")
 
-BrandAdmin.create(email: 'admin@autolab.com', password: 'password', password_confirmation: 'password',brand_id:1)
+BrandAdmin.create(email: "admin@autolab.com", password: "password", password_confirmation: "password",brand_id:1)
 
-CarExpert.create(email: 'car_expert@autolab.com', password: 'password', password_confirmation: 'password',brand_id:1)
+CarExpert.create(email: "car_expert@autolab.com", password: "password", password_confirmation: "password",brand_id:1)
 
-Dispatcher.create(email: 'dispatcher@autolab.com', password: 'password', password_confirmation: 'password',brand_id:1)
+Dispatcher.create(email: "dispatcher@autolab.com", password: "password", password_confirmation: "password",brand_id:1)
 
 QuestionCategory.create(name:"Motor",order_category: 1)
 QuestionCategory.create(name:"Interior",order_category: 2)
@@ -171,4 +171,44 @@ Question.create([
   { key: "steering_system_on_hot_engine_state", text_query: "Funcionamiento del sistema de dirección del motor", question_category_id: 1, question_type: "range", order_question: 16, points: 20 },
   { key: "turbo_hook", text_query: "Enganche del turbo", question_category_id: 1, question_type: "good_bad_na", order_question: 17, points: 10 },
   { key: "non_centered_driving_wheel", text_query: "Volante descentrado", question_category_id: 1, question_type: "yes_or_no", order_question: 18, points: 55 }
+])
+
+DocumentType.create([
+  { key: "contrato_compraventa_venta", name: "Contrato de compraventa", process_type: "sell"},
+  { key: "mandato", name: "Mandato", process_type: "sell"},
+  { key: "carta_banco", name: "Estato de cuenta", process_type: "sell"},
+  { key: "formato_transito_venta", name: "Formato de tránsito", process_type: "sell"},
+  { key: "formato_levantamiento_prenda", name: "Formato de levantamiento de prenda", process_type: "sell"},
+  { key: "copia_cedula_venta", name: "Copia cédula", process_type: "sell"},
+  { key: "copia_tarjeta_propiedad", name: "Copia tarjeta de propiedad", process_type: "sell"},
+  { key: "soat", name: "SOAT", process_type: "sell"},
+  { key: "peritaje_firmado", name: "Peritaje firmado", process_type: "sell"},
+  { key: "contrato_corretaje", name: "Contrato corretaje", process_type: "sell"},
+  { key:"certificado_dijin", name:"Certificado DIJIN", process_type: "sell"},
+  { key: "terminos_condiciones_venta", name: "Términos y condiciones", process_type: "sell"},
+  { key: "formato_inscripcion", name: "Formato de inscripción de cuentas de pago a proveedores", process_type: "sell"},
+  { key: "manifiesto_aduana", name: "Manifiesto de aduana", process_type: "sell"},
+  { key: "factura_compra", name: "Factura inicial de compra", process_type: "sell"},
+  { key: "impuestos_pagados", name: "Impuestos pagados", process_type: "sell"},
+  { key: "poder_especial", name: "Poder especial", process_type: "sell"},
+  { key: "improntas", name: "Improntas", process_type: "sell"},
+  { key: "tradicion_libertad", name: "Certificado de tradición y libertad" , process_type: "sell"},
+  { key: "contrato_compraventa_compra", name: "Contrato de compraventa" , process_type: "buy"},
+  { key: "endoso_poliza", name:"Endoso de póliza", process_type: "buy"},
+  { key: "terminos_condiciones_compra", name: "Términos y condiciones", process_type: "buy"},
+  { key: "formato_transito_compra", name: "Formato de tránsito", process_type: "buy"},
+  { key: "copia_cedula_compra", name: "Copia cédula", process_type: "buy"},
+  { key: "pedido_vehiculo", name: "Pedido de vehículo", process_type: "buy"},
+  { key: "solicitud_credito", name: "Solicitud de crédito", process_type: "buy"},
+  { key: "estudio_credito", name: "Estudio de crédito", process_type: "buy"},
+  { key: "aval_negocio", name: "Aval de negocio", process_type: "buy"},
+  { key: "aprobacion_credito", name: "Carta aprobación de crédito", process_type: "buy"},
+  { key: "desembolso_credito", name: "Desembolso de crédito", process_type: "buy"},
+  { key: "pago_total", name: "Pago total", process_type: "buy"},
+  { key: "soporte_pago", name: "Soporte de pago reserva", process_type: "buy"},
+  { key: "pagare", name: "Pagaré", process_type:  "buy"},
+  { key: "copia_cedula_compra_emp", name: "Copia cédula representante legal", process_type: "buy"},
+  { key: "copia_cedula_venta_emp", name: "Copia cédula representante legal", process_type: "sell"},
+  { key: "ccb_empresa_compra", name: "Cámara de comercio", process_type: "buy"},
+  { key: "ccb_empresa_venta", name: "Cámara de comercio", process_type: "sell"}
 ])

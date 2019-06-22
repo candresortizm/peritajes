@@ -4,6 +4,7 @@ class CreateCarProcesses < ActiveRecord::Migration[5.2]
       t.integer :dispatcher_id, index: true, foreign_key: true
       t.references :car, null: false, index: true, foreign_key: true
       t.string :state, null:false
+      t.string :process_type, null:false, default:"sell"
 
       t.timestamps
     end

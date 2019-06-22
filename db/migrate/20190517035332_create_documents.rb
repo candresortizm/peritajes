@@ -3,8 +3,9 @@ class CreateDocuments < ActiveRecord::Migration[5.2]
     create_table :documents do |t|
       t.references :document_type, null: false, foreign_key: true
       t.references :car_process, null: false, foreign_key: true
-      t.string :image
+      t.string :document, null: false
       t.string :state, null:false
+      t.string :comment
 
       t.timestamps
     end

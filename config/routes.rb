@@ -26,6 +26,12 @@ Rails.application.routes.draw do
     end
     scope :processes, controller: :processes do
       get :index, as: 'processes_index'
+      get :new, as: 'new_process'
+      get :validation, as: 'validation_process'
+      get 'show/:process_id',to: 'processes#show', as:'show_process'
+      post :search, as: 'processes_search'
+      get :search, to: 'process#init'
+      post :create, as: 'create_process'
     end
     scope :questions, controller: :questions do
       get :new, as: 'new_question'

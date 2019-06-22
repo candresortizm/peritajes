@@ -1,0 +1,120 @@
+<h1>Nuevo proceso de documentación</h1>
+
+<%= form_for @proccess,
+    url:create_process_path, method: :post,
+    id: "process_form",
+    :html => {class: 'new_process'}, multipart: true do |f|%>
+  <%= f.hidden_field :dispatcher_id, value: current_user.id %>
+  <%= f.hidden_field :car_id, value: @process.car.id %>
+  <%= f.label(:owner, "Dueño") %>
+  <%= f.text_field :owner, required: true %><br>
+  <%= f.label(:kilometraje, "Kilometraje") %>
+  <%= f.text_field :kilometraje, required: true %><br>
+  <%= f.label(:color, "Color") %>
+  <%= f.text_field :color, required: true %><br>
+  <br>
+  <br>
+  <%= f.fields_for :car_attributes, @benchmark.car do |car|%>
+    <%= car.label(:car_type, "Tipo de carro") %>
+    <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name",selected: @benchmark.car.car_type_id),{include_blank: "Seleccione"}, {required:true, disabled:!@benchmark.car.id.nil?} %></br>
+    <%= car.label(:car_brand, "Marca") %>
+    <%= car.text_field :car_brand, disabled: !@benchmark.car.id.nil?, required: true %><br>
+    <%= car.label(:model, "Modelo") %>
+    <%= car.text_field :model, disabled: !@benchmark.car.id.nil?, required: true %><br>
+    <%= car.label(:year, "Año") %>
+    <%= car.text_field :year, disabled: !@benchmark.car.id.nil?, required: true %><br>
+    <%= car.label(:year, "VIN") %>
+    <%= car.text_field :vin, disabled: !@benchmark.car.id.nil?, required: true %><br>
+    <%= car.label(:year, "Placa") %>
+    <%= car.text_field :plate, disabled: !@benchmark.car.id.nil?, required: true, class:"plate_input" %><br>
+  <%end%>
+  <br>
+  <br>
+  <%@questions.each do |question_category|%>
+    <h3><%=question_category[0].name%></h3>
+    <%question_category[1].each_with_index do |question,index|%>
+      <h3><%=question.text_query%></h3>
+      <%= f.fields_for :car_answers, @benchmark.car_answers.build do |car_answer| %>
+      <%= car_answer.hidden_field :question_id, value: question.id %>
+        <%case question.question_type%>
+        <%when "range"%>
+          <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:bad, "Mal") %>
+          <%= car_answer.radio_button(:answer, "2", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:so_so, "Aceptable") %>
+          <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:Good, "Bien") %>
+        <%when "yes_or_no"%>
+          <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:very_bad, "Si") %>
+          <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:bad, "No") %>
+        <%when "yes_no_na"%>
+          <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:bad, "Si") %>
+          <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:so_so, "No") %>
+          <%= car_answer.radio_button(:answer, "0", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:good, "No aplica") %>
+        <%when "good_bad"%>
+          <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:bad, "Bien") %>
+          <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:good, "Mal") %>
+        <%when "good_bad_na"%>
+          <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:bad, "Bien") %>
+          <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:so_so, "Mal") %>
+          <%= car_answer.radio_button(:answer, "0", {required: true, data:{'question-type':question.question_type}}) %>
+          <%= car_answer.label(:good, "No aplica") %>
+        <%when "text"%>
+          <%= car_answer.text_field :answer, required: true %><br>
+        <%else%>
+          <label><%=question.question_type%></label>
+        <%end%>
+      <%end%>
+    <%end%>
+    <br><br>
+    <%= f.fields_for :inspection_comments, @benchmark.inspection_comments.build do |inspection_comment| %>
+      <label> Comentarios para <%= question_category[0].name %> </label>
+      <%= inspection_comment.hidden_field :question_category_id, value: question_category[0].id %>
+      <%= inspection_comment.text_area :comment, rows: '6' %>
+    <%end%>
+    <%= f.fields_for :inspection_photos, @benchmark.inspection_photos.build do |inspection_photo| %>
+      <div class="upload carthumb photoshoot__upload">
+        <label> Foto para <%= question_category[0].name %> </label>
+        <%= inspection_photo.hidden_field :question_category_id, value: question_category[0].id %>
+        <%= inspection_photo.file_field(:image, accept: 'image/png,image/gif,image/jpeg') %>
+        <img class="img-thumbnail center-block" alt="your image" target="_blank" src="#" style="display: none;">
+      </div>
+    <%end%>
+    <hr>
+  <%end%>
+  <%= submit_tag("Finalizar") %>
+<% end %>
+
+<script type="text/javascript">
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            // Remove class upload, the one that has the background image
+            var $parent = $(input).closest('div.carthumb');
+            $($parent).removeClass("upload");
+            // Show the img tag
+            $($parent).find('img').show();
+
+            // Change the src of the img tag to the img loaded
+            $($parent).find('img').attr('src', reader.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  // Everytime the [input:file] change do
+  $(":file").change(function(){
+      readURL(this);
+  });
+</script>

@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
     t.integer "dispatcher_id"
     t.bigint "car_id", null: false
     t.string "state", null: false
+    t.string "process_type", default: "sell", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["car_id"], name: "index_car_processes_on_car_id"
@@ -79,6 +80,8 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
 
   create_table "document_types", force: :cascade do |t|
     t.string "name", null: false
+    t.string "key", null: false
+    t.string "process_type", default: "sell", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -86,8 +89,9 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
   create_table "documents", force: :cascade do |t|
     t.bigint "document_type_id", null: false
     t.bigint "car_process_id", null: false
-    t.string "image"
+    t.string "document", null: false
     t.string "state", null: false
+    t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["car_process_id"], name: "index_documents_on_car_process_id"

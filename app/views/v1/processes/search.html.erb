@@ -1,0 +1,21 @@
+<section class="index_benchmarks">
+  <h1>Resultados de la búsqueda</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Email Perito</th>
+        <th>Empresa</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@all_results.each do |element|%>
+        <tr onclick="location.href='<%= show_benchmark_path(element) %>'">
+          <td><%=element.created_at%></td>
+          <td><%=element.car_expert.email%></td>
+          <td><%=element.car_expert.brand.name%></td>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>
+</section>
