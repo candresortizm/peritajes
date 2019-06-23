@@ -19,7 +19,7 @@
 //= require_tree .
 
 $(document).ready( function () {
-  $(".plate_input").on("keypress", function () {
+  $(".plate_input").on("keyup", function () {
     $input=$(this);
     setTimeout(function () {
       $input.val($input.val().toUpperCase());

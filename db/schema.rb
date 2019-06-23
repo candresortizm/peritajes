@@ -34,6 +34,18 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
     t.index ["question_id"], name: "index_car_answers_on_question_id"
   end
 
+  create_table "car_documents", force: :cascade do |t|
+    t.bigint "document_type_id", null: false
+    t.bigint "car_process_id", null: false
+    t.string "document", null: false
+    t.string "state", null: false
+    t.string "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["car_process_id"], name: "index_car_documents_on_car_process_id"
+    t.index ["document_type_id"], name: "index_car_documents_on_document_type_id"
+  end
+
   create_table "car_inspections", force: :cascade do |t|
     t.bigint "car_id", null: false
     t.integer "car_expert_id"
@@ -84,18 +96,6 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
     t.string "process_type", default: "sell", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "documents", force: :cascade do |t|
-    t.bigint "document_type_id", null: false
-    t.bigint "car_process_id", null: false
-    t.string "document", null: false
-    t.string "state", null: false
-    t.string "comment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["car_process_id"], name: "index_documents_on_car_process_id"
-    t.index ["document_type_id"], name: "index_documents_on_document_type_id"
   end
 
   create_table "inspection_comments", force: :cascade do |t|
@@ -156,11 +156,11 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
 
   add_foreign_key "car_answers", "car_inspections"
   add_foreign_key "car_answers", "questions"
+  add_foreign_key "car_documents", "car_processes"
+  add_foreign_key "car_documents", "document_types"
   add_foreign_key "car_inspections", "cars"
   add_foreign_key "car_processes", "cars"
   add_foreign_key "cars", "car_types"
-  add_foreign_key "documents", "car_processes"
-  add_foreign_key "documents", "document_types"
   add_foreign_key "inspection_comments", "car_inspections"
   add_foreign_key "inspection_comments", "question_categories"
   add_foreign_key "inspection_photos", "car_inspections"

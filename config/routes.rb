@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     scope :processes, controller: :processes do
       get :index, as: 'processes_index'
       get :new, as: 'new_process'
+      patch :update, as: 'update_process'
       get :validation, as: 'validation_process'
       get 'show/:process_id',to: 'processes#show', as:'show_process'
       post :search, as: 'processes_search'

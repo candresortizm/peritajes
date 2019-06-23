@@ -6,3 +6,8 @@ QUERY_TYPES= [
   ["Bien,mal o no aplica","good_bad_na"],
   ["Texto","text"]
 ]
+
+DOCUMENTATION_TYPES= [
+  ["Venta","sell"],
+  ["Compra","buy"]
+]

@@ -1,6 +1,6 @@
-class CreateDocuments < ActiveRecord::Migration[5.2]
+class CreateCarDocuments < ActiveRecord::Migration[5.2]
   def change
-    create_table :documents do |t|
+    create_table :car_documents do |t|
       t.references :document_type, null: false, foreign_key: true
       t.references :car_process, null: false, foreign_key: true
       t.string :document, null: false

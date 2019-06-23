@@ -1,110 +1,68 @@
-<h1>Peritaje</h1>
+<h1>Vista proceso de documentación</h1>
 
-<%= form_for @benchmark,
-    url:create_benchmark_path, method: :post,
-    id: "benchmark_form",
-    :html => {class: 'new_benchmark'}, multipart: true do |f|%>
-  <%= f.label(:created_at, "Fecha") %>
-  <%= f.text_field :created_at, value:@benchmark.created_at.getlocal.strftime("%Y-%m-%d %H:%M"), disabled: true %><br>
-  <%= f.label(:owner, "Dueño") %>
-  <%= f.text_field :owner, disabled: true %><br>
-  <%= f.label(:kilometraje, "Kilometraje") %>
-  <%= f.text_field :kilometraje, disabled: true %><br>
-  <%= f.label(:color, "Color") %>
-  <%= f.text_field :color, disabled: true %><br>
+<%= form_for @process,
+    url:update_process_path, method: :patch,
+    id: "process_form",
+    :html => {class: 'new_process'}, multipart: true do |f|%>
+  <%= f.hidden_field :dispatcher_id, value: current_user.id %>
+  <%= f.hidden_field :id, value: @process.id %>
+  <%= f.hidden_field :car_id, value: @process.car.id %>
+  <%= f.hidden_field :state, value: 'open' %>
   <br>
   <br>
-  <%= f.fields_for :car do |car|%>
+  <%= f.fields_for :car_attributes, @process.car do |car|%>
     <%= car.label(:car_type, "Tipo de carro") %>
-    <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name", selected: @benchmark.car.car_type_id.to_s),{}, {:disabled=> true} %></br>
+    <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name",selected: @process.car.car_type_id),{include_blank: "Seleccione"}, {required:true, disabled:!@process.car.id.nil?} %></br>
     <%= car.label(:car_brand, "Marca") %>
-    <%= car.text_field :car_brand, disabled: true %><br>
+    <%= car.text_field :car_brand, disabled: !@process.car.id.nil?, required: true %><br>
     <%= car.label(:model, "Modelo") %>
-    <%= car.text_field :model, disabled: true %><br>
+    <%= car.text_field :model, disabled: !@process.car.id.nil?, required: true %><br>
     <%= car.label(:year, "Año") %>
-    <%= car.text_field :year, disabled: true %><br>
+    <%= car.text_field :year, disabled: !@process.car.id.nil?, required: true %><br>
     <%= car.label(:year, "VIN") %>
-    <%= car.text_field :vin, disabled: true %><br>
+    <%= car.text_field :vin, disabled: !@process.car.id.nil?, required: true %><br>
     <%= car.label(:year, "Placa") %>
-    <%= car.text_field :plate, disabled: true, class:"plate_input" %><br>
+    <%= car.text_field :plate, disabled: !@process.car.id.nil?, required: true, class:"plate_input" %><br>
   <%end%>
   <br>
   <br>
-  <%all_car = 0%>
-  <%all_points = 0%>
-  <%@questions.each do |question_category|%>
-    <h3><%=question_category[0].name%></h3>
-    <%category_total=0%>
-    <%category_car=0%>
-    <%question_category[1].each_with_index do |question,index|%>
-      <p><%=question[0].text_query%></p>
-      <%= f.fields_for :car_answers, question[1] do |car_answer| %>
-        <%case question[0].question_type%>
-        <%when "range"%>
-          <%category_car+=((question[1].answer-1)/2)*question[0].points%>
-          <%category_total+=question[0].points%>
-          <%= car_answer.radio_button(:answer, "1", {disabled: true}) %>
-          <%= car_answer.label(:bad, "Mal") %>
-          <%= car_answer.radio_button(:answer, "2", {disabled: true}) %>
-          <%= car_answer.label(:so_so, "Aceptable") %>
-          <%= car_answer.radio_button(:answer, "3", {disabled: true}) %>
-          <%= car_answer.label(:Good, "Bien") %>
-        <%when "yes_or_no"%>
-          <%category_car+=((question[1].answer-1)/2)*question[0].points%>
-          <%category_total+=question[0].points if question[1].answer!=1%>
-          <%= car_answer.radio_button(:answer, "3", disabled: true) %>
-          <%= car_answer.label(:very_bad, "Si") %>
-          <%= car_answer.radio_button(:answer, "1", disabled: true) %>
-          <%= car_answer.label(:bad, "No") %>
-        <%when "yes_no_na"%>
-          <%category_car+=((question[1].answer-1)/2)*question[0].points if question[1].answer!=0%>
-          <%category_total+=question[0].points if question[1].answer!=0%>
-          <%= car_answer.radio_button(:answer, "3", disabled: true) %>
-          <%= car_answer.label(:bad, "Si") %>
-          <%= car_answer.radio_button(:answer, "1", disabled: true) %>
-          <%= car_answer.label(:so_so, "No") %>
-          <%= car_answer.radio_button(:answer, "0", disabled: true) %>
-          <%= car_answer.label(:good, "No aplica") %>
-        <%when "good_bad"%>
-          <%category_car+=((question[1].answer-1)/2)*question[0].points%>
-          <%category_total+=question[0].points if question[1].answer!=1%>
-          <%= car_answer.radio_button(:answer, "3", disabled: true) %>
-          <%= car_answer.label(:bad, "Si") %>
-          <%= car_answer.radio_button(:answer, "1", disabled: true) %>
-          <%= car_answer.label(:good, "No") %>
-        <%when "good_bad_na"%>
-          <%category_car+=((question[1].answer-1)/2)*question[0].points if question[1].answer!=0%>
-          <%category_total+=question[0].points if question[1].answer!=0%>
-          <%= car_answer.radio_button(:answer, "1", disabled: true) %>
-          <%= car_answer.label(:bad, "Bien") %>
-          <%= car_answer.radio_button(:answer, "3", disabled: true) %>
-          <%= car_answer.label(:so_so, "Mal") %>
-          <%= car_answer.radio_button(:answer, "0", disabled: true) %>
-          <%= car_answer.label(:good, "No aplica") %>
-        <%when "text"%>
-          <%= car_answer.text_field :answer, disabled: true %><br>
-        <%else%>
-          <label><%=question[0].question_type%></label>
-        <%end%>
+  <%@doc_types.each do |doc_type|%>
+    <%= f.fields_for :documents_attributes, @process.documents.build do |document| %>
+      <h3><%= doc_type.name %></h3>
+      <%= document.hidden_field :document_type_id, value: doc_type.id %>
+      <%= document.label(:document, "Documento") %>
+      <%if !@documents[doc_type.id].nil? %>
+        <h1><%=@documents[doc_type.id].document.url%></h1>
       <%end%>
+      <%= document.file_field(:document) %><br>
+      <label> Comentario </label>
+      <%= document.text_area :comment, rows: '6' %><br>
     <%end%>
-    <br>
-    <br>
-    <%if !@comments[question_category[0].id].nil? %>
-      <%= f.fields_for :inspection_comments, @comments[question_category[0].id] do |inspection_comment| %>
-        <label> Comentarios para <%= question_category[0].name %> </label><br>
-        <%= inspection_comment.hidden_field :question_category_id, value: question_category[0].id %>
-        <%= inspection_comment.text_area :comment, rows: '6', disabled: true %>
-      <%end%>
-    <%end%>
-    <%all_points += category_total%>
-    <%all_car += category_car%>
-    <h1>POSIBLES CATEGORÍA: <%=category_total%></h1>
-    <h1>CARRO EN CATEGORÍA: <%=category_car%></h1>
-    <h1>PORCENTAJE: <%=category_car*100/category_total%>%</h1>
   <%end%>
-  <br>
-  <h1>PUNTOS POSIBLES: <%=all_points%></h1>
-  <h1>PUNTOS CARRO: <%=all_car%></h1>
-  <h1>PORCENTAJE CARRO: <%=all_car*100/all_points%>%</h1>
+  <%= submit_tag("Finalizar") %>
 <% end %>
+
+<script type="text/javascript">
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            // Remove class upload, the one that has the background image
+            var $parent = $(input).closest('div.carthumb');
+            $($parent).removeClass("upload");
+            // Show the img tag
+            $($parent).find('img').show();
+
+            // Change the src of the img tag to the img loaded
+            $($parent).find('img').attr('src', reader.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  // Everytime the [input:file] change do
+  $(":file").change(function(){
+      readURL(this);
+  });
+</script>

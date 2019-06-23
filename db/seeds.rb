@@ -1,12 +1,12 @@
 SuperUser.create(email: "super@admin.com", password: "password", password_confirmation: "password")
 
-Brand.create(name: "AutoLab", address: "Av. NQS # 70 - 16", telephone: "7429249",nit: "123456456")
+Brand.create(name: "Consesionario X", address: "Av 76 # 32 -45", telephone: "7429249",nit: "123456456")
 
-BrandAdmin.create(email: "admin@autolab.com", password: "password", password_confirmation: "password",brand_id:1)
+BrandAdmin.create(email: "admin@consesionariox.com", password: "password", password_confirmation: "password",brand_id:1)
 
-CarExpert.create(email: "car_expert@autolab.com", password: "password", password_confirmation: "password",brand_id:1)
+CarExpert.create(email: "car_expert@consesionariox.com", password: "password", password_confirmation: "password",brand_id:1)
 
-Dispatcher.create(email: "dispatcher@autolab.com", password: "password", password_confirmation: "password",brand_id:1)
+Dispatcher.create(email: "dispatcher@consesionariox.com", password: "password", password_confirmation: "password",brand_id:1)
 
 QuestionCategory.create(name:"Motor",order_category: 1)
 QuestionCategory.create(name:"Interior",order_category: 2)

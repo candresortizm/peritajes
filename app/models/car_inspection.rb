@@ -1,6 +1,6 @@
 class CarInspection < ApplicationRecord
   belongs_to :car_expert
-  belongs_to :car, inverse_of: :car_inspections
+  belongs_to :car
   has_many :car_answers
   has_many :inspection_comments
   has_many :inspection_photos

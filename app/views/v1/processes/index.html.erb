@@ -4,21 +4,21 @@
     <thead>
       <tr>
         <th>Fecha</th>
-        <th>Dueño</th>
-        <th>Empresa</th>
+        <th>Tipo de proceso</th>
+        <th>Placa</th>
       </tr>
     </thead>
     <tbody>
       <%@all.each do |element|%>
-        <tr onclick="location.href='<%= show_benchmark_path(element) %>'">
+        <tr onclick="location.href='<%= show_process_path(element) %>'">
           <td><%=element.created_at%></td>
-          <td><%=element.owner%></td>
-          <td><%=element.car_expert.brand.name%></td>
+          <td><%=element.process_type%></td>
+          <td><%=element.car.plate%></td>
         </tr>
       <%end%>
     </tbody>
   </table>
 </section>
 <%if current_user.type.eql?("Dispatcher")%>
-  <%= link_to('Nuevo proceso', root_path, method: :get) %>
+  <%= link_to('Nuevo proceso', validation_process_path, method: :get) %>
 <%end%>
