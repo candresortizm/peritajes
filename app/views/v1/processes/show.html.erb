@@ -33,7 +33,9 @@
       <h3><%= doc_type.name %></h3>
       <%if !@documents[doc_type.id].nil?%>
         <%= car_document.hidden_field :id, value: @documents[doc_type.id].id%>
-        <%= link_to('Descargar archivo', @documents[doc_type.id].document.url, method: :get, target: '_blank') %><br>
+        <a href="<%= @documents[doc_type.id].document.url %>" target="_blank">
+          <p>Descargar archivo</p>
+        </a>
       <%end%>
       <%= car_document.label(:document, "Documento") %>
       <%= car_document.file_field(:document) %><br>

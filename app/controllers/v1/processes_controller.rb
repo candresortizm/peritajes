@@ -13,7 +13,13 @@ class V1::ProcessesController < ApplicationController
       ActiveRecord::Base.transaction do
         params[:plate]=params[:plate].upcase
         car = Car.find_by(plate:params[:plate])
-        @process = CarProcess.new(process_type: params[:documentation_type])
+        if !car.nil?
+          exist_process = CarProcess.find_by(car_id: car.id,process_type: params[:process_type], dispatcher_id: current_user.id)
+          if !exist_process.nil?
+            redirect_to show_process_path(process_id:exist_process.id)
+          end
+        end
+        @process = CarProcess.new(process_type: params[:process_type])
         @process.car = !car.nil? ? car : Car.new(plate:params[:plate])
         @car_types = CarType.all
         @doc_types = DocumentType.where(process_type:params[:process_type]).to_a
@@ -23,6 +29,7 @@ class V1::ProcessesController < ApplicationController
     def create
       ActiveRecord::Base.transaction do
         process = CarProcess.new(process_params)
+        binding.pry
         if process.save
           redirect_to processes_index_path
         end
