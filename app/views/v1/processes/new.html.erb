@@ -3,9 +3,10 @@
 <%= form_for @process,
     url:create_process_path, method: :post,
     id: "process_form",
-    :html => {class: 'new_process'}, multipart: true do |f|%>
+    :html => {class: 'new_process'} do |f|%>
   <%= f.hidden_field :dispatcher_id, value: current_user.id %>
   <%= f.hidden_field :state, value: 'open' %>
+  <%= f.hidden_field :process_type, value: params[:process_type] %>
   <br>
   <br>
   <%= f.fields_for :car_attributes, @process.car do |car|%>
@@ -25,9 +26,10 @@
   <br>
   <br>
   <%@doc_types.each do |doc_type|%>
-    <%= f.fields_for :car_documents_attributes, @process.car_documents.build do |car_document| %>
+    <%= f.fields_for :car_documents, @process.car_documents.build do |car_document| %>
       <h3><%= doc_type.name %></h3>
       <%= car_document.hidden_field :document_type_id, value: doc_type.id %>
+      <%= car_document.hidden_field :state, value: 'open' %>
       <%= car_document.label(:document, "Documento") %>
       <%= car_document.file_field(:document) %><br>
       <label> Comentario </label>
@@ -36,28 +38,3 @@
   <%end%>
   <%= submit_tag("Finalizar") %>
 <% end %>
-
-<script type="text/javascript">
-  function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            // Remove class upload, the one that has the background image
-            var $parent = $(input).closest('div.carthumb');
-            $($parent).removeClass("upload");
-            // Show the img tag
-            $($parent).find('img').show();
-
-            // Change the src of the img tag to the img loaded
-            $($parent).find('img').attr('src', reader.result);
-        }
-
-        reader.readAsDataURL(input.files[0]);
-    }
-  }
-
-  // Everytime the [input:file] change do
-  $(":file").change(function(){
-      readURL(this);
-  });
-</script>

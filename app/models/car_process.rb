@@ -4,6 +4,6 @@ class CarProcess < ApplicationRecord
   has_many :car_documents
 
   accepts_nested_attributes_for :car
-  accepts_nested_attributes_for :car_documents
-  # accepts_nested_attributes_for :documents, reject_if: proc { |attributes| attributes['document'].blank? && attributes['comment'].eql?("") }
+  # accepts_nested_attributes_for :car_documents
+  accepts_nested_attributes_for :car_documents, reject_if: proc { |attributes| attributes['document'].blank? }
 end

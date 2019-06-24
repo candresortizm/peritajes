@@ -22,7 +22,6 @@ class V1::ProcessesController < ApplicationController
 
     def create
       ActiveRecord::Base.transaction do
-        binding.pry
         process = CarProcess.new(process_params)
         if process.save
           redirect_to processes_index_path

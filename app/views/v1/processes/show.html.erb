@@ -27,42 +27,20 @@
   <br>
   <br>
   <%@doc_types.each do |doc_type|%>
-    <%= f.fields_for :documents_attributes, @process.documents.build do |document| %>
+    <%= f.fields_for :car_documents, @process.car_documents.build do |car_document| %>
+      <%= car_document.hidden_field :document_type_id, value: doc_type.id %>
+      <%= car_document.hidden_field :state, value: 'open' %>
       <h3><%= doc_type.name %></h3>
-      <%= document.hidden_field :document_type_id, value: doc_type.id %>
-      <%= document.label(:document, "Documento") %>
-      <%if !@documents[doc_type.id].nil? %>
-        <h1><%=@documents[doc_type.id].document.url%></h1>
+      <%if !@documents[doc_type.id].nil?%>
+        <%= car_document.hidden_field :id, value: @documents[doc_type.id].id%>
+        <%= link_to('Descargar archivo', @documents[doc_type.id].document.url, method: :get, target: '_blank') %><br>
       <%end%>
-      <%= document.file_field(:document) %><br>
+      <%= car_document.label(:document, "Documento") %>
+      <%= car_document.file_field(:document) %><br>
+
       <label> Comentario </label>
-      <%= document.text_area :comment, rows: '6' %><br>
+      <%= car_document.text_area :comment, value: @documents[doc_type.id].nil? ? '' : @documents[doc_type.id].comment, rows: '6' %><br>
     <%end%>
   <%end%>
   <%= submit_tag("Finalizar") %>
 <% end %>
-
-<script type="text/javascript">
-  function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            // Remove class upload, the one that has the background image
-            var $parent = $(input).closest('div.carthumb');
-            $($parent).removeClass("upload");
-            // Show the img tag
-            $($parent).find('img').show();
-
-            // Change the src of the img tag to the img loaded
-            $($parent).find('img').attr('src', reader.result);
-        }
-
-        reader.readAsDataURL(input.files[0]);
-    }
-  }
-
-  // Everytime the [input:file] change do
-  $(":file").change(function(){
-      readURL(this);
-  });
-</script>
