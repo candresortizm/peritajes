@@ -52,6 +52,12 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
     t.string "owner", null: false
     t.decimal "kilometraje", null: false
     t.string "color", null: false
+    t.string "photo_front", null: false
+    t.string "photo_right", null: false
+    t.string "photo_back", null: false
+    t.string "photo_left", null: false
+    t.string "photo_motor", null: false
+    t.string "photo_inside", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["car_expert_id"], name: "index_car_inspections_on_car_expert_id"
@@ -110,12 +116,12 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
 
   create_table "inspection_photos", force: :cascade do |t|
     t.bigint "car_inspection_id", null: false
-    t.bigint "question_category_id"
+    t.bigint "question_id"
     t.string "image", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["car_inspection_id"], name: "index_inspection_photos_on_car_inspection_id"
-    t.index ["question_category_id"], name: "index_inspection_photos_on_question_category_id"
+    t.index ["question_id"], name: "index_inspection_photos_on_question_id"
   end
 
   create_table "question_categories", force: :cascade do |t|
@@ -164,7 +170,7 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
   add_foreign_key "inspection_comments", "car_inspections"
   add_foreign_key "inspection_comments", "question_categories"
   add_foreign_key "inspection_photos", "car_inspections"
-  add_foreign_key "inspection_photos", "question_categories"
+  add_foreign_key "inspection_photos", "questions"
   add_foreign_key "questions", "question_categories"
   add_foreign_key "users", "brands"
 end

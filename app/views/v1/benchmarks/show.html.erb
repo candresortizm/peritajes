@@ -12,6 +12,30 @@
   <%= f.text_field :kilometraje, disabled: true %><br>
   <%= f.label(:color, "Color") %>
   <%= f.text_field :color, disabled: true %><br>
+  <div class="upload carthumb photoshoot__upload">
+    <label> Foto frontal </label>
+    <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@benchmark.photo_front.url%>">
+  </div>
+  <div class="upload carthumb photoshoot__upload">
+    <label> Foto lado derecho </label>
+    <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@benchmark.photo_right.url%>">
+  </div>
+  <div class="upload carthumb photoshoot__upload">
+    <label> Foto atras </label>
+    <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@benchmark.photo_back.url%>">
+  </div>
+  <div class="upload carthumb photoshoot__upload">
+    <label> Foto lado izquierdo </label>
+    <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@benchmark.photo_left.url%>">
+  </div>
+  <div class="upload carthumb photoshoot__upload">
+    <label> Foto motor </label>
+    <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@benchmark.photo_motor.url%>">
+  </div>
+  <div class="upload carthumb photoshoot__upload">
+    <label> Foto interior </label>
+    <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@benchmark.photo_inside.url%>">
+  </div>
   <br>
   <br>
   <%= f.fields_for :car do |car|%>
@@ -85,6 +109,12 @@
           <%= car_answer.text_field :answer, disabled: true %><br>
         <%else%>
           <label><%=question[0].question_type%></label>
+        <%end%>
+        <%if !@inspection_photos[question[0].id].nil?%>
+          <div class="upload carthumb photoshoot__upload">
+            <label> Foto </label>
+            <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@inspection_photos[question[0].id].first.image.url%>">
+          </div>
         <%end%>
       <%end%>
     <%end%>

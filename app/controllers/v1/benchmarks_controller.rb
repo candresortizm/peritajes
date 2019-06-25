@@ -46,6 +46,7 @@ class V1::BenchmarksController < ApplicationController
   def show
     @benchmark = CarInspection.includes(:car).find(params[:benchmark_id])
     @car_types = CarType.all
+    @inspection_photos = InspectionPhoto.where(car_inspection_id: params[:benchmark_id]).group_by{|photo| photo.question_id}
     @comments = InspectionComment.where(car_inspection_id: params[:benchmark_id]).map{|element| [element.question_category_id,element]}.to_h
     @questions = CarAnswer.includes(question: :question_category).where(
                         car_inspection_id:params[:benchmark_id]).group_by{ |variable|
@@ -64,6 +65,12 @@ class V1::BenchmarksController < ApplicationController
       :kilometraje,
       :color,
       :car_id,
+      :photo_back,
+      :photo_left,
+      :photo_front,
+      :photo_right,
+      :photo_motor,
+      :photo_inside,
       car_attributes:[
         :car_brand,
         :model,
@@ -81,7 +88,7 @@ class V1::BenchmarksController < ApplicationController
         :comment
       ],
       inspection_photos_attributes:[
-        :question_category_id,
+        :question_id,
         :image
       ]
     )

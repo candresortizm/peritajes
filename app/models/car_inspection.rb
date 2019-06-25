@@ -10,4 +10,11 @@ class CarInspection < ApplicationRecord
   accepts_nested_attributes_for :inspection_comments, reject_if: proc { |attributes| attributes['comment'].eql?("") }
   accepts_nested_attributes_for :inspection_photos, reject_if: proc { |attributes| attributes['image'].blank? }
 
+  mount_uploader :photo_front, ImageUploader
+  mount_uploader :photo_right, ImageUploader
+  mount_uploader :photo_back, ImageUploader
+  mount_uploader :photo_left, ImageUploader
+  mount_uploader :photo_motor, ImageUploader
+  mount_uploader :photo_inside, ImageUploader
+
 end
