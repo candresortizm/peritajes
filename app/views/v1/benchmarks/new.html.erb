@@ -56,46 +56,74 @@
     <div class="tab-pane" id="<%=I18n.transliterate(question_category[0].name.downcase.gsub(" ","_"))%>">
       <h3><%=question_category[0].name%></h3>
       <%question_category[1].each_with_index do |question,index|%>
-        <h3><%=question.text_query%></h3>
+        <span><%=question.text_query%></span><br>
         <%= f.fields_for :car_answers, @benchmark.car_answers.build do |car_answer| %>
           <%= car_answer.hidden_field :question_id, value: question.id %>
+          <div class="radio_button">
           <%case question.question_type%>
           <%when "range"%>
-            <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
-            <%= car_answer.label(:bad, "Mal") %>
-            <%= car_answer.radio_button(:answer, "2", {required: true, data:{'question-type':question.question_type}}) %>
-            <%= car_answer.label(:so_so, "Aceptable") %>
-            <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
-            <%= car_answer.label(:Good, "Bien") %>
+            <label class="red">
+              <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
+              <span>Mal</span>
+            </label>
+            <label class="yellow">
+              <%= car_answer.radio_button(:answer, "2", {required: true, data:{'question-type':question.question_type}}) %>
+              <span>Aceptable</span>
+            </label>
+            <label class="green">
+              <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
+              <span>Bien</span>
+            </label>
           <%when "yes_or_no"%>
-            <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
-            <%= car_answer.label(:very_bad, "Si") %>
-            <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
-            <%= car_answer.label(:bad, "No") %>
+            <label class="green">
+              <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
+              <span>Si</span>
+            </label>
+            <label class="red">
+              <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
+              <span>No</span>
+            </label>
           <%when "yes_no_na"%>
-            <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
-            <%= car_answer.label(:bad, "Si") %>
-            <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
-            <%= car_answer.label(:so_so, "No") %>
-            <%= car_answer.radio_button(:answer, "0", {required: true, data:{'question-type':question.question_type}}) %>
-            <%= car_answer.label(:good, "No aplica") %>
+            <label class="green">
+              <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
+              <span>Si</span>
+            </label>
+            <label class="red">
+              <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
+              <span>No</span>
+            </label>
+            <label class="yellow">
+              <%= car_answer.radio_button(:answer, "0", {required: true, data:{'question-type':question.question_type}}) %>
+              <span>No Aplica</span>
+            </label>
           <%when "good_bad"%>
-            <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
-            <%= car_answer.label(:bad, "Bien") %>
-            <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
-            <%= car_answer.label(:good, "Mal") %>
+            <label class="green">
+              <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
+              <span>Bien</span>
+            </label>
+            <label class="red">
+              <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
+              <span>Mal</span>
+            </label>
           <%when "good_bad_na"%>
-            <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
-            <%= car_answer.label(:bad, "Bien") %>
-            <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
-            <%= car_answer.label(:so_so, "Mal") %>
-            <%= car_answer.radio_button(:answer, "0", {required: true, data:{'question-type':question.question_type}}) %>
-            <%= car_answer.label(:good, "No aplica") %>
+            <label class="green">
+              <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
+              <span>Bien</span>
+            </label>
+            <label class="red">
+              <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
+              <span>Mal</span>
+            </label>
+            <label class="yellow">
+              <%= car_answer.radio_button(:answer, "0", {required: true, data:{'question-type':question.question_type}}) %>
+              <span>No Aplica</span>
+            </label>
           <%when "text"%>
             <%= car_answer.text_field :answer, required: true %><br>
           <%else%>
             <label><%=question.question_type%></label>
           <%end%>
+          </div>
           <%= f.fields_for :inspection_photos, @benchmark.inspection_photos.build do |inspection_photo| %>
             <div class="upload carthumb photoshoot__upload">
               <%= inspection_photo.hidden_field :question_id, value: question.id %>
@@ -103,6 +131,7 @@
               <img class="img-thumbnail center-block" alt="your image" target="_blank" src="#" style="display: none;">
             </div>
           <%end%>
+          <br>
         <%end%>
       <%end%>
       <br><br>
