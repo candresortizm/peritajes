@@ -52,12 +52,13 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
     t.string "owner", null: false
     t.decimal "kilometraje", null: false
     t.string "color", null: false
-    t.string "photo_front", null: false
-    t.string "photo_right", null: false
-    t.string "photo_back", null: false
-    t.string "photo_left", null: false
-    t.string "photo_motor", null: false
-    t.string "photo_inside", null: false
+    t.string "photo_front"
+    t.string "photo_right"
+    t.string "photo_back"
+    t.string "photo_left"
+    t.string "photo_motor"
+    t.string "photo_inside"
+    t.string "state", default: "CREATED", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["car_expert_id"], name: "index_car_inspections_on_car_expert_id"

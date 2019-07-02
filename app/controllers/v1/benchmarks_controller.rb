@@ -36,10 +36,27 @@ class V1::BenchmarksController < ApplicationController
 
   def create
     ActiveRecord::Base.transaction do
-      benchmark = CarInspection.new(benchmark_params)
-      if benchmark.save
-        redirect_to benchmarks_index_path
+      @benchmark = CarInspection.new(benchmark_params)
+      if @benchmark.save
+        redirect_to edit_benchmark_path(benchmark_id:@benchmark.id)
       end
+    end
+  end
+
+  def edit
+    ActiveRecord::Base.transaction do
+      @benchmark = CarInspection.includes(:car).find(params["benchmark_id"])
+      @car_types = CarType.all
+      @answers = CarAnswer.where(car_inspection_id:params["benchmark_id"]).map{|answer| [answer.question_id,answer]}.to_h
+      @photos = InspectionPhoto.where(car_inspection_id:params["benchmark_id"]).map{|photo| [photo.question_id,photo]}.to_h
+      @comments = InspectionComment.where(car_inspection_id:params["benchmark_id"]).map{ |comment| [comment.question_category_id,comment]}.to_h
+      @questions = QuestionCategory.includes(:questions).order(order_category: :desc).to_a.map{ |category| [category,category.questions.order(order_question: :desc).to_a] }
+    end
+  end
+
+  def update
+    ActiveRecord::Base.transaction do
+      @benchmark = CarInspection.find(benchmark_params["id"]).update(benchmark_params)
     end
   end
 
@@ -60,6 +77,7 @@ class V1::BenchmarksController < ApplicationController
 
   def benchmark_params
     params.require(:car_inspection).permit(
+      :id,
       :car_expert_id,
       :owner,
       :kilometraje,
@@ -72,6 +90,7 @@ class V1::BenchmarksController < ApplicationController
       :photo_motor,
       :photo_inside,
       car_attributes:[
+        :id,
         :car_brand,
         :model,
         :year,
@@ -80,14 +99,17 @@ class V1::BenchmarksController < ApplicationController
         :car_type_id
       ],
       car_answers_attributes:[
+        :id,
         :question_id,
         :answer
       ],
       inspection_comments_attributes:[
+        :id,
         :question_category_id,
         :comment
       ],
       inspection_photos_attributes:[
+        :id,
         :question_id,
         :image
       ]

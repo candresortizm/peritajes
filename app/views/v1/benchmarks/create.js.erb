@@ -1,0 +1,9 @@
+var car_inspection_id_fields = document.querySelectorAll("#car_inspection_id");
+Array.from(car_inspection_id_fields).forEach(function(e,i,a){
+    e.value=<%=@benchmark.id%>;
+});
+var nav_tabs = document.querySelectorAll(".nav-tabs .nav-link.disabled");
+Array.from(nav_tabs).forEach(function(e,i,a){
+    e.classList.remove('disabled');
+});
+document.querySelector(".tab-pane.active .btnNext").click();

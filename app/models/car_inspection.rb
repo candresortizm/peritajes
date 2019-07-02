@@ -17,4 +17,8 @@ class CarInspection < ApplicationRecord
   mount_uploader :photo_motor, ImageUploader
   mount_uploader :photo_inside, ImageUploader
 
+  def self.statuses
+    [CREATED,CANCELLED,COMPLETED]
+  end
+
 end

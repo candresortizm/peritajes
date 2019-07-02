@@ -8,13 +8,13 @@
     </li>
     <%@questions.each do |category|%>
       <li class="nav-item">
-        <a class="nav-link disabled" href="#<%=I18n.transliterate(category[0].name.downcase.gsub(" ","_"))%>" data-toggle="tab">
+        <a class="nav-link" href="#<%=I18n.transliterate(category[0].name.downcase.gsub(" ","_"))%>" data-toggle="tab">
           <%=category[0].name%>
         </a>
       </li>
     <%end%>
     <li class="nav-item">
-      <a class="nav-link disabled" href="#photos" data-toggle="tab">
+      <a class="nav-link" href="#photos" data-toggle="tab">
         Fotos
       </a>
     </li>
@@ -62,8 +62,11 @@
         <%= f.hidden_field :id, value: @benchmark.id %>
         <%question_category[1].each_with_index do |question,index|%>
           <span><%=question.text_query%></span><br>
-          <%= f.fields_for :car_answers do |car_answer| %>
+          <%= f.fields_for :car_answers, @benchmark.car_answers.build do |car_answer| %>
             <%= car_answer.hidden_field :question_id, value: question.id %>
+            <%if !@answers[question.id].nil?%>
+                <%= car_answer.hidden_field :id, value: @answers[question.id].id%>
+            <%end%>
             <div class="radio_button">
             <%case question.question_type%>
             <%when "range"%>
@@ -133,7 +136,12 @@
               <div class="upload carthumb photoshoot__upload">
                 <%= inspection_photo.hidden_field :question_id, value: question.id %>
                 <%= inspection_photo.file_field(:image, accept: 'image/png,image/gif,image/jpeg') %>
-                <img class="img-thumbnail center-block" alt="your image" target="_blank" src="#" style="display: none;">
+                <%if @photos[question.id].nil?%>
+                    <img class="img-thumbnail center-block" alt="your image" target="_blank" src="#" style="display: none;">
+                <%else%>
+                    <%= inspection_photo.hidden_field :id, value: @photos[question.id].id%>
+                    <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@photos[question.id].image.url%>">
+                <%end%>
               </div>
             <%end%>
             <br>
@@ -142,8 +150,13 @@
         <br><br>
         <%= f.fields_for :inspection_comments, @benchmark.inspection_comments.build do |inspection_comment| %>
           <label> Comentarios para <%= question_category[0].name %> </label>
-          <%= inspection_comment.hidden_field :question_category_id, value: question_category[0].id %>
-          <%= inspection_comment.text_area :comment, rows: '6' %>
+            <%= inspection_comment.hidden_field :question_category_id, value: question_category[0].id %>
+          <%if @comments[question_category[0].id].nil?%>
+            <%= inspection_comment.text_area :comment, value: @comments[question_category[0].id], rows: '6' %>
+          <%else%>
+            <%= inspection_comment.hidden_field :id, value: @comments[question_category[0].id].id%>
+            <%= inspection_comment.text_area :comment, value: @comments[question_category[0].id].comment, rows: '6' %>
+          <%end%>
         <%end%>
         <%= submit_tag("Continuar") %>
         <a class="btn btn-primary btnNext" stye="display:none;">Next</a>

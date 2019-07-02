@@ -9,12 +9,14 @@ Rails.application.routes.draw do
   scope module: 'v1' do
     scope :benchmarks, controller: :benchmarks do
       get :new, as: 'new_benchmark'
+      get :edit, as: 'edit_benchmark'
       get :validation, as: 'validation_benchmark'
       get :index, as: 'benchmarks_index'
       get 'show/:benchmark_id',to: 'benchmarks#show', as:'show_benchmark'
       post :search, as: 'benchmarks_search'
       get :search, to: 'benchmarks#init'
       post :create, as: 'create_benchmark'
+      put :update, as: 'update_benchmark'
     end
     scope :brands, controller: :brands do
       get :index, as: 'brands_index'
