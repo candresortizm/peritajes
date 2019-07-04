@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
   create_table "car_documents", force: :cascade do |t|
     t.bigint "document_type_id", null: false
     t.bigint "car_process_id", null: false
-    t.string "document", null: false
+    t.string "file", null: false
     t.string "state", null: false
     t.string "comment"
     t.datetime "created_at", null: false
