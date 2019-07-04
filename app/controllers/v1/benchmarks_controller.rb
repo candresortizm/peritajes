@@ -56,7 +56,14 @@ class V1::BenchmarksController < ApplicationController
 
   def update
     ActiveRecord::Base.transaction do
-      @benchmark = CarInspection.find(benchmark_params["id"]).update(benchmark_params)
+      @benchmark = CarInspection.find(benchmark_params["id"])
+      benchmark_params["state"] = @benchmark.next_step
+      @benchmark.update(benchmark_params)
+      if @benchmark.state.eql?("COMPLETED")
+        redirect_to benchmarks_index_path
+      else
+        redirect_to edit_benchmark_path(benchmark_id: @benchmark.id)
+      end
     end
   end
 
@@ -76,7 +83,7 @@ class V1::BenchmarksController < ApplicationController
   private
 
   def benchmark_params
-    params.require(:car_inspection).permit(
+    @benchmark_params ||= params.require(:car_inspection).permit(
       :id,
       :car_expert_id,
       :owner,

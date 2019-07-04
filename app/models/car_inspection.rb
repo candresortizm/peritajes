@@ -17,8 +17,14 @@ class CarInspection < ApplicationRecord
   mount_uploader :photo_motor, ImageUploader
   mount_uploader :photo_inside, ImageUploader
 
-  def self.statuses
-    [CREATED,CANCELLED,COMPLETED]
+  def next_step
+    new_state = nil
+    if self.state.eql?("TAB_7")
+      new_state = "COMPLETED"
+    else
+      new_state = "TAB_#{self.state.split("_").last.to_i+1}"
+    end
+    new_state
   end
 
 end

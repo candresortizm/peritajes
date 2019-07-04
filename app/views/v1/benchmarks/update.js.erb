@@ -1,1 +1,1 @@
-document.querySelector(".tab-pane.active .btnNext").click();
+$('.nav-tabs a.active').parent().next('li').find('a').trigger('click');

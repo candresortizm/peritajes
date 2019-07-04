@@ -17,7 +17,7 @@ class CarAnswer < ApplicationRecord
   #
   #     end
   # end
-  
+
   # def set_weighted
   #   case self.question.question_type
   #   when "range"

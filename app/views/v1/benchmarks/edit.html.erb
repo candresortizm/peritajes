@@ -1,19 +1,19 @@
 <h1>Nuevo peritaje</h1>
 
 <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a class="nav-link active" href="#general_info" data-toggle="tab">
+    <li class="nav-item" data-number="1">
+      <a class="nav-link" href="#general_info" data-toggle="tab">
         Información del peritaje
       </a>
     </li>
-    <%@questions.each do |category|%>
-      <li class="nav-item">
+    <%@questions.each_with_index do |category,index|%>
+      <li class="nav-item" data-number="<%=index+2%>">
         <a class="nav-link" href="#<%=I18n.transliterate(category[0].name.downcase.gsub(" ","_"))%>" data-toggle="tab">
           <%=category[0].name%>
         </a>
       </li>
     <%end%>
-    <li class="nav-item">
+    <li class="nav-item" data-number="8">
       <a class="nav-link" href="#photos" data-toggle="tab">
         Fotos
       </a>
@@ -21,7 +21,7 @@
 </ul>
 
 <article class="tab-content">
-  <div class="tab-pane active" id="general_info">
+  <div class="tab-pane" data-number="1" id="general_info">
     <%= form_for @benchmark,
         url:create_benchmark_path, method: :post,
         id: "benchmark_form",
@@ -49,11 +49,10 @@
         <%= car.text_field :plate, disabled: !@benchmark.car.id.nil?, required: true, class:"plate_input" %><br>
       <%end%>
       <%= submit_tag("Continuar") %>
-      <a class="btn btn-primary btnNext" style="display:none;">Next</a>
     <%end%>
   </div>
-  <%@questions.each do |question_category|%>
-    <div class="tab-pane" id="<%=I18n.transliterate(question_category[0].name.downcase.gsub(" ","_"))%>">
+  <%@questions.each_with_index do |question_category,index|%>
+    <div class="tab-pane" data-number="<%=index+2 %>" id="<%=I18n.transliterate(question_category[0].name.downcase.gsub(" ","_"))%>">
       <h3><%=question_category[0].name%></h3>
       <%= form_for @benchmark,
         url:update_benchmark_path, method: :put,
@@ -65,7 +64,7 @@
           <%= f.fields_for :car_answers, !@answers[question.id].nil? ? @answers[question.id] : @benchmark.car_answers.build do |car_answer| %>
             <%= car_answer.hidden_field :question_id, value: question.id %>
             <%if !@answers[question.id].nil?%>
-                <%= car_answer.hidden_field :id, value: @answers[question.id].id%>
+              <%= car_answer.hidden_field :id, value: @answers[question.id].id%>
             <%end%>
             <div class="radio_button">
             <%case question.question_type%>
@@ -137,7 +136,7 @@
                 <%= inspection_photo.hidden_field :question_id, value: question.id %>
                 <%= inspection_photo.file_field(:image, accept: 'image/png,image/gif,image/jpeg') %>
                 <%if @photos[question.id].nil?%>
-                    <img class="img-thumbnail center-block" alt="your image" target="_blank" src="#" style="display: none;">
+                    <img class="img-thumbnail center-block" alt="your image" target="_blank" src="" style="display: none;">
                 <%else%>
                     <%= inspection_photo.hidden_field :id, value: @photos[question.id].id%>
                     <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@photos[question.id].image.url%>">
@@ -159,12 +158,10 @@
           <%end%>
         <%end%>
         <%= submit_tag("Continuar") %>
-        <a class="btn btn-primary btnNext" stye="display:none;">Next</a>
-        <a class="btn btn-primary btnPrevious" stye="display:none;">Previous</a>
       <%end%>
     </div>
   <%end%>
-  <div class="tab-pane" id="photos">
+  <div class="tab-pane" id="photos" data-number="8">
     <%= form_for @benchmark,
         url:update_benchmark_path, method: :put,
         id: "benchmark_form",
@@ -174,7 +171,7 @@
         <label> Foto frontal </label>
         <%= f.file_field(:photo_front, accept: 'image/png,image/gif,image/jpeg') %>
         <%if !@benchmark.photo_front.present?%>
-          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="#" style="display: none;">
+          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="" style="display: none;">
         <%else%>
           <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@benchmark.photo_front.url%>">
         <%end%>
@@ -183,7 +180,7 @@
         <label> Foto lado derecho </label>
         <%= f.file_field(:photo_right, accept: 'image/png,image/gif,image/jpeg') %>
         <%if !@benchmark.photo_right.present?%>
-          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="#" style="display: none;">
+          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="" style="display: none;">
         <%else%>
           <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@benchmark.photo_right.url%>">
         <%end%>
@@ -192,7 +189,7 @@
         <label> Foto atras </label>
         <%= f.file_field(:photo_back, accept: 'image/png,image/gif,image/jpeg') %>
         <%if !@benchmark.photo_back.present?%>
-          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="#" style="display: none;">
+          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="" style="display: none;">
         <%else%>
           <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@benchmark.photo_back.url%>">
         <%end%>
@@ -201,7 +198,7 @@
         <label> Foto lado izquierdo </label>
         <%= f.file_field(:photo_left, accept: 'image/png,image/gif,image/jpeg') %>
         <%if !@benchmark.photo_left.present?%>
-          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="#" style="display: none;">
+          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="" style="display: none;">
         <%else%>
           <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@benchmark.photo_left.url%>">
         <%end%>
@@ -210,7 +207,7 @@
         <label> Foto motor </label>
         <%= f.file_field(:photo_motor, accept: 'image/png,image/gif,image/jpeg') %>
         <%if !@benchmark.photo_motor.present?%>
-          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="#" style="display: none;">
+          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="" style="display: none;">
         <%else%>
           <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@benchmark.photo_motor.url%>">
         <%end%>
@@ -219,14 +216,12 @@
         <label> Foto interior </label>
         <%= f.file_field(:photo_inside, accept: 'image/png,image/gif,image/jpeg') %>
         <%if !@benchmark.photo_inside.present?%>
-          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="#" style="display: none;">
+          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="" style="display: none;">
         <%else%>
           <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@benchmark.photo_inside.url%>">
         <%end%>
       </div>
-      <a class="btn btn-primary btnPrevious">Previous</a>
       <%= submit_tag("Continuar") %>
-      <a class="btn btn-primary btnNext" style="display:none;">Next</a>
     <% end %>
   </div>
 </article>
@@ -249,14 +244,16 @@
         reader.readAsDataURL(input.files[0]);
     }
   }
-
-  $('.btnNext').click(function(){
-    $('.nav-tabs a.active').parent().next('li').find('a').trigger('click');
-  });
-
-  $('.btnPrevious').click(function(){
-    $('.nav-tabs a.active').parent().prev('li').find('a').trigger('click');
-  });
+  var current_tab=<%= @benchmark.state.split("_").last.to_i+1%>;
+  for (var i = 0; i < document.querySelectorAll(".nav-tabs .nav-item .nav-link").length; i++) {
+    var temp_number=i+1;
+    if(temp_number==current_tab){
+      document.querySelector(".nav-tabs .nav-item[data-number='"+temp_number+"'] .nav-link").classList.add("active");
+      document.querySelector(".tab-content .tab-pane[data-number='"+temp_number+"']").classList.add("active");
+    }else if(temp_number>current_tab){
+      document.querySelector(".nav-tabs .nav-item[data-number='"+temp_number+"'] .nav-link").classList.add("disabled");
+    }
+  }
 
   // Everytime the [input:file] change do
   $(":file").change(function(){

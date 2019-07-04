@@ -18,7 +18,7 @@
 
  // Custom bootstrap variables must be set or imported *before* bootstrap.
  @import "bootstrap";
- 
+
 .wrapper{
   margin: 5%;
 }
@@ -52,6 +52,34 @@ input[type="submit"]{
 
 h1, h2, h3 {
   font-family: Arial,"Helvetica Neue",Helvetica,sans-serif;
+}
+
+label{
+  margin: 0px;
+}
+.group_form{
+  margin: 5px 0px;
+  display: flex;
+  max-width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+  input{
+    margin-left: 15px;
+  }
+  label{
+    text-align: right;
+  }
+}
+
+.center_form{
+  h1,h2{
+    text-align: center;
+  }
+  display: flex;
+  justify-content: center;
+  input[type=submit]{
+    width: 100%;
+  }
 }
 
 table {

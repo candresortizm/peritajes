@@ -12,7 +12,7 @@ class CreateCarInspections < ActiveRecord::Migration[5.2]
       t.string :photo_left
       t.string :photo_motor
       t.string :photo_inside
-      t.string :state, null: false, default: "CREATED"
+      t.string :state, null: false, default: "TAB_1"
 
       t.timestamps
     end
