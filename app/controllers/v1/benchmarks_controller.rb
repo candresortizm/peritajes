@@ -36,6 +36,7 @@ class V1::BenchmarksController < ApplicationController
 
   def create
     ActiveRecord::Base.transaction do
+      benchmark_params["state"]="TAB_1"
       @benchmark = CarInspection.new(benchmark_params)
       if @benchmark.save
         redirect_to edit_benchmark_path(benchmark_id:@benchmark.id)
