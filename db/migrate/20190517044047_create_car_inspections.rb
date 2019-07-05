@@ -2,7 +2,7 @@ class CreateCarInspections < ActiveRecord::Migration[5.2]
   def change
     create_table :car_inspections do |t|
       t.references :car, null: false, foreign_key: true
-      t.integer :car_expert_id, index:true, foreign_key: true
+      t.references :car_expert, index: true, foreign_key: {to_table: :users}
       t.string :owner, null:false
       t.decimal :kilometraje, null:false
       t.string :color, null:false

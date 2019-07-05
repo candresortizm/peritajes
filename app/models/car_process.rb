@@ -1,4 +1,6 @@
 class CarProcess < ApplicationRecord
+  validates :state, presence: true
+  validates :process_type, presence: true
   belongs_to :car
   belongs_to :dispatcher
   has_many :car_documents

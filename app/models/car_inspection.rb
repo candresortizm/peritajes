@@ -1,4 +1,9 @@
 class CarInspection < ApplicationRecord
+  validates :kilometrage, presence: true
+  validates :color, presence: true
+  validates :state, presence: true
+  validates :owner, presence: true
+
   belongs_to :car_expert
   belongs_to :car
   has_many :car_answers

@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
   create_table "car_documents", force: :cascade do |t|
     t.bigint "document_type_id", null: false
     t.bigint "car_process_id", null: false
-    t.string "file", null: false
+    t.string "document", null: false
     t.string "state", null: false
     t.string "comment"
     t.datetime "created_at", null: false
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
 
   create_table "car_inspections", force: :cascade do |t|
     t.bigint "car_id", null: false
-    t.integer "car_expert_id"
+    t.bigint "car_expert_id"
     t.string "owner", null: false
     t.decimal "kilometraje", null: false
     t.string "color", null: false
@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
   end
 
   create_table "car_processes", force: :cascade do |t|
-    t.integer "dispatcher_id"
+    t.bigint "dispatcher_id"
     t.bigint "car_id", null: false
     t.string "state", null: false
     t.string "process_type", default: "sell", null: false
@@ -166,7 +166,9 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
   add_foreign_key "car_documents", "car_processes"
   add_foreign_key "car_documents", "document_types"
   add_foreign_key "car_inspections", "cars"
+  add_foreign_key "car_inspections", "users", column: "car_expert_id"
   add_foreign_key "car_processes", "cars"
+  add_foreign_key "car_processes", "users", column: "dispatcher_id"
   add_foreign_key "cars", "car_types"
   add_foreign_key "inspection_comments", "car_inspections"
   add_foreign_key "inspection_comments", "question_categories"
