@@ -3,15 +3,21 @@
 class Users::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
 
+  def after_sign_in_path_for(resource)
+    root_path
+  end
+
   # GET /resource/sign_in
   # def new
   #   super
   # end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+  def create
+    rtn = super
+    sign_in(resource.type.underscore, resource.type.constantize.send(:find, resource.id)) unless resource.type.nil?
+    rtn
+  end
 
   # DELETE /resource/sign_out
   # def destroy

@@ -1,5 +1,5 @@
 class CarInspection < ApplicationRecord
-  validates :kilometrage, presence: true
+  validates :kilometraje, presence: true
   validates :color, presence: true
   validates :state, presence: true
   validates :owner, presence: true

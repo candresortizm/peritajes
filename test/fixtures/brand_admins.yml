@@ -4,20 +4,8 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-concesionariox:
-  address: "Calle Falsa 123"
-  name: "Concesionario X"
-  nit: "123456789"
-
-concesionarioy:
-  address: "Calle 12 # 34 - 56"
-  name: "Concesionario Y"
-  nit: "123456788"
-
-concesionarioz:
-  address: "Av la esperanza 154"
-  name: "Concesionario Z"
-  nit: "123456777"
-#
+# one: {}
+# # column: value
+# #
 # two: {}
 # column: value

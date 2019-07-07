@@ -19,9 +19,10 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
     t.string "name", null: false
     t.string "address"
     t.string "telephone"
-    t.string "nit"
+    t.string "nit", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["nit"], name: "index_brands_on_nit"
   end
 
   create_table "car_answers", force: :cascade do |t|

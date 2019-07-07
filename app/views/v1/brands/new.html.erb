@@ -19,7 +19,6 @@
       <%= f.text_field :nit, required: true %>
     </div>
     <%= f.fields_for :brand_admins, @brand.brand_admins.build do |brand_admin| %>
-    <%= brand_admin.hidden_field :type, value: "BrandAdmin" %>
     <div class="group_form">
       <%= brand_admin.label :admin_email %><br>
       <%= brand_admin.email_field :email, autofocus: true, autocomplete: "email", required: true %>

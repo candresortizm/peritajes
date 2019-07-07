@@ -4,8 +4,26 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-# one: {}
-# # column: value
+super:
+  email: "super@admin.com"
+  type: "SuperUser"
+
+admin:
+  email: "admin@concesionariox.com"
+  type: "BrandAdmin"
+  brand: concesionariox
+
+perito:
+  email: "perito@concesionariox.com"
+  type: "CarExpert"
+  brand: concesionariox
+
+tramitador:
+  email: "dispatcher@concesionariox.com"
+  type: "Dispatcher"
+  brand: concesionariox
+
+# column: value
 # #
 # two: {}
 # column: value

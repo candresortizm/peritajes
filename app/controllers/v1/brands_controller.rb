@@ -2,40 +2,100 @@ class V1::BrandsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @all = Brand.all
+    begin
+      ActiveRecord::Base.transaction do
+        if current_user.type.eql?("SuperUser")
+          @all = Brand.all
+        else
+          flash[:warning] = "No está autorizado"
+          redirect_to root_path
+        end
+      end
+    rescue
+      raise
+    end
   end
 
   def new
-    @brand = Brand.new
+    begin
+      ActiveRecord::Base.transaction do
+        if current_user.type.eql?("SuperUser")
+          @brand ||= Brand.new
+        else
+          flash[:warning] = "No está autorizado"
+          redirect_to root_path
+        end
+      end
+    rescue
+      raise
+    end
   end
 
   def create
-    Brand.new(brand_params).save!
-    redirect_to brands_index_path
+    begin
+      ActiveRecord::Base.transaction do
+        if current_user.type.eql?("SuperUser")
+          @brand = Brand.new(brand_params)
+          @brand.save!
+          redirect_to brands_index_path
+        else
+          flash[:warning] = "No está autorizado"
+          redirect_to root_path
+        end
+      end
+    rescue Exception => exc
+      flash[:danger] = exc.message
+      redirect_to new_brand_path
+    end
   end
 
   def admin_home
-    brand_users = User.where(brand_id:current_user.brand_id,type:["CarExpert","Dispatcher"]).to_a
-    @car_experts = brand_users.select{|user| user.type=='CarExpert'}
-    @dispatchers = brand_users.select{|user| user.type=='Dispatcher'}
-    @inspections = CarInspection.where(car_expert_id: @car_experts.map(&:id) )
+    begin
+      ActiveRecord::Base.transaction do
+        if current_user.type.eql?("BrandAdmin")
+          brand_users = User.where(brand_id:current_user.brand_id,type:["CarExpert","Dispatcher"]).to_a
+          @car_experts = brand_users.select{|user| user.type=='CarExpert'}
+          @dispatchers = brand_users.select{|user| user.type=='Dispatcher'}
+          @inspections = CarInspection.where(car_expert_id: @car_experts.map(&:id) )
+        else
+          flash[:warning] = "No está autorizado"
+          redirect_to root_path
+        end
+      end
+    rescue
+      raise
+    end
   end
 
   def new_user
-    @user = User.new(type:params[:type])
+    begin
+      ActiveRecord::Base.transaction do
+        if current_user.type.eql?("BrandAdmin")
+          @user = User.new(type:params[:type])
+        else
+          flash[:warning] = "No está autorizado"
+          redirect_to root_path
+        end
+      end
+    rescue
+      raise
+    end
   end
 
   def create_user
-    user = User.new(brand_user_params).save!
-    redirect_to brand_admin_home_path
-  end
-
-  def update
-    @all = CarInspection.all
-  end
-
-  def edit
-    @all = CarInspection.all
+    begin
+      ActiveRecord::Base.transaction do
+        if current_user.type.eql?("BrandAdmin")
+          user = User.new(brand_user_params).save!
+          redirect_to brand_admin_home_path
+        else
+          flash[:warning] = "No está autorizado"
+          redirect_to root_path
+        end
+      end
+    rescue
+      raise
+    end
   end
 
   private

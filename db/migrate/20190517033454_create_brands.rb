@@ -4,7 +4,7 @@ class CreateBrands < ActiveRecord::Migration[5.2]
       t.string :name, null: false
       t.string :address
       t.string :telephone
-      t.string :nit
+      t.string :nit, null: false, index: true, unique: true
 
       t.timestamps
     end

@@ -244,6 +244,7 @@
         reader.readAsDataURL(input.files[0]);
     }
   }
+
   var current_tab=<%= @benchmark.state.split("_").last.to_i+1%>;
   for (var i = 0; i < document.querySelectorAll(".nav-tabs .nav-item .nav-link").length; i++) {
     var temp_number=i+1;
