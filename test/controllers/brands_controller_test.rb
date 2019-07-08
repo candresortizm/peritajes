@@ -24,17 +24,19 @@ class BrandsControllerTest < ActionDispatch::IntegrationTest
 
   test "Creación de un concesionario exitosamente" do
     sign_in users(:super)
-    post create_brand_url(
-            brand:{
-              name:"Consesionario nuevo",
-              address:"Carrera 68 No. 45 -05",
-              telephone:"4567899",
-              nit:"778984564",
-              brand_admins_attributes:[
-                {
-                  email: "admin@nuevoconcesionario.com",
-                  password:"password",
-                  password_confirmation: "password"}]})
+    assert_difference "Brand.count" do
+      post create_brand_url(
+        brand:{
+          name:"Consesionario nuevo",
+          address:"Carrera 68 No. 45 -05",
+          telephone:"4567899",
+          nit:"778984564",
+          brand_admins_attributes:[
+            {
+              email: "admin@nuevoconcesionario.com",
+              password:"password",
+              password_confirmation: "password"}]})
+    end
     assert_redirected_to brands_index_path
   end
 

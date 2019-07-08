@@ -7,22 +7,25 @@
 super:
   email: "super@admin.com"
   type: "SuperUser"
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
 
 admin:
   email: "admin@concesionariox.com"
   type: "BrandAdmin"
   brand: concesionariox
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
 
 perito:
   email: "perito@concesionariox.com"
   type: "CarExpert"
   brand: concesionariox
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
 
 tramitador:
   email: "dispatcher@concesionariox.com"
   type: "Dispatcher"
   brand: concesionariox
-
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
 # column: value
 # #
 # two: {}

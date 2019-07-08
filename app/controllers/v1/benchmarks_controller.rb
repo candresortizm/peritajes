@@ -92,7 +92,6 @@ class V1::BenchmarksController < ApplicationController
       ActiveRecord::Base.transaction do
         @benchmark = CarInspection.find(benchmark_params["id"])
         benchmark_params["state"] = @benchmark.next_step
-        binding.pry
         @benchmark.update(benchmark_params)
         if @benchmark.state.eql?("COMPLETED")
           redirect_to benchmarks_index_path
