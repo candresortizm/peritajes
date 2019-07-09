@@ -7,12 +7,12 @@ class BrandsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to new_user_session_path
   end
 
-  test "Validación del método de crear empresa sin nit" do
+  test "Validación del método de crear concesionario sin nit" do
     sign_in users(:super)
     post create_brand_url(
             brand:{
-              name:"Empresa",
-              address:"asdsada",
+              name:"Concesionario Nuevo",
+              address:"Calle 124",
               telephone:"4567899",
               brand_admins_attributes:[
                 {

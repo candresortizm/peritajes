@@ -6,7 +6,6 @@ class BenchmarksTest < ApplicationSystemTestCase
     assert_selector "h2", text: "Iniciar sesión"
     fill_in "Correo electrónico", with: users(:perito).email
     fill_in "Contraseña", with: 'password'
-    # page.execute_script("$('.actions input').click()")
     click_button 'Iniciar sesión'
     assert_selector '.index_benchmarks h1', text:"Peritajes"
     click_link 'Nuevo peritaje'
@@ -60,7 +59,7 @@ class BenchmarksTest < ApplicationSystemTestCase
     attach_file('car_inspection_photo_motor', Rails.root + 'test/resources/Motor.png')
     attach_file('car_inspection_photo_inside', Rails.root + 'test/resources/Interior.png')
     click_button 'Continuar'
+    # assert_selector '.index_benchmarks h1', text:"Peritajes"
     assert_text('Persona Dueña')
-    # binding.pry
   end
 end
