@@ -5,7 +5,6 @@
     id: "car_process_form",
     :html => {class: 'new_car_process'} do |f|%>
   <%= f.hidden_field :dispatcher_id, value: current_user.id %>
-  <%= f.hidden_field :state, value: 'open' %>
   <%= f.hidden_field :process_type, value: params[:process_type] %>
   <%= f.hidden_field :car_id, value: @car_process.car.id %>
   <br>
@@ -16,11 +15,11 @@
     <%= car.label(:color, "Color") %>
     <%= car.text_field :color, disabled: !@car_process.car.id.nil?, required: true %><br>
     <%= car.label(:car_brand, "Marca") %>
-    <%= car.select :car_brand_id, options_from_collection_for_select(@car_brands, "id", "name",selected: @car_inspection.car.car_brand_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_inspection.car.id.nil?} %></br>
+    <%= car.select :car_brand_id, options_from_collection_for_select(@car_brands, "id", "name",selected: @car_process.car.car_brand_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_process.car.id.nil?} %></br>
     <%= car.label(:model, "Modelo") %>
     <%= car.text_field :model, disabled: !@car_process.car.id.nil?, required: true %><br>
     <%= car.label(:year, "Año") %>
-    <%= car.number_field :year, {disabled: !@car_inspection.car.id.nil?, required: true, min:1950, max:Time.zone.now.year+1} %><br>
+    <%= car.number_field :year, {disabled: !@car_process.car.id.nil?, required: true, min:1950, max:Time.zone.now.year+1} %><br>
     <%= car.label(:year, "VIN") %>
     <%= car.text_field :vin, disabled: !@car_process.car.id.nil?, required: true %><br>
     <%= car.label(:year, "Placa") %>
@@ -39,5 +38,6 @@
       <%= car_document.text_area :comment, rows: '6' %><br>
     <%end%>
   <%end%>
+  <%= f.select :state, options_for_select(@process_states),{}, {required:true} %></br>
   <%= submit_tag("Finalizar") %>
 <% end %>

@@ -10,6 +10,22 @@
   <%= f.text_field :owner, disabled: true %><br>
   <%= f.label(:kilometraje, "Kilometraje") %>
   <%= f.text_field :kilometraje, disabled: true %><br>
+  <%= f.fields_for :car do |car|%>
+    <%= car.label(:color, "Color") %>
+    <%= car.text_field :color, disabled: true %><br>
+    <%= car.label(:car_type, "Tipo de carro") %>
+    <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name", selected: @car_inspection.car.car_type_id.to_s),{}, {:disabled=> true} %></br>
+    <%= car.label(:car_brand, "Marca") %>
+    <%= car.select :car_brand_id, options_from_collection_for_select(@car_brands, "id", "name",selected: @car_inspection.car.car_brand_id),{}, {disabled:true} %></br>
+    <%= car.label(:model, "Modelo") %>
+    <%= car.text_field :model, disabled: true %><br>
+    <%= car.label(:year, "Año") %>
+    <%= car.text_field :year, disabled: true %><br>
+    <%= car.label(:year, "VIN") %>
+    <%= car.text_field :vin, disabled: true %><br>
+    <%= car.label(:year, "Placa") %>
+    <%= car.text_field :plate, disabled: true, class:"plate_input" %><br>
+  <%end%>
   <div class="upload carthumb photoshoot__upload">
     <label> Foto frontal </label>
     <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_front.url%>">
@@ -36,22 +52,6 @@
   </div>
   <br>
   <br>
-  <%= f.fields_for :car do |car|%>
-    <%= car.label(:color, "Color") %>
-    <%= car.text_field :color, disabled: true %><br>
-    <%= car.label(:car_type, "Tipo de carro") %>
-    <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name", selected: @car_inspection.car.car_type_id.to_s),{}, {:disabled=> true} %></br>
-    <%= car.label(:car_brand, "Marca") %>
-    <%= car.select :car_brand_id, options_from_collection_for_select(@car_brands, "id", "name",selected: @car_inspection.car.car_brand_id),{}, {disabled:true} %></br>
-    <%= car.label(:model, "Modelo") %>
-    <%= car.text_field :model, disabled: true %><br>
-    <%= car.label(:year, "Año") %>
-    <%= car.text_field :year, disabled: true %><br>
-    <%= car.label(:year, "VIN") %>
-    <%= car.text_field :vin, disabled: true %><br>
-    <%= car.label(:year, "Placa") %>
-    <%= car.text_field :plate, disabled: true, class:"plate_input" %><br>
-  <%end%>
   <br>
   <br>
   <%all_car = 0%>

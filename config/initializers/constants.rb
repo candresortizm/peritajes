@@ -11,3 +11,9 @@ DOCUMENTATION_TYPES= [
   ["Venta","sell"],
   ["Compra","buy"]
 ]
+
+DOCUMENTATION_PROCCESS_STATES= [
+  ["Abierto", "open"],
+  ["Completado", "completed"],
+  ["Cancelado", "cancelled"],
+]

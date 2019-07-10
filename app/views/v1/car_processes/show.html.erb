@@ -7,14 +7,13 @@
   <%= f.hidden_field :dispatcher_id, value: current_user.id %>
   <%= f.hidden_field :id, value: @car_process.id %>
   <%= f.hidden_field :car_id, value: @car_process.car.id %>
-  <%= f.hidden_field :state, value: 'open' %>
   <br>
   <br>
   <%= f.fields_for :car_attributes, @car_process.car do |car|%>
     <%= car.label(:car_type, "Tipo de carro") %>
     <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name",selected: @car_process.car.car_type_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_process.car.id.nil?} %></br>
     <%= car.label(:car_brand, "Marca") %>
-    <%= car.select :car_brand_id, options_from_collection_for_select(@car_brands, "id", "name",selected: @car_inspection.car.car_brand_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_inspection.car.id.nil?} %></br>
+    <%= car.select :car_brand_id, options_from_collection_for_select(@car_brands, "id", "name",selected: @car_process.car.car_brand_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_process.car.id.nil?} %></br>
     <%= car.label(:model, "Modelo") %>
     <%= car.text_field :model, disabled: !@car_process.car.id.nil?, required: true %><br>
     <%= car.label(:year, "Año") %>
@@ -44,5 +43,7 @@
       <%= car_document.text_area :comment, value: @documents[doc_type.id].nil? ? '' : @documents[doc_type.id].comment, rows: '6' %><br>
     <%end%>
   <%end%>
+  <%= f.label(:state, "Estado del proceso de documentación") %>
+  <%= f.select :state, options_for_select(@process_states,selected:@car_process.state),{include_blank: "Seleccione"}, {required:true, disabled:!@car_process.state.eql?("open")} %></br>
   <%= submit_tag("Finalizar") %>
 <% end %>

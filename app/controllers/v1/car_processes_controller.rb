@@ -27,6 +27,7 @@ class V1::CarProcessesController < ApplicationController
             redirect_to show_process_path(process_id:exist_process.id)
           end
         end
+        @process_states = DOCUMENTATION_PROCCESS_STATES
         @car_process = CarProcess.new(process_type: params[:process_type])
         @car_process.car = !car.nil? ? car : Car.new(plate:params[:plate])
         @car_types = CarType.all
@@ -56,6 +57,7 @@ class V1::CarProcessesController < ApplicationController
       ActiveRecord::Base.transaction do
         @car_process = CarProcess.includes(:car).find(params[:car_process_id])
         @car_types = CarType.all
+        @process_states = DOCUMENTATION_PROCCESS_STATES
         @car_brands = CarBrand.all
         @doc_types = DocumentType.where(process_type: @car_process.process_type)
         @documents = CarDocument.where(car_process_id:params[:car_process_id]).map{|document| [document.document_type_id,document]}.to_h
@@ -68,7 +70,7 @@ class V1::CarProcessesController < ApplicationController
   def update
     begin
       ActiveRecord::Base.transaction do
-        CarProcess.update(car_process_params)
+        CarProcess.find(car_process_params["id"]).update(car_process_params)
         redirect_to car_processes_index_path
       end
     rescue
@@ -91,7 +93,7 @@ class V1::CarProcessesController < ApplicationController
       :car_id,
       car_attributes:[
         :color,
-        :car_brand,
+        :car_brand_id,
         :model,
         :year,
         :vin,
