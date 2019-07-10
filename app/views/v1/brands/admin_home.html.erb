@@ -9,7 +9,7 @@
   </thead>
   <tbody>
     <%@inspections.each do |element|%>
-      <tr onclick="location.href='<%= show_benchmark_path(element) %>'">
+      <tr onclick="location.href='<%= show_car_inspection_path(element) %>'">
         <td><%=element.created_at%></td>
         <td><%=element.owner%></td>
         <td><%=element.car_expert.email%></td>

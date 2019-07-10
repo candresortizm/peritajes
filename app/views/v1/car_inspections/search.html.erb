@@ -1,4 +1,4 @@
-<section class="index_benchmarks">
+<section class="index_car_inspections">
   <h1>Resultados de la búsqueda</h1>
   <table>
     <thead>
@@ -10,7 +10,7 @@
     </thead>
     <tbody>
       <%@all_results.each do |element|%>
-        <tr onclick="location.href='<%= show_benchmark_path(element) %>'">
+        <tr onclick="location.href='<%= show_car_inspection_path(element) %>'">
           <td><%=element.created_at%></td>
           <td><%=element.car_expert.email%></td>
           <td><%=element.car_expert.brand.name%></td>

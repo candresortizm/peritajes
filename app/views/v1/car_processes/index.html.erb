@@ -1,4 +1,4 @@
-<section class="index_processes">
+<section class="index_car_processes">
   <h1>Procesos</h1>
   <table>
     <thead>
@@ -10,7 +10,7 @@
     </thead>
     <tbody>
       <%@all.each do |element|%>
-        <tr onclick="location.href='<%= show_process_path(element) %>'">
+        <tr onclick="location.href='<%= show_car_process_path(element) %>'">
           <td><%=element.created_at%></td>
           <td><%=element.process_type.eql?("sell") ? 'Venta' : 'Compra'%></td>
           <td><%=element.car.plate%></td>
@@ -20,5 +20,5 @@
   </table>
 </section>
 <%if current_user.type.eql?("Dispatcher")%>
-  <%= link_to('Nuevo proceso', validation_process_path, method: :get) %>
+  <%= link_to('Nuevo proceso', validation_car_process_path, method: :get) %>
 <%end%>

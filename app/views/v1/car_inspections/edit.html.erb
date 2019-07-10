@@ -22,31 +22,31 @@
 
 <article class="tab-content">
   <div class="tab-pane" data-number="1" id="general_info">
-    <%= form_for @benchmark,
-        url:create_benchmark_path, method: :post,
-        id: "benchmark_form",
-        :html => {class: 'new_benchmark'}, data:{remote: true}, multipart: true do |f|%>
+    <%= form_for @car_inspection,
+        url:create_car_inspection_path, method: :post,
+        id: "car_inspection_form",
+        :html => {class: 'new_car_inspection'}, data:{remote: true}, multipart: true do |f|%>
       <%= f.hidden_field :car_expert_id, value: current_user.id %>
-      <%= f.hidden_field :car_id, value: @benchmark.car.id %>
+      <%= f.hidden_field :car_id, value: @car_inspection.car.id %>
       <%= f.label(:owner, "Dueño") %>
       <%= f.text_field :owner, required: true %><br>
       <%= f.label(:kilometraje, "Kilometraje") %>
       <%= f.text_field :kilometraje, required: true %><br>
-      <%= f.label(:color, "Color") %>
-      <%= f.text_field :color, required: true %><br>
-      <%= f.fields_for :car_attributes, @benchmark.car do |car|%>
+      <%= f.fields_for :car_attributes, @car_inspection.car do |car|%>
+        <%= car.label(:color, "Color") %>
+        <%= car.text_field :color, required: true %><br>
         <%= car.label(:car_type, "Tipo de carro") %>
-        <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name",selected: @benchmark.car.car_type_id),{include_blank: "Seleccione"}, {required:true, disabled:!@benchmark.car.id.nil?} %></br>
+        <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name",selected: @car_inspection.car.car_type_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_inspection.car.id.nil?} %></br>
         <%= car.label(:car_brand, "Marca") %>
-        <%= car.text_field :car_brand, disabled: !@benchmark.car.id.nil?, required: true %><br>
+        <%= car.text_field :car_brand, disabled: !@car_inspection.car.id.nil?, required: true %><br>
         <%= car.label(:model, "Modelo") %>
-        <%= car.text_field :model, disabled: !@benchmark.car.id.nil?, required: true %><br>
+        <%= car.text_field :model, disabled: !@car_inspection.car.id.nil?, required: true %><br>
         <%= car.label(:year, "Año") %>
-        <%= car.text_field :year, disabled: !@benchmark.car.id.nil?, required: true %><br>
+        <%= car.text_field :year, disabled: !@car_inspection.car.id.nil?, required: true %><br>
         <%= car.label(:year, "VIN") %>
-        <%= car.text_field :vin, disabled: !@benchmark.car.id.nil?, required: true %><br>
+        <%= car.text_field :vin, disabled: !@car_inspection.car.id.nil?, required: true %><br>
         <%= car.label(:year, "Placa") %>
-        <%= car.text_field :plate, disabled: !@benchmark.car.id.nil?, required: true, class:"plate_input" %><br>
+        <%= car.text_field :plate, disabled: !@car_inspection.car.id.nil?, required: true, class:"plate_input" %><br>
       <%end%>
       <%= submit_tag("Continuar") %>
     <%end%>
@@ -54,14 +54,14 @@
   <%@questions.each_with_index do |question_category,index|%>
     <div class="tab-pane" data-number="<%=index+2 %>" id="<%=I18n.transliterate(question_category[0].name.downcase.gsub(" ","_"))%>">
       <h3><%=question_category[0].name%></h3>
-      <%= form_for @benchmark,
-        url:update_benchmark_path, method: :put,
-        id: "benchmark_form",
-        :html => {class: 'new_benchmark'}, data:{remote: true}, multipart: true do |f|%>
-        <%= f.hidden_field :id, value: @benchmark.id %>
+      <%= form_for @car_inspection,
+        url:update_car_inspection_path, method: :put,
+        id: "car_inspection_form",
+        :html => {class: 'new_car_inspection'}, data:{remote: true}, multipart: true do |f|%>
+        <%= f.hidden_field :id, value: @car_inspection.id %>
         <%question_category[1].each_with_index do |question,index|%>
           <span><%=question.text_query%></span><br>
-          <%= f.fields_for :car_answers, !@answers[question.id].nil? ? @answers[question.id] : @benchmark.car_answers.build do |car_answer| %>
+          <%= f.fields_for :car_answers, !@answers[question.id].nil? ? @answers[question.id] : @car_inspection.car_answers.build do |car_answer| %>
             <%= car_answer.hidden_field :question_id, value: question.id %>
             <%if !@answers[question.id].nil?%>
               <%= car_answer.hidden_field :id, value: @answers[question.id].id%>
@@ -131,7 +131,7 @@
               <label><%=question.question_type%></label>
             <%end%>
             </div>
-            <%= f.fields_for :inspection_photos, @benchmark.inspection_photos.build do |inspection_photo| %>
+            <%= f.fields_for :inspection_photos, @car_inspection.inspection_photos.build do |inspection_photo| %>
               <div class="upload carthumb photoshoot__upload">
                 <%= inspection_photo.hidden_field :question_id, value: question.id %>
                 <%= inspection_photo.file_field(:image, accept: 'image/png,image/gif,image/jpeg') %>
@@ -147,7 +147,7 @@
           <%end%>
         <%end%>
         <br><br>
-        <%= f.fields_for :inspection_comments, @benchmark.inspection_comments.build do |inspection_comment| %>
+        <%= f.fields_for :inspection_comments, @car_inspection.inspection_comments.build do |inspection_comment| %>
           <label> Comentarios para <%= question_category[0].name %> </label>
             <%= inspection_comment.hidden_field :question_category_id, value: question_category[0].id %>
           <%if @comments[question_category[0].id].nil?%>
@@ -162,63 +162,63 @@
     </div>
   <%end%>
   <div class="tab-pane" id="photos" data-number="8">
-    <%= form_for @benchmark,
-        url:update_benchmark_path, method: :put,
-        id: "benchmark_form",
-        :html => {class: 'new_benchmark'}, data:{remote: true}, multipart: true do |f|%>
-      <%= f.hidden_field :id, value: @benchmark.id %>
+    <%= form_for @car_inspection,
+        url:update_car_inspection_path, method: :put,
+        id: "car_inspection_form",
+        :html => {class: 'new_car_inspection'}, data:{remote: true}, multipart: true do |f|%>
+      <%= f.hidden_field :id, value: @car_inspection.id %>
       <div class="upload carthumb photoshoot__upload">
         <label> Foto frontal </label>
         <%= f.file_field(:photo_front, accept: 'image/png,image/gif,image/jpeg') %>
-        <%if !@benchmark.photo_front.present?%>
+        <%if !@car_inspection.photo_front.present?%>
           <img class="img-thumbnail center-block" alt="your image" target="_blank" src="" style="display: none;">
         <%else%>
-          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@benchmark.photo_front.url%>">
+          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_front.url%>">
         <%end%>
       </div>
       <div class="upload carthumb photoshoot__upload">
         <label> Foto lado derecho </label>
         <%= f.file_field(:photo_right, accept: 'image/png,image/gif,image/jpeg') %>
-        <%if !@benchmark.photo_right.present?%>
+        <%if !@car_inspection.photo_right.present?%>
           <img class="img-thumbnail center-block" alt="your image" target="_blank" src="" style="display: none;">
         <%else%>
-          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@benchmark.photo_right.url%>">
+          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_right.url%>">
         <%end%>
       </div>
       <div class="upload carthumb photoshoot__upload">
         <label> Foto atras </label>
         <%= f.file_field(:photo_back, accept: 'image/png,image/gif,image/jpeg') %>
-        <%if !@benchmark.photo_back.present?%>
+        <%if !@car_inspection.photo_back.present?%>
           <img class="img-thumbnail center-block" alt="your image" target="_blank" src="" style="display: none;">
         <%else%>
-          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@benchmark.photo_back.url%>">
+          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_back.url%>">
         <%end%>
       </div>
       <div class="upload carthumb photoshoot__upload">
         <label> Foto lado izquierdo </label>
         <%= f.file_field(:photo_left, accept: 'image/png,image/gif,image/jpeg') %>
-        <%if !@benchmark.photo_left.present?%>
+        <%if !@car_inspection.photo_left.present?%>
           <img class="img-thumbnail center-block" alt="your image" target="_blank" src="" style="display: none;">
         <%else%>
-          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@benchmark.photo_left.url%>">
+          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_left.url%>">
         <%end%>
       </div>
       <div class="upload carthumb photoshoot__upload">
         <label> Foto motor </label>
         <%= f.file_field(:photo_motor, accept: 'image/png,image/gif,image/jpeg') %>
-        <%if !@benchmark.photo_motor.present?%>
+        <%if !@car_inspection.photo_motor.present?%>
           <img class="img-thumbnail center-block" alt="your image" target="_blank" src="" style="display: none;">
         <%else%>
-          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@benchmark.photo_motor.url%>">
+          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_motor.url%>">
         <%end%>
       </div>
       <div class="upload carthumb photoshoot__upload">
         <label> Foto interior </label>
         <%= f.file_field(:photo_inside, accept: 'image/png,image/gif,image/jpeg') %>
-        <%if !@benchmark.photo_inside.present?%>
+        <%if !@car_inspection.photo_inside.present?%>
           <img class="img-thumbnail center-block" alt="your image" target="_blank" src="" style="display: none;">
         <%else%>
-          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@benchmark.photo_inside.url%>">
+          <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_inside.url%>">
         <%end%>
       </div>
       <%= submit_tag("Continuar") %>
@@ -245,7 +245,7 @@
     }
   }
 
-  var current_tab=<%= @benchmark.state.split("_").last.to_i+1%>;
+  var current_tab=<%= @car_inspection.state.split("_").last.to_i+1%>;
   for (var i = 0; i < document.querySelectorAll(".nav-tabs .nav-item .nav-link").length; i++) {
     var temp_number=i+1;
     if(temp_number==current_tab){

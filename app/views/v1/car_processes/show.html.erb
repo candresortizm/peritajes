@@ -1,33 +1,33 @@
 <h1>Vista proceso de documentación</h1>
 
-<%= form_for @process,
-    url:update_process_path, method: :patch,
+<%= form_for @car_process,
+    url:update_car_process_path, method: :patch,
     id: "process_form",
     :html => {class: 'new_process'}, multipart: true do |f|%>
   <%= f.hidden_field :dispatcher_id, value: current_user.id %>
-  <%= f.hidden_field :id, value: @process.id %>
-  <%= f.hidden_field :car_id, value: @process.car.id %>
+  <%= f.hidden_field :id, value: @car_process.id %>
+  <%= f.hidden_field :car_id, value: @car_process.car.id %>
   <%= f.hidden_field :state, value: 'open' %>
   <br>
   <br>
-  <%= f.fields_for :car_attributes, @process.car do |car|%>
+  <%= f.fields_for :car_attributes, @car_process.car do |car|%>
     <%= car.label(:car_type, "Tipo de carro") %>
-    <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name",selected: @process.car.car_type_id),{include_blank: "Seleccione"}, {required:true, disabled:!@process.car.id.nil?} %></br>
+    <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name",selected: @car_process.car.car_type_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_process.car.id.nil?} %></br>
     <%= car.label(:car_brand, "Marca") %>
-    <%= car.text_field :car_brand, disabled: !@process.car.id.nil?, required: true %><br>
+    <%= car.text_field :car_brand, disabled: !@car_process.car.id.nil?, required: true %><br>
     <%= car.label(:model, "Modelo") %>
-    <%= car.text_field :model, disabled: !@process.car.id.nil?, required: true %><br>
+    <%= car.text_field :model, disabled: !@car_process.car.id.nil?, required: true %><br>
     <%= car.label(:year, "Año") %>
-    <%= car.text_field :year, disabled: !@process.car.id.nil?, required: true %><br>
+    <%= car.text_field :year, disabled: !@car_process.car.id.nil?, required: true %><br>
     <%= car.label(:year, "VIN") %>
-    <%= car.text_field :vin, disabled: !@process.car.id.nil?, required: true %><br>
+    <%= car.text_field :vin, disabled: !@car_process.car.id.nil?, required: true %><br>
     <%= car.label(:year, "Placa") %>
-    <%= car.text_field :plate, disabled: !@process.car.id.nil?, required: true, class:"plate_input" %><br>
+    <%= car.text_field :plate, disabled: !@car_process.car.id.nil?, required: true, class:"plate_input" %><br>
   <%end%>
   <br>
   <br>
   <%@doc_types.each do |doc_type|%>
-    <%= f.fields_for :car_documents, @process.car_documents.build do |car_document| %>
+    <%= f.fields_for :car_documents, @car_process.car_documents.build do |car_document| %>
       <%= car_document.hidden_field :document_type_id, value: doc_type.id %>
       <%= car_document.hidden_field :state, value: 'open' %>
       <h3><%= doc_type.name %></h3>

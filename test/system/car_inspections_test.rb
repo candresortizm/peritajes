@@ -1,20 +1,20 @@
 require "application_system_test_case"
 
-class BenchmarksTest < ApplicationSystemTestCase
+class CarInspectionsTest < ApplicationSystemTestCase
   test "Creación de un peritaje por parte de un perito" do
     visit new_user_session_path
     assert_selector "h2", text: "Iniciar sesión"
     fill_in "Correo electrónico", with: users(:perito).email
     fill_in "Contraseña", with: 'password'
     click_button 'Iniciar sesión'
-    assert_selector '.index_benchmarks h1', text:"Peritajes"
+    assert_selector '.index_car_inspections h1', text:"Peritajes"
     click_link 'Nuevo peritaje'
     fill_in "plate", with:"VBN654"
     click_button 'Buscar'
     assert_selector '.wrapper h1', text:"Nuevo peritaje"
     fill_in "car_inspection_owner", with:"Persona Dueña"
     fill_in "car_inspection_kilometraje", with:"15400"
-    fill_in "car_inspection_color", with:"Negro ebony"
+    fill_in "car_inspection_car_attributes_color", with:"Negro ebony"
     page.execute_script("$('#car_inspection_car_attributes_car_type_id').val(2)")
     fill_in "car_inspection_car_attributes_car_brand", with:"Chevrolet"
     fill_in "car_inspection_car_attributes_model", with:"Aveo"
@@ -59,7 +59,7 @@ class BenchmarksTest < ApplicationSystemTestCase
     attach_file('car_inspection_photo_motor', Rails.root + 'test/resources/Motor.png')
     attach_file('car_inspection_photo_inside', Rails.root + 'test/resources/Interior.png')
     click_button 'Continuar'
-    # assert_selector '.index_benchmarks h1', text:"Peritajes"
     assert_text('Persona Dueña')
+    binding.pry
   end
 end

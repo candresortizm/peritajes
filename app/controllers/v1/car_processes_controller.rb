@@ -1,4 +1,4 @@
-class V1::ProcessesController < ApplicationController
+class V1::CarProcessesController < ApplicationController
   before_action :authenticate_user!
   before_action :authenticate_dispatcher!, only: [:new,:create,:update,:edit]
 
@@ -22,13 +22,13 @@ class V1::ProcessesController < ApplicationController
         params[:plate]=params[:plate].upcase
         car = Car.find_by(plate:params[:plate])
         if !car.nil?
-          exist_process = CarProcess.find_by(car_id: car.id,process_type: params[:process_type], dispatcher_id: current_user.id)
-          if !exist_process.nil?
+          exist_car_process = CarProcess.find_by(car_id: car.id,process_type: params[:process_type], dispatcher_id: current_user.id)
+          if !exist_car_process.nil?
             redirect_to show_process_path(process_id:exist_process.id)
           end
         end
-        @process = CarProcess.new(process_type: params[:process_type])
-        @process.car = !car.nil? ? car : Car.new(plate:params[:plate])
+        @car_process = CarProcess.new(process_type: params[:process_type])
+        @car_process.car = !car.nil? ? car : Car.new(plate:params[:plate])
         @car_types = CarType.all
         @doc_types = DocumentType.where(process_type:params[:process_type]).to_a
       end
@@ -40,9 +40,9 @@ class V1::ProcessesController < ApplicationController
   def create
     begin
       ActiveRecord::Base.transaction do
-        process = CarProcess.new(process_params)
-        if process.save
-          redirect_to processes_index_path
+        car_process = CarProcess.new(car_process_params)
+        if car_process.save
+          redirect_to car_processes_index_path
         end
       end
     rescue
@@ -53,10 +53,10 @@ class V1::ProcessesController < ApplicationController
   def show
     begin
       ActiveRecord::Base.transaction do
-        @process = CarProcess.includes(:car).find(params[:process_id])
+        @car_process = CarProcess.includes(:car).find(params[:car_process_id])
         @car_types = CarType.all
-        @doc_types = DocumentType.where(process_type: @process.process_type)
-        @documents = CarDocument.where(car_process_id:params[:process_id]).map{|document| [document.document_type_id,document]}.to_h
+        @doc_types = DocumentType.where(process_type: @car_process.process_type)
+        @documents = CarDocument.where(car_process_id:params[:car_process_id]).map{|document| [document.document_type_id,document]}.to_h
       end
     rescue
       raise
@@ -66,8 +66,8 @@ class V1::ProcessesController < ApplicationController
   def update
     begin
       ActiveRecord::Base.transaction do
-        CarProcess.update(process_params)
-        redirect_to processes_index_path
+        CarProcess.update(car_process_params)
+        redirect_to car_processes_index_path
       end
     rescue
       raise
@@ -80,7 +80,7 @@ class V1::ProcessesController < ApplicationController
 
   private
 
-  def process_params
+  def car_process_params
     params.require(:car_process).permit(
       :id,
       :dispatcher_id,
@@ -88,6 +88,7 @@ class V1::ProcessesController < ApplicationController
       :process_type,
       :car_id,
       car_attributes:[
+        :color,
         :car_brand,
         :model,
         :year,

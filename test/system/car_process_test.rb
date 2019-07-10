@@ -7,7 +7,7 @@ class CarProcessTest < ApplicationSystemTestCase
   #   fill_in "Correo electrónico", with: users(:tramitador).email
   #   fill_in "Contraseña", with: 'password'
   #   click_button 'Iniciar sesión'
-  #   assert_selector '.index_processes h1', text:"Procesos"
+  #   assert_selector '.index_car_processes h1', text:"Procesos"
   #   click_link 'Nuevo proceso'
   #   fill_in "plate", with:"VBN654"
   #   click_button 'Buscar'

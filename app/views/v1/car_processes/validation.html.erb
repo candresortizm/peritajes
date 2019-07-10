@@ -1,5 +1,5 @@
 <h1>Nuevo proceso de documentación</h1>
-<%= form_tag(new_process_path, method: "get") do %>
+<%= form_tag(new_car_process_path, method: "get") do %>
   <%= label_tag(:q, "Ingrese la placa del vehìculo:") %>
   <%= text_field_tag(:plate, nil,required: true, pattern: "[A-Z]{3}[0-9]{3}", class:"plate_input") %></br>
   <%= label_tag(:q, "Ingrese el proceso de documentación:") %>

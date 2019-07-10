@@ -9,9 +9,9 @@ class V1::OtherPagesController < ApplicationController
       when "BrandAdmin"    #compare to 2
         redirect_to brand_admin_home_path
       when "CarExpert"    #compare to 2
-        redirect_to benchmarks_index_path
+        redirect_to car_inspections_index_path
       when "Dispatcher"    #compare to 2
-        redirect_to processes_index_path
+        redirect_to car_processes_index_path
       else
         redirect_to search_path
       end

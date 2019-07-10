@@ -52,7 +52,6 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
     t.bigint "car_expert_id"
     t.string "owner", null: false
     t.decimal "kilometraje", null: false
-    t.string "color", null: false
     t.string "photo_front"
     t.string "photo_right"
     t.string "photo_back"
@@ -91,6 +90,7 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
     t.string "plate", null: false
     t.string "vin", null: false
     t.bigint "car_type_id", null: false
+    t.string "color", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["car_type_id"], name: "index_cars_on_car_type_id"

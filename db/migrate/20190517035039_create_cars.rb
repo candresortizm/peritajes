@@ -7,6 +7,7 @@ class CreateCars < ActiveRecord::Migration[5.2]
       t.string :plate, null:false, index: true, unique: true
       t.string :vin, null:false, index: true, unique: true
       t.references :car_type, null:false, index: true, foreign_key: true
+      t.string :color, null:false
 
       t.timestamps
     end

@@ -5,7 +5,6 @@ class CreateCarInspections < ActiveRecord::Migration[5.2]
       t.references :car_expert, index: true, foreign_key: {to_table: :users}
       t.string :owner, null:false
       t.decimal :kilometraje, null:false
-      t.string :color, null:false
       t.string :photo_front
       t.string :photo_right
       t.string :photo_back

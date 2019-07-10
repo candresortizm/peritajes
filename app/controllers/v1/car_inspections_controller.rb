@@ -1,4 +1,4 @@
-class V1::BenchmarksController < ApplicationController
+class V1::CarInspectionsController < ApplicationController
   before_action :authenticate_user!, except: [:search,:init,:show]
 
   before_action :authenticate_car_expert!, only: [:new,:create,:edit,:update]
@@ -48,8 +48,8 @@ class V1::BenchmarksController < ApplicationController
       ActiveRecord::Base.transaction do
         params[:plate]=params[:plate].upcase
         car = Car.find_by(plate:params[:plate])
-        @benchmark = CarInspection.new
-        @benchmark.car = !car.nil? ? car : Car.new(plate:params[:plate])
+        @car_inspection = CarInspection.new
+        @car_inspection.car = !car.nil? ? car : Car.new(plate:params[:plate])
         @car_types = CarType.all
         @questions = QuestionCategory.includes(:questions).order(order_category: :desc).to_a.map{ |category| [category,category.questions.order(order_question: :desc).to_a] }
       end
@@ -61,10 +61,10 @@ class V1::BenchmarksController < ApplicationController
   def create
     begin
       ActiveRecord::Base.transaction do
-        benchmark_params["state"]="TAB_1"
-        @benchmark = CarInspection.new(benchmark_params)
-        if @benchmark.save
-          redirect_to edit_benchmark_path(benchmark_id:@benchmark.id)
+        car_inspection_params["state"]="TAB_1"
+        @car_inspection = CarInspection.new(car_inspection_params)
+        if @car_inspection.save
+          redirect_to edit_car_inspection_path(car_inspection_id: @car_inspection.id)
         end
       end
     rescue
@@ -75,11 +75,11 @@ class V1::BenchmarksController < ApplicationController
   def edit
     begin
       ActiveRecord::Base.transaction do
-        @benchmark = CarInspection.includes(:car).find(params["benchmark_id"])
+        @car_inspection = CarInspection.includes(:car).find(params["car_inspection_id"])
         @car_types = CarType.all
-        @answers = CarAnswer.where(car_inspection_id:params["benchmark_id"]).map{|answer| [answer.question_id,answer]}.to_h
-        @photos = InspectionPhoto.where(car_inspection_id:params["benchmark_id"]).map{|photo| [photo.question_id,photo]}.to_h
-        @comments = InspectionComment.where(car_inspection_id:params["benchmark_id"]).map{ |comment| [comment.question_category_id,comment]}.to_h
+        @answers = CarAnswer.where(car_inspection_id:params["car_inspection_id"]).map{|answer| [answer.question_id,answer]}.to_h
+        @photos = InspectionPhoto.where(car_inspection_id:params["car_inspection_id"]).map{|photo| [photo.question_id,photo]}.to_h
+        @comments = InspectionComment.where(car_inspection_id:params["car_inspection_id"]).map{ |comment| [comment.question_category_id,comment]}.to_h
         @questions = QuestionCategory.includes(:questions).order(order_category: :desc).to_a.map{ |category| [category,category.questions.order(order_question: :desc).to_a] }
       end
     rescue
@@ -90,13 +90,13 @@ class V1::BenchmarksController < ApplicationController
   def update
     begin
       ActiveRecord::Base.transaction do
-        @benchmark = CarInspection.find(benchmark_params["id"])
-        benchmark_params["state"] = @benchmark.next_step
-        @benchmark.update(benchmark_params)
-        if @benchmark.state.eql?("COMPLETED")
-          redirect_to benchmarks_index_path
+        @car_inspection = CarInspection.find(car_inspection_params["id"])
+        car_inspection_params["state"] = @car_inspection.next_step
+        @car_inspection.update(car_inspection_params)
+        if @car_inspection.state.eql?("COMPLETED")
+          redirect_to car_inspections_index_path
         else
-          redirect_to edit_benchmark_path(benchmark_id: @benchmark.id)
+          redirect_to edit_car_inspection_path(car_inspection_id: @car_inspection.id)
         end
       end
     rescue
@@ -107,12 +107,12 @@ class V1::BenchmarksController < ApplicationController
   def show
     begin
       ActiveRecord::Base.transaction do
-        @benchmark = CarInspection.includes(:car).find(params[:benchmark_id])
+        @car_inspection = CarInspection.includes(:car).find(params[:car_inspection_id])
         @car_types = CarType.all
-        @inspection_photos = InspectionPhoto.where(car_inspection_id: params[:benchmark_id]).group_by{|photo| photo.question_id}
-        @comments = InspectionComment.where(car_inspection_id: params[:benchmark_id]).map{|element| [element.question_category_id,element]}.to_h
+        @inspection_photos = InspectionPhoto.where(car_inspection_id: params[:car_inspection_id]).group_by{|photo| photo.question_id}
+        @comments = InspectionComment.where(car_inspection_id: params[:car_inspection_id]).map{|element| [element.question_category_id,element]}.to_h
         @questions = CarAnswer.includes(question: :question_category).where(
-          car_inspection_id:params[:benchmark_id]).group_by{ |variable|
+          car_inspection_id:params[:car_inspection_id]).group_by{ |variable|
             (variable.question.question_category)
           }.map{ |category,answers|
             [category,answers.map{|answer| [answer.question,answer]}]
@@ -125,13 +125,12 @@ class V1::BenchmarksController < ApplicationController
 
   private
 
-  def benchmark_params
-    @benchmark_params ||= params.require(:car_inspection).permit(
+  def car_inspection_params
+    @car_inspection_params ||= params.require(:car_inspection).permit(
       :id,
       :car_expert_id,
       :owner,
       :kilometraje,
-      :color,
       :car_id,
       :photo_back,
       :photo_left,
@@ -141,6 +140,7 @@ class V1::BenchmarksController < ApplicationController
       :photo_inside,
       car_attributes:[
         :id,
+        :color,
         :car_brand,
         :model,
         :year,

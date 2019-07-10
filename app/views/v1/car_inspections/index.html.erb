@@ -1,4 +1,4 @@
-<section class="index_benchmarks">
+<section class="index_car_inspections">
   <h1>Peritajes</h1>
   <table>
     <thead>
@@ -10,7 +10,7 @@
     </thead>
     <tbody>
       <%@all.each do |element|%>
-        <tr onclick="location.href='<%= show_benchmark_path(element) %>'">
+        <tr onclick="location.href='<%= show_car_inspection_path(element) %>'">
           <td><%=element.created_at%></td>
           <td><%=element.owner%></td>
           <td><%=element.car_expert.brand.name%></td>
@@ -20,5 +20,5 @@
   </table>
 </section>
 <%if current_user.type.eql?("CarExpert")%>
-  <%= link_to('Nuevo peritaje', validation_benchmark_path, method: :get) %>
+  <%= link_to('Nuevo peritaje', validation_car_inspection_path, method: :get) %>
 <%end%>

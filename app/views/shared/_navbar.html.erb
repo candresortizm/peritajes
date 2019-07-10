@@ -11,12 +11,12 @@
           <%= link_to('Concesionarios', brands_index_path, method: :get,class:"nav-item nav-link") %>
           <%= link_to('Preguntas', index_questions_path, method: :get,class:"nav-item nav-link") %>
         <%when "BrandAdmin"%>
-          <%= link_to('Procesos', processes_index_path, method: :get,class:"nav-item nav-link") %>
-          <%= link_to('Peritajes', benchmarks_index_path, method: :get,class:"nav-item nav-link") %>
+          <%= link_to('Procesos', car_processes_index_path, method: :get,class:"nav-item nav-link") %>
+          <%= link_to('Peritajes', car_inspections_index_path, method: :get,class:"nav-item nav-link") %>
         <%when "CarExpert"%>
-          <%= link_to('Peritajes', benchmarks_index_path, method: :get,class:"nav-item nav-link") %>
+          <%= link_to('Peritajes', car_inspections_index_path, method: :get,class:"nav-item nav-link") %>
         <%when "Dispatcher"%>
-          <%= link_to('Procesos', processes_index_path, method: :get,class:"nav-item nav-link") %>
+          <%= link_to('Procesos', car_processes_index_path, method: :get,class:"nav-item nav-link") %>
         <%end%>
 
       <%end%>

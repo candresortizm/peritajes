@@ -1,5 +1,5 @@
 <h1>Nuevo peritaje</h1>
-<%= form_tag(new_benchmark_path, method: "get") do %>
+<%= form_tag(new_car_inspection_path, method: "get") do %>
   <%= label_tag(:plate, "Ingrese la placa del vehìculo:") %>
   <%= text_field_tag(:plate, nil,required: true, pattern: "[A-Z]{3}[0-9]{3}", class:"plate_input") %>
   <%= submit_tag("Buscar") %>
