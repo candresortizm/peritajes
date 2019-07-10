@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  devise_for :user, :super_users, :brand_admins, :car_experts, :dispatchers, controllers: {
+  devise_for :user, :super_users, :concessionaire_admins, :car_experts, :dispatchers, controllers: {
     sessions: 'users/sessions',
     registrations: 'users/registrations',
     passwords: 'users/passwords'
@@ -18,13 +18,13 @@ Rails.application.routes.draw do
       post :create, as: 'create_car_inspection'
       put :update, as: 'update_car_inspection'
     end
-    scope :brands, controller: :brands do
-      get :index, as: 'brands_index'
-      post :create, as: 'create_brand'
+    scope :concessionaires, controller: :concessionaires do
+      get :index, as: 'concessionaires_index'
+      post :create, as: 'create_concessionaire'
       post :create_user, as: 'create_user'
-      get :new, as: 'new_brand'
-      get :admin_home, as: 'brand_admin_home'
-      get :new_user, as: "new_brand_user"
+      get :new, as: 'new_concessionaire'
+      get :admin_home, as: 'concessionaire_admin_home'
+      get :new_user, as: "new_concessionaire_user"
     end
     scope :car_processes, controller: :car_processes do
       get :index, as: 'car_processes_index'

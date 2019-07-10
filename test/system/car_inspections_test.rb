@@ -4,7 +4,7 @@ class CarInspectionsTest < ApplicationSystemTestCase
   test "Creación de un peritaje por parte de un perito" do
     visit new_user_session_path
     assert_selector "h2", text: "Iniciar sesión"
-    fill_in "Correo electrónico", with: users(:perito).email
+    fill_in "Correo electrónico", with: "car_expert@concesionariox.com"
     fill_in "Contraseña", with: 'password'
     click_button 'Iniciar sesión'
     assert_selector '.index_car_inspections h1', text:"Peritajes"
@@ -15,8 +15,8 @@ class CarInspectionsTest < ApplicationSystemTestCase
     fill_in "car_inspection_owner", with:"Persona Dueña"
     fill_in "car_inspection_kilometraje", with:"15400"
     fill_in "car_inspection_car_attributes_color", with:"Negro ebony"
-    page.execute_script("$('#car_inspection_car_attributes_car_type_id').val(2)")
-    fill_in "car_inspection_car_attributes_car_brand", with:"Chevrolet"
+    find('#car_inspection_car_attributes_car_type_id').find(:xpath, 'option[2]').select_option
+    find('#car_inspection_car_attributes_car_brand_id').find(:xpath, 'option[2]').select_option
     fill_in "car_inspection_car_attributes_model", with:"Aveo"
     fill_in "car_inspection_car_attributes_year", with:"2016"
     fill_in "car_inspection_car_attributes_vin", with:"KJHSDLKJH654654"
@@ -60,6 +60,5 @@ class CarInspectionsTest < ApplicationSystemTestCase
     attach_file('car_inspection_photo_inside', Rails.root + 'test/resources/Interior.png')
     click_button 'Continuar'
     assert_text('Persona Dueña')
-    binding.pry
   end
 end

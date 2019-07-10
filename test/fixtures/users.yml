@@ -4,28 +4,28 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-super:
-  email: "super@admin.com"
-  type: "SuperUser"
-  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
-
-admin:
-  email: "admin@concesionariox.com"
-  type: "BrandAdmin"
-  brand: concesionariox
-  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
-
-perito:
-  email: "perito@concesionariox.com"
-  type: "CarExpert"
-  brand: concesionariox
-  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
-
-tramitador:
-  email: "dispatcher@concesionariox.com"
-  type: "Dispatcher"
-  brand: concesionariox
-  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+# super:
+#   email: "super@admin.com"
+#   type: "SuperUser"
+#   encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+#
+# admin:
+#   email: "admin@concesionariox.com"
+#   type: "BrandAdmin"
+#   brand: concesionariox
+#   encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+#
+# perito:
+#   email: "perito@concesionariox.com"
+#   type: "CarExpert"
+#   brand: concesionariox
+#   encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
+#
+# tramitador:
+#   email: "dispatcher@concesionariox.com"
+#   type: "Dispatcher"
+#   brand: concesionariox
+#   encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>
 # column: value
 # #
 # two: {}

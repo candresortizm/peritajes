@@ -1,12 +1,12 @@
 SuperUser.create(email: "super@admin.com", password: "password", password_confirmation: "password")
 
-Brand.create(name: "Consesionario X", address: "Av 76 # 32 -45", telephone: "7429249",nit: "123456456")
+Concessionaire.create(name: "Concesionario X", address: "Av 76 # 32 -45", telephone: "7429249",nit: "123456456")
 
-BrandAdmin.create(email: "admin@consesionariox.com", password: "password", password_confirmation: "password",brand_id:1)
+ConcessionaireAdmin.create(email: "admin@concesionariox.com", password: "password", password_confirmation: "password",concessionaire_id:1)
 
-CarExpert.create(email: "car_expert@consesionariox.com", password: "password", password_confirmation: "password",brand_id:1)
+CarExpert.create(email: "car_expert@concesionariox.com", password: "password", password_confirmation: "password",concessionaire_id:1)
 
-Dispatcher.create(email: "dispatcher@consesionariox.com", password: "password", password_confirmation: "password",brand_id:1)
+Dispatcher.create(email: "dispatcher@concesionariox.com", password: "password", password_confirmation: "password",concessionaire_id:1)
 
 QuestionCategory.create(name:"Motor",order_category: 1)
 QuestionCategory.create(name:"Interior",order_category: 2)
@@ -18,6 +18,34 @@ QuestionCategory.create(name:"Accesorios",order_category: 6)
 CarType.new(name:"SUV").save!
 CarType.new(name:"Hatchback").save!
 CarType.new(name:"Sedan").save!
+
+
+CarBrand.new(name:"Audi").save!
+CarBrand.new(name:"BMW").save!
+CarBrand.new(name:"Chevrolet").save!
+CarBrand.new(name:"Citroen").save!
+CarBrand.new(name:"Dodge").save!
+CarBrand.new(name:"Fiat").save!
+CarBrand.new(name:"Ford").save!
+CarBrand.new(name:"Honda").save!
+CarBrand.new(name:"Hyundai").save!
+CarBrand.new(name:"Jeep").save!
+CarBrand.new(name:"Kia").save!
+CarBrand.new(name:"Land Rover").save!
+CarBrand.new(name:"Mazda").save!
+CarBrand.new(name:"Mercedes Benz").save!
+CarBrand.new(name:"Mazda").save!
+CarBrand.new(name:"Mitsubishi").save!
+CarBrand.new(name:"Mini").save!
+CarBrand.new(name:"Nissan").save!
+CarBrand.new(name:"Peugeot").save!
+CarBrand.new(name:"Renault").save!
+CarBrand.new(name:"Skoda").save!
+CarBrand.new(name:"Ssangyong").save!
+CarBrand.new(name:"Subaru").save!
+CarBrand.new(name:"Susuki").save!
+CarBrand.new(name:"Volkswagen").save!
+CarBrand.new(name:"Volvo").save!
 
 Question.create([
   { key: "paint_cond", text_query: "Condición de la pintura", question_category_id: 3, question_type: "range",order_question: 1, points: 40 },

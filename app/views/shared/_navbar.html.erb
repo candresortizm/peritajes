@@ -8,9 +8,9 @@
       <%if !current_user.nil?%>
         <%case current_user.type%>
         <%when "SuperUser"%>
-          <%= link_to('Concesionarios', brands_index_path, method: :get,class:"nav-item nav-link") %>
+          <%= link_to('Concesionarios', concessionaires_index_path, method: :get,class:"nav-item nav-link") %>
           <%= link_to('Preguntas', index_questions_path, method: :get,class:"nav-item nav-link") %>
-        <%when "BrandAdmin"%>
+        <%when "ConcessionaireAdmin"%>
           <%= link_to('Procesos', car_processes_index_path, method: :get,class:"nav-item nav-link") %>
           <%= link_to('Peritajes', car_inspections_index_path, method: :get,class:"nav-item nav-link") %>
         <%when "CarExpert"%>

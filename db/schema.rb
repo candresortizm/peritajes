@@ -15,16 +15,6 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "brands", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "address"
-    t.string "telephone"
-    t.string "nit", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["nit"], name: "index_brands_on_nit"
-  end
-
   create_table "car_answers", force: :cascade do |t|
     t.bigint "car_inspection_id"
     t.bigint "question_id"
@@ -33,6 +23,12 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
     t.datetime "updated_at", null: false
     t.index ["car_inspection_id"], name: "index_car_answers_on_car_inspection_id"
     t.index ["question_id"], name: "index_car_answers_on_question_id"
+  end
+
+  create_table "car_brands", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "car_documents", force: :cascade do |t|
@@ -84,7 +80,7 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
   end
 
   create_table "cars", force: :cascade do |t|
-    t.string "car_brand", null: false
+    t.bigint "car_brand_id", null: false
     t.string "model", null: false
     t.integer "year", null: false
     t.string "plate", null: false
@@ -93,9 +89,20 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
     t.string "color", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["car_brand_id"], name: "index_cars_on_car_brand_id"
     t.index ["car_type_id"], name: "index_cars_on_car_type_id"
     t.index ["plate"], name: "index_cars_on_plate"
     t.index ["vin"], name: "index_cars_on_vin"
+  end
+
+  create_table "concessionaires", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "address"
+    t.string "telephone"
+    t.string "nit", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["nit"], name: "index_concessionaires_on_nit"
   end
 
   create_table "document_types", force: :cascade do |t|
@@ -156,8 +163,8 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "brand_id"
-    t.index ["brand_id"], name: "index_users_on_brand_id"
+    t.bigint "concessionaire_id"
+    t.index ["concessionaire_id"], name: "index_users_on_concessionaire_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -170,11 +177,12 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
   add_foreign_key "car_inspections", "users", column: "car_expert_id"
   add_foreign_key "car_processes", "cars"
   add_foreign_key "car_processes", "users", column: "dispatcher_id"
+  add_foreign_key "cars", "car_brands"
   add_foreign_key "cars", "car_types"
   add_foreign_key "inspection_comments", "car_inspections"
   add_foreign_key "inspection_comments", "question_categories"
   add_foreign_key "inspection_photos", "car_inspections"
   add_foreign_key "inspection_photos", "questions"
   add_foreign_key "questions", "question_categories"
-  add_foreign_key "users", "brands"
+  add_foreign_key "users", "concessionaires"
 end

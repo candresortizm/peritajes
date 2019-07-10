@@ -1,7 +1,7 @@
 <article class="center_form">
   <div>
     <h1>Nuevo concesionario</h1>
-    <%= form_for @brand, url: {action: "create"}, html: {class: "nifty_form"} do |f| %>
+    <%= form_for @concessionaire, url: {action: "create"}, html: {class: "nifty_form"} do |f| %>
     <div class="group_form">
       <%= f.label :name, 'Nombre' %><br>
       <%= f.text_field :name, required: true %>
@@ -18,21 +18,21 @@
       <%= f.label :nit, 'NIT' %><br>
       <%= f.text_field :nit, required: true %>
     </div>
-    <%= f.fields_for :brand_admins, @brand.brand_admins.build do |brand_admin| %>
+    <%= f.fields_for :concessionaire_admins, @concessionaire.concessionaire_admins.build do |concessionaire_admin| %>
     <div class="group_form">
-      <%= brand_admin.label :admin_email %><br>
-      <%= brand_admin.email_field :email, autofocus: true, autocomplete: "email", required: true %>
+      <%= concessionaire_admin.label :admin_email %><br>
+      <%= concessionaire_admin.email_field :email, autofocus: true, autocomplete: "email", required: true %>
     </div>
     <div class="group_form">
-      <%= brand_admin.label :admin_password %><br>
+      <%= concessionaire_admin.label :admin_password %><br>
       <% if @minimum_password_length %>
       <em>(<%= @minimum_password_length %> characters minimum)</em>
       <% end %>
-      <%= brand_admin.password_field :password, autocomplete: "new-password", required: true %>
+      <%= concessionaire_admin.password_field :password, autocomplete: "new-password", required: true %>
     </div>
     <div class="group_form">
-      <%= brand_admin.label :admin_password_confirmation %>
-      <%= brand_admin.password_field :password_confirmation, autocomplete: "new-password", required: true %>
+      <%= concessionaire_admin.label :admin_password_confirmation %>
+      <%= concessionaire_admin.password_field :password_confirmation, autocomplete: "new-password", required: true %>
     </div>
     <%end%>
     <%= f.submit "Crear" %>

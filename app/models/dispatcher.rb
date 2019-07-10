@@ -1,4 +1,4 @@
 class Dispatcher < User
-  belongs_to :brand
+  belongs_to :concessionaire
   has_many :car_processes
 end

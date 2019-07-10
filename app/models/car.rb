@@ -1,5 +1,4 @@
 class Car < ApplicationRecord
-  validates :car_brand, presence: true
   validates :model, presence: true
   validates :year, presence: true
   validates :plate, presence: true, uniqueness: true
@@ -7,6 +6,7 @@ class Car < ApplicationRecord
   validates :color, presence: true
 
   belongs_to :car_type
+  belongs_to :car_brand
   has_many :car_inspections
   has_many :car_processes
 end

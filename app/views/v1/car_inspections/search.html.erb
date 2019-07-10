@@ -13,7 +13,7 @@
         <tr onclick="location.href='<%= show_car_inspection_path(element) %>'">
           <td><%=element.created_at%></td>
           <td><%=element.car_expert.email%></td>
-          <td><%=element.car_expert.brand.name%></td>
+          <td><%=element.car_expert.concessionaire.name%></td>
         </tr>
       <%end%>
     </tbody>

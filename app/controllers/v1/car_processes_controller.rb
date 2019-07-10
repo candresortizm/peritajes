@@ -30,6 +30,7 @@ class V1::CarProcessesController < ApplicationController
         @car_process = CarProcess.new(process_type: params[:process_type])
         @car_process.car = !car.nil? ? car : Car.new(plate:params[:plate])
         @car_types = CarType.all
+        @car_brands = CarBrand.all
         @doc_types = DocumentType.where(process_type:params[:process_type]).to_a
       end
     rescue
@@ -55,6 +56,7 @@ class V1::CarProcessesController < ApplicationController
       ActiveRecord::Base.transaction do
         @car_process = CarProcess.includes(:car).find(params[:car_process_id])
         @car_types = CarType.all
+        @car_brands = CarBrand.all
         @doc_types = DocumentType.where(process_type: @car_process.process_type)
         @documents = CarDocument.where(car_process_id:params[:car_process_id]).map{|document| [document.document_type_id,document]}.to_h
       end

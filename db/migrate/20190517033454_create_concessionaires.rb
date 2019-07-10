@@ -1,6 +1,6 @@
-class CreateBrands < ActiveRecord::Migration[5.2]
+class CreateConcessionaires < ActiveRecord::Migration[5.2]
   def change
-    create_table :brands do |t|
+    create_table :concessionaires do |t|
       t.string :name, null: false
       t.string :address
       t.string :telephone
