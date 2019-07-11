@@ -1,6 +1,5 @@
 class V1::CarProcessesController < ApplicationController
   before_action :authenticate_user!
-  before_action :authenticate_dispatcher!, only: [:new,:create,:update,:edit]
 
   def index
     begin
@@ -58,9 +57,14 @@ class V1::CarProcessesController < ApplicationController
   def create
     begin
       ActiveRecord::Base.transaction do
-        car_process = CarProcess.new(car_process_params)
-        if car_process.save
-          redirect_to car_processes_index_path
+        if current_user.type.eql?("Dispatcher")
+          car_process = CarProcess.new(car_process_params)
+          if car_process.save
+            redirect_to car_processes_index_path
+          end
+        else
+          flash[:warning] = "No está autorizado"
+          redirect_to root_path
         end
       end
     rescue

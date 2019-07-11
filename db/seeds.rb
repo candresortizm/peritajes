@@ -2,11 +2,11 @@ SuperUser.create(email: "super@admin.com", password: "password", password_confir
 
 Concessionaire.create(name: "Concesionario X", address: "Av 76 # 32 -45", telephone: "7429249",nit: "123456456")
 
-ConcessionaireAdmin.create(email: "admin@concesionariox.com", password: "password", password_confirmation: "password",concessionaire_id:1)
+ConcessionaireAdmin.create(email: "admin@concesionariox.com", password: "password", password_confirmation: "password",concessionaire_id:Concessionaire.find_by(nit:"123456456").id)
 
-CarExpert.create(email: "car_expert@concesionariox.com", password: "password", password_confirmation: "password",concessionaire_id:1)
+CarExpert.create(email: "car_expert@concesionariox.com", password: "password", password_confirmation: "password",concessionaire_id:Concessionaire.find_by(nit:"123456456").id)
 
-Dispatcher.create(email: "dispatcher@concesionariox.com", password: "password", password_confirmation: "password",concessionaire_id:1)
+Dispatcher.create(email: "dispatcher@concesionariox.com", password: "password", password_confirmation: "password",concessionaire_id:Concessionaire.find_by(nit:"123456456").id)
 
 QuestionCategory.create(name:"Motor",order_category: 1)
 QuestionCategory.create(name:"Interior",order_category: 2)
@@ -46,6 +46,16 @@ CarBrand.new(name:"Subaru").save!
 CarBrand.new(name:"Susuki").save!
 CarBrand.new(name:"Volkswagen").save!
 CarBrand.new(name:"Volvo").save!
+
+Car.new(
+  car_brand_id: CarBrand.find_by(name:"Renault").id,
+  model: "Captiva",
+  year: "2015",
+  plate: "AGH456",
+  vin: "KJ32Y4234I234J",
+  car_type_id: CarType.find_by(name:"Sedan").id,
+  color: "Rojo"
+).save!
 
 Question.create([
   { key: "paint_cond", text_query: "Condición de la pintura", question_category_id: 3, question_type: "range",order_question: 1, points: 40 },
