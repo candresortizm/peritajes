@@ -1,0 +1,5 @@
+var current_tab = $(".tab-pane.active");
+current_tab.empty();
+current_tab.append("<%= j(render 'car_processes_table') %>");
+
+$(".nav-tabs .nav-link").toggleClass("active");

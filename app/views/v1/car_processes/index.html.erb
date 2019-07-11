@@ -1,24 +1,30 @@
-<section class="index_car_processes">
-  <h1>Procesos</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Fecha</th>
-        <th>Tipo de proceso</th>
-        <th>Placa</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%@all.each do |element|%>
-        <tr onclick="location.href='<%= show_car_process_path(element) %>'">
-          <td><%=element.created_at%></td>
-          <td><%=element.process_type.eql?("sell") ? 'Venta' : 'Compra'%></td>
-          <td><%=element.car.plate%></td>
-        </tr>
-      <%end%>
-    </tbody>
-  </table>
-</section>
+<h1>Procesos de documentación</h1>
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+      <%= link_to "Compra", car_processes_index_path(process_type: "buy"), remote: true, class:"nav-link active", data:{toggle:"tab"} %>
+    </li>
+    <li class="nav-item">
+      <%= link_to "Venta", car_processes_index_path(process_type: "sell"), remote: true, class:"nav-link", data:{toggle:"tab"} %>
+    </li>
+</ul>
+<article class="index_car_inspections tab-content">
+  <div class="tab-pane active" id="buy">
+    <%= render "car_processes_table" %>
+  </div>
+  <div class="tab-pane" id="sell">
+  </div>
+</article>
+
+
 <%if current_user.type.eql?("Dispatcher")%>
   <%= link_to('Nuevo proceso', validation_car_process_path, method: :get) %>
 <%end%>
+
+<script type="text/javascript">
+  //Función para prevenir hacer la petición nuevamente si la pestaña clickeada es la activa.
+  $(".nav-item").click(function(event) {
+    if ($(event.target).hasClass("active")) {
+      return false;
+    }
+  });
+</script>

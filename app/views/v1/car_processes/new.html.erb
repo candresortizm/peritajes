@@ -38,6 +38,6 @@
       <%= car_document.text_area :comment, rows: '6' %><br>
     <%end%>
   <%end%>
-  <%= f.select :state, options_for_select(@process_states),{}, {required:true} %></br>
+  <%= f.select :state, options_for_select(@process_states),{include_blank: "Seleccione"}, {required:true} %></br>
   <%= submit_tag("Finalizar") %>
 <% end %>

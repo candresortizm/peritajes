@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <tr>
+      <th>Fecha</th>
+      <th>Tipo de proceso</th>
+      <th>Placa</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%@all.each do |element|%>
+      <tr onclick="location.href='<%= show_car_process_path(element) %>'">
+        <td><%=element.created_at%></td>
+        <td><%=element.process_type.eql?("sell") ? 'Venta' : 'Compra'%></td>
+        <td><%=element.car.plate%></td>
+      </tr>
+    <%end%>
+  </tbody>
+</table>

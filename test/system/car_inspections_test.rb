@@ -60,5 +60,6 @@ class CarInspectionsTest < ApplicationSystemTestCase
     attach_file('car_inspection_photo_inside', Rails.root + 'test/resources/Interior.png')
     click_button 'Continuar'
     assert_text('Persona Dueña')
+    click_link "Cerrar sesión"
   end
 end

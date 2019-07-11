@@ -5,7 +5,16 @@ class V1::CarProcessesController < ApplicationController
   def index
     begin
       ActiveRecord::Base.transaction do
-        @all = CarProcess.all
+        process_type = params[:process_type].nil? ? "buy" : params[:process_type]
+        if current_dispatcher
+          @all = current_dispatcher.car_processes.includes(:car).where(process_type: process_type)
+        elsif current_concessionaire_admin
+          @all = CarProcess.includes(:car).where(process_type: process_type).where(dispatcher_id: Dispatcher.where(concessionaire_id:current_user.concessionaire_id).select(:id))
+        else
+          flash[:warning] = "No está autorizado"
+          redirect_to root_path
+        end
+        @process_type = process_type.eql?("buy") ? "Compra" : "Venta"
       end
     rescue
       raise
@@ -22,9 +31,14 @@ class V1::CarProcessesController < ApplicationController
         params[:plate]=params[:plate].upcase
         car = Car.find_by(plate:params[:plate])
         if !car.nil?
-          exist_car_process = CarProcess.find_by(car_id: car.id,process_type: params[:process_type], dispatcher_id: current_user.id)
+          exist_car_process = CarProcess.find_by(
+                                      car_id: car.id,
+                                      process_type: params[:process_type],
+                                      dispatcher_id: current_user.id,
+                                      state:"open"
+                                    )
           if !exist_car_process.nil?
-            redirect_to show_process_path(process_id:exist_process.id)
+            redirect_to show_car_process_path(car_process_id: exist_car_process.id)
           end
         end
         @process_states = DOCUMENTATION_PROCCESS_STATES
