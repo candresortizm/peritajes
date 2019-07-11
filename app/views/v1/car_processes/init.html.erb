@@ -1,6 +1,0 @@
-<h1>Búsqueda de procesos de documentación</h1>
-<%= form_tag(car_processes_search_path, method: "post") do %>
-  <%= label_tag(:q, "Ingrese la placa del vehìculo:") %>
-  <%= text_field_tag :plate, nil, placeholder: "ABC123", required: true, pattern: "[A-Z]{3}[0-9]{3}", class:"plate_input" %>
-  <%= submit_tag("Buscar") %>
-<% end %>

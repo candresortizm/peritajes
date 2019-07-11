@@ -94,10 +94,6 @@ class V1::CarProcessesController < ApplicationController
     end
   end
 
-  def edit
-    @all = CarProcess.all
-  end
-
   private
 
   def car_process_params

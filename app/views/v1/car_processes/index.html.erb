@@ -17,13 +17,13 @@
 </article>
 
 
-<%if current_user.type.eql?("Dispatcher")%>
+<%if current_dispatcher %>
   <%= link_to('Nuevo proceso', validation_car_process_path, method: :get) %>
 <%end%>
 
 <script type="text/javascript">
   //Función para prevenir hacer la petición nuevamente si la pestaña clickeada es la activa.
-  $(".nav-item").click(function(event) {
+  $(".wrapper li.nav-item").click(function(event) {
     if ($(event.target).hasClass("active")) {
       return false;
     }else{
@@ -52,7 +52,6 @@
         process_type: document.querySelector(".tab-pane.active").id
       },
       success: function(data, textStatus, jqXHR) {
-        console.log("Todo OK");
       }
     });
   });
