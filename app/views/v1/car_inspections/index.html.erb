@@ -1,24 +1,26 @@
-<section class="index_car_inspections">
-  <h1>Peritajes</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Fecha</th>
-        <th>Dueño</th>
-        <th>Concesionario</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%@all.each do |element|%>
-        <tr onclick="location.href='<%= show_car_inspection_path(element) %>'">
-          <td><%=element.created_at.localtime.strftime("%F %T")%></td>
-          <td><%=element.owner%></td>
-          <td><%=element.car_expert.concessionaire.name%></td>
-        </tr>
-      <%end%>
-    </tbody>
-  </table>
-</section>
+<h1>Peritajes</h1>
+<article class="index_car_inspections tab-content">
+  <%= select_tag :inspection_state, options_for_select(@inspection_states, selected:"open") %>
+  <div class="tab-pane active">
+    <%= render "car_inspections_table" %>
+  </div>
+</article>
+
 <%if current_user.type.eql?("CarExpert")%>
   <%= link_to('Nuevo peritaje', validation_car_inspection_path, method: :get) %>
 <%end%>
+
+<script type="text/javascript">
+  $("#inspection_state").change(function(event) {
+    $.ajax ({
+      url: "#",
+      type: 'GET',
+      dataType: 'script',
+      data: {
+        inspection_state: event.target.value,
+      },
+      success: function(data, textStatus, jqXHR) {
+      }
+    });
+  });
+</script>

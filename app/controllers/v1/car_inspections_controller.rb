@@ -7,10 +7,12 @@ class V1::CarInspectionsController < ApplicationController
   def index
     begin
       ActiveRecord::Base.transaction do
+        inspection_state = params["inspection_state"].nil? ? "open" : params["inspection_state"]
+        @inspection_states = INSPECTIONS_STATES
         if current_car_expert
-          @all = current_user.car_inspections
+          @all = current_user.car_inspections.where(state:inspection_state)
         elsif current_concessionaire_admin
-          @all = CarInspection.where(car_expert_id:CarExpert.where(concessionaire_id:current_user.concessionaire_id).select(:id))
+          @all = CarInspection.where(state:inspection_state, car_expert_id:CarExpert.where(concessionaire_id:current_user.concessionaire_id).select(:id))
         else
           flash[:warning] = "No está autorizado"
           redirect_to root_path
@@ -26,7 +28,11 @@ class V1::CarInspectionsController < ApplicationController
   def search
     begin
       ActiveRecord::Base.transaction do
-        @all_results=CarInspection.where(car_id:Car.where(plate:params[:plate]).select(:id))
+        if !current_user
+          @all_results=CarInspection.where(state:"completed",car_id:Car.where(plate:params[:plate]).select(:id))
+        else
+          @all_results=CarInspection.where(car_id:Car.where(plate:params[:plate]).select(:id))
+        end
         if @all_results.empty?
           flash[:warning] = "No se han encontrado peritajes para la placa #{params[:plate]}"
           redirect_to root_path
@@ -93,9 +99,9 @@ class V1::CarInspectionsController < ApplicationController
     begin
       ActiveRecord::Base.transaction do
         @car_inspection = CarInspection.find(car_inspection_params["id"])
-        car_inspection_params["completed_tabs"] = @car_inspection.completed_tabs << car_inspection_params["completed_tabs"]
-        if car_inspection_params["completed_tabs"].size == 8
-          car_inspection_params["state"] = "completed"
+        unless @car_inspection.completed_tabs.include?(car_inspection_params["completed_tabs"])
+          car_inspection_params["completed_tabs"] = @car_inspection.completed_tabs << car_inspection_params["completed_tabs"]
+          car_inspection_params["state"] = "completed" if car_inspection_params["completed_tabs"].size == 8
         end
         @car_inspection.update(car_inspection_params)
         if @car_inspection.state.eql?("completed")

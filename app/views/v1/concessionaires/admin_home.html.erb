@@ -1,22 +1,3 @@
-<h1>Peritajes</h1>
-<table>
-  <thead>
-    <tr>
-      <th>Fecha</th>
-      <th>Dueño</th>
-      <th>Perito</th>
-    </tr>
-  </thead>
-  <tbody>
-    <%@inspections.each do |element|%>
-      <tr onclick="location.href='<%= show_car_inspection_path(element) %>'">
-        <td><%=element.created_at%></td>
-        <td><%=element.owner%></td>
-        <td><%=element.car_expert.email%></td>
-      </tr>
-    <%end%>
-  </tbody>
-</table>
 <h1>Peritos</h1>
 <table>
   <thead>

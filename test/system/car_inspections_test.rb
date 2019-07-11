@@ -7,7 +7,7 @@ class CarInspectionsTest < ApplicationSystemTestCase
     fill_in "Correo electrónico", with: "car_expert@concesionariox.com"
     fill_in "Contraseña", with: 'password'
     click_button 'Iniciar sesión'
-    assert_selector '.index_car_inspections h1', text:"Peritajes"
+    assert_selector '.wrapper h1', text:"Peritajes"
     click_link 'Nuevo peritaje'
     fill_in "plate", with:"VBN654"
     click_button 'Buscar'
@@ -59,7 +59,8 @@ class CarInspectionsTest < ApplicationSystemTestCase
     attach_file('car_inspection_photo_motor', Rails.root + 'test/resources/Motor.png')
     attach_file('car_inspection_photo_inside', Rails.root + 'test/resources/Interior.png')
     click_button 'Continuar'
-    assert_text('Persona Dueña')
+    find('#inspection_state').find(:xpath, 'option[2]').select_option
+    assert_text('VBN654')
     click_link "Cerrar sesión"
   end
 end

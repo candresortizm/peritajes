@@ -17,3 +17,8 @@ DOCUMENTATION_PROCCESS_STATES= [
   ["Completado", "completed"],
   ["Cancelado", "cancelled"],
 ]
+
+INSPECTIONS_STATES= [
+  ["Iniciado", "open"],
+  ["Completado", "completed"]
+]
