@@ -11,7 +11,8 @@ class CreateCarInspections < ActiveRecord::Migration[5.2]
       t.string :photo_left
       t.string :photo_motor
       t.string :photo_inside
-      t.string :state, null: false, default: "TAB_1"
+      t.integer :completed_tabs, array: true, default: []
+      t.string :state, null: false, default: "open"
 
       t.timestamps
     end

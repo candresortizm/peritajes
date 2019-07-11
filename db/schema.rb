@@ -54,7 +54,8 @@ ActiveRecord::Schema.define(version: 2019_06_04_041905) do
     t.string "photo_left"
     t.string "photo_motor"
     t.string "photo_inside"
-    t.string "state", default: "TAB_1", null: false
+    t.integer "completed_tabs", default: [], array: true
+    t.string "state", default: "open", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["car_expert_id"], name: "index_car_inspections_on_car_expert_id"

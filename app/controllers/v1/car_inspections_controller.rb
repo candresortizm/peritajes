@@ -62,8 +62,8 @@ class V1::CarInspectionsController < ApplicationController
   def create
     begin
       ActiveRecord::Base.transaction do
-        car_inspection_params["state"]="TAB_1"
         @car_inspection = CarInspection.new(car_inspection_params)
+        @car_inspection.completed_tabs = [1]
         if @car_inspection.save
           redirect_to edit_car_inspection_path(car_inspection_id: @car_inspection.id)
         end
@@ -93,9 +93,12 @@ class V1::CarInspectionsController < ApplicationController
     begin
       ActiveRecord::Base.transaction do
         @car_inspection = CarInspection.find(car_inspection_params["id"])
-        car_inspection_params["state"] = @car_inspection.next_step
+        car_inspection_params["completed_tabs"] = @car_inspection.completed_tabs << car_inspection_params["completed_tabs"]
+        if car_inspection_params["completed_tabs"].size == 8
+          car_inspection_params["state"] = "completed"
+        end
         @car_inspection.update(car_inspection_params)
-        if @car_inspection.state.eql?("COMPLETED")
+        if @car_inspection.state.eql?("completed")
           redirect_to car_inspections_index_path
         else
           redirect_to edit_car_inspection_path(car_inspection_id: @car_inspection.id)
@@ -141,6 +144,7 @@ class V1::CarInspectionsController < ApplicationController
       :photo_right,
       :photo_motor,
       :photo_inside,
+      :completed_tabs,
       car_attributes:[
         :id,
         :color,

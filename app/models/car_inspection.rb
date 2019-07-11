@@ -23,10 +23,8 @@ class CarInspection < ApplicationRecord
 
   def next_step
     new_state = nil
-    if self.state.eql?("TAB_7")
-      new_state = "COMPLETED"
-    else
-      new_state = "TAB_#{self.state.split("_").last.to_i+1}"
+    if self.completed_tabs.size.eql?(8)
+      new_state = "completed"
     end
     new_state
   end

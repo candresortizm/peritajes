@@ -59,6 +59,7 @@
         id: "car_inspection_form",
         :html => {class: 'new_car_inspection'}, data:{remote: true}, multipart: true do |f|%>
         <%= f.hidden_field :id, value: @car_inspection.id %>
+        <%= f.hidden_field :completed_tabs, value: index+2 %>
         <%question_category[1].each_with_index do |question,index|%>
           <span><%=question.text_query%></span><br>
           <%= f.fields_for :car_answers, !@answers[question.id].nil? ? @answers[question.id] : @car_inspection.car_answers.build do |car_answer| %>
@@ -167,6 +168,7 @@
         id: "car_inspection_form",
         :html => {class: 'new_car_inspection'}, data:{remote: true}, multipart: true do |f|%>
       <%= f.hidden_field :id, value: @car_inspection.id %>
+      <%= f.hidden_field :completed_tabs, value: 8 %>
       <div class="upload carthumb photoshoot__upload">
         <label> Foto frontal </label>
         <%= f.file_field(:photo_front, accept: 'image/png,image/gif,image/jpeg') %>
@@ -245,14 +247,12 @@
     }
   }
 
-  var current_tab=<%= @car_inspection.state.split("_").last.to_i+1%>;
+  var current_tab=<%= ([*1..8] - @car_inspection.completed_tabs).first.to_i%>;
   for (var i = 0; i < document.querySelectorAll(".nav-tabs .nav-item .nav-link").length; i++) {
     var temp_number=i+1;
     if(temp_number==current_tab){
       document.querySelector(".nav-tabs .nav-item[data-number='"+temp_number+"'] .nav-link").classList.add("active");
       document.querySelector(".tab-content .tab-pane[data-number='"+temp_number+"']").classList.add("active");
-    }else if(temp_number>current_tab){
-      document.querySelector(".nav-tabs .nav-item[data-number='"+temp_number+"'] .nav-link").classList.add("disabled");
     }
   }
 
