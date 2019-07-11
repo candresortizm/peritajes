@@ -1,13 +1,14 @@
 <h1>Procesos de documentación</h1>
 <ul class="nav nav-tabs">
     <li class="nav-item">
-      <%= link_to "Compra", car_processes_index_path(process_type: "buy"), remote: true, class:"nav-link active", data:{toggle:"tab"} %>
+      <%= link_to "Compra", "#", remote: true, class:"nav-link active", data:{toggle:"tab", type:"buy"} %>
     </li>
     <li class="nav-item">
-      <%= link_to "Venta", car_processes_index_path(process_type: "sell"), remote: true, class:"nav-link", data:{toggle:"tab"} %>
+      <%= link_to "Venta", "#", remote: true, class:"nav-link", data:{toggle:"tab", type:"sell"} %>
     </li>
 </ul>
 <article class="index_car_inspections tab-content">
+  <%= select_tag :process_state, options_for_select(@process_states, selected:"open") %>
   <div class="tab-pane active" id="buy">
     <%= render "car_processes_table" %>
   </div>
@@ -25,6 +26,34 @@
   $(".nav-item").click(function(event) {
     if ($(event.target).hasClass("active")) {
       return false;
+    }else{
+      $(".nav-tabs .nav-link").toggleClass("active");
+      $(".tab-content .tab-pane").toggleClass("active");
+      $.ajax ({
+        url: event.target.href,
+        type: 'GET',
+        dataType: 'script',
+        data: {
+          process_state: document.querySelector("#process_state").value,
+          process_type: event.target.dataset.type
+        }
+      });
+      return false;
     }
+  });
+
+  $("#process_state").change(function(event) {
+    $.ajax ({
+      url: "#",
+      type: 'GET',
+      dataType: 'script',
+      data: {
+        process_state: event.target.value,
+        process_type: document.querySelector(".tab-pane.active").id
+      },
+      success: function(data, textStatus, jqXHR) {
+        console.log("Todo OK");
+      }
+    });
   });
 </script>

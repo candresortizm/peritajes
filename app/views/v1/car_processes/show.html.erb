@@ -36,14 +36,17 @@
           <p>Descargar archivo</p>
         </a>
       <%end%>
-      <%= car_document.label(:document, "Documento") %>
-      <%= car_document.file_field(:document) %><br>
-
+      <%if current_dispatcher and @car_process.state.eql?("open")%>
+        <%= car_document.label(:document, "Documento") %>
+        <%= car_document.file_field(:document) %><br>
+      <%end%>
       <label> Comentario </label>
-      <%= car_document.text_area :comment, value: @documents[doc_type.id].nil? ? '' : @documents[doc_type.id].comment, rows: '6' %><br>
+      <%= car_document.text_area :comment, value: @documents[doc_type.id].nil? ? '' : @documents[doc_type.id].comment, rows: '6', disabled: (!current_dispatcher or !@car_process.state.eql?("open")) %><br>
     <%end%>
   <%end%>
   <%= f.label(:state, "Estado del proceso de documentación") %>
-  <%= f.select :state, options_for_select(@process_states,selected:@car_process.state),{include_blank: "Seleccione"}, {required:true, disabled:!@car_process.state.eql?("open")} %></br>
-  <%= submit_tag("Finalizar") %>
+  <%if current_dispatcher and @car_process.state.eql?("open")%>
+    <%= f.select :state, options_for_select(@process_states,selected:@car_process.state),{include_blank: "Seleccione"}, {required:true, disabled:!@car_process.state.eql?("open")} %></br>
+    <%= submit_tag("Finalizar") %>
+  <%end%>
 <% end %>

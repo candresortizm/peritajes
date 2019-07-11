@@ -1,18 +1,27 @@
-<table>
-  <thead>
-    <tr>
-      <th>Fecha</th>
-      <th>Tipo de proceso</th>
-      <th>Placa</th>
-    </tr>
-  </thead>
-  <tbody>
-    <%@all.each do |element|%>
+<h2>Procesos de <%= @process_type.eql?("sell") ? 'Venta' : 'Compra' %></h2>
+<%if @all.empty?%>
+  <article class="center_form">
+    <div>
+      <h2>No hay procesos de documentación con las características consultadas</h2>
+    </div>
+  </article>
+<%else%>
+  <table>
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Tipo de proceso</th>
+        <th>Placa</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@all.each do |element|%>
       <tr onclick="location.href='<%= show_car_process_path(element) %>'">
-        <td><%=element.created_at%></td>
+        <td><%=element.created_at.localtime.strftime("%F %T")%></td>
         <td><%=element.process_type.eql?("sell") ? 'Venta' : 'Compra'%></td>
         <td><%=element.car.plate%></td>
       </tr>
-    <%end%>
-  </tbody>
-</table>
+      <%end%>
+    </tbody>
+  </table>
+<%end%>
