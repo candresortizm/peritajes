@@ -32,7 +32,7 @@
       <h3><%= doc_type.name %></h3>
       <%if !@documents[doc_type.id].nil?%>
         <%= car_document.hidden_field :id, value: @documents[doc_type.id].id%>
-        <a href="<%= @documents[doc_type.id].document.url %>" target="_blank">
+        <a href="<%= @documents[doc_type.id].document.url %>" id="download_file_<%=car_document.index%>" target="_blank">
           <p>Descargar archivo</p>
         </a>
       <%end%>

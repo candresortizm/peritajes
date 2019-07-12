@@ -1,9 +1,6 @@
 class V1::CarInspectionsController < ApplicationController
   before_action :authenticate_user!, except: [:search,:init,:show]
 
-  before_action :authenticate_car_expert!, only: [:new,:create,:edit,:update]
-  # before_action :authenticate_concessionaire_admin!, except: [:search,:init,:show]
-
   def index
     begin
       ActiveRecord::Base.transaction do
@@ -52,13 +49,19 @@ class V1::CarInspectionsController < ApplicationController
   def new
     begin
       ActiveRecord::Base.transaction do
-        params[:plate]=params[:plate].upcase
-        car = Car.find_by(plate:params[:plate])
-        @car_inspection = CarInspection.new
-        @car_inspection.car = !car.nil? ? car : Car.new(plate:params[:plate])
-        @car_types = CarType.all
-        @car_brands = CarBrand.all
-        @questions = QuestionCategory.includes(:questions).order(order_category: :desc).to_a.map{ |category| [category,category.questions.order(order_question: :desc).to_a] }
+        if current_user.type.eql?("CarExpert")
+          params[:plate]=params[:plate].upcase
+          car = Car.find_by(plate:params[:plate])
+          @car_inspection = CarInspection.new
+          @car_inspection.car = !car.nil? ? car : Car.new(plate:params[:plate])
+          @car_types = CarType.all
+          @car_brands = CarBrand.all
+          @questions = QuestionCategory.includes(:questions).order(order_category: :desc).to_a.map{ |category| [category,category.questions.order(order_question: :desc).to_a] }
+        else
+          flash[:warning] = "No está autorizado"
+          redirect_to root_path
+        end
+
       end
     rescue
       raise
@@ -68,27 +71,37 @@ class V1::CarInspectionsController < ApplicationController
   def create
     begin
       ActiveRecord::Base.transaction do
-        @car_inspection = CarInspection.new(car_inspection_params)
-        @car_inspection.completed_tabs = [1]
-        if @car_inspection.save
+        if current_user.type.eql?("CarExpert")
+          @car_inspection = CarInspection.new(car_inspection_params)
+          @car_inspection.completed_tabs = [1]
+          @car_inspection.save!
           redirect_to edit_car_inspection_path(car_inspection_id: @car_inspection.id)
+        else
+          flash[:warning] = "No está autorizado"
+          redirect_to root_path
         end
       end
-    rescue
-      raise
+    rescue Exception => exc
+      flash[:danger] = exc.message
+      redirect_to new_car_inspection_path
     end
   end
 
   def edit
     begin
       ActiveRecord::Base.transaction do
-        @car_inspection = CarInspection.includes(:car).find(params["car_inspection_id"])
-        @car_types = CarType.all
-        @car_brands = CarBrand.all
-        @answers = CarAnswer.where(car_inspection_id:params["car_inspection_id"]).map{|answer| [answer.question_id,answer]}.to_h
-        @photos = InspectionPhoto.where(car_inspection_id:params["car_inspection_id"]).map{|photo| [photo.question_id,photo]}.to_h
-        @comments = InspectionComment.where(car_inspection_id:params["car_inspection_id"]).map{ |comment| [comment.question_category_id,comment]}.to_h
-        @questions = QuestionCategory.includes(:questions).order(order_category: :desc).to_a.map{ |category| [category,category.questions.order(order_question: :desc).to_a] }
+        if current_user.type.eql?("CarExpert")
+          @car_inspection = CarInspection.includes(:car).find(params["car_inspection_id"])
+          @car_types = CarType.all
+          @car_brands = CarBrand.all
+          @answers = CarAnswer.where(car_inspection_id:params["car_inspection_id"]).map{|answer| [answer.question_id,answer]}.to_h
+          @photos = InspectionPhoto.where(car_inspection_id:params["car_inspection_id"]).map{|photo| [photo.question_id,photo]}.to_h
+          @comments = InspectionComment.where(car_inspection_id:params["car_inspection_id"]).map{ |comment| [comment.question_category_id,comment]}.to_h
+          @questions = QuestionCategory.includes(:questions).order(order_category: :desc).to_a.map{ |category| [category,category.questions.order(order_question: :desc).to_a] }
+        else
+          flash[:warning] = "No está autorizado"
+          redirect_to root_path
+        end
       end
     rescue
       raise
@@ -98,20 +111,26 @@ class V1::CarInspectionsController < ApplicationController
   def update
     begin
       ActiveRecord::Base.transaction do
-        @car_inspection = CarInspection.find(car_inspection_params["id"])
-        unless @car_inspection.completed_tabs.include?(car_inspection_params["completed_tabs"])
-          car_inspection_params["completed_tabs"] = @car_inspection.completed_tabs << car_inspection_params["completed_tabs"]
-          car_inspection_params["state"] = "completed" if car_inspection_params["completed_tabs"].size == 8
-        end
-        @car_inspection.update(car_inspection_params)
-        if @car_inspection.state.eql?("completed")
-          redirect_to car_inspections_index_path
+        if current_user.type.eql?("CarExpert")
+          @car_inspection = CarInspection.find(car_inspection_params["id"])
+          unless @car_inspection.completed_tabs.include?(car_inspection_params["completed_tabs"])
+            car_inspection_params["completed_tabs"] = @car_inspection.completed_tabs << car_inspection_params["completed_tabs"]
+            car_inspection_params["state"] = "completed" if car_inspection_params["completed_tabs"].size == 8
+          end
+          @car_inspection.update(car_inspection_params)
+          if @car_inspection.state.eql?("completed")
+            redirect_to car_inspections_index_path
+          else
+            redirect_to edit_car_inspection_path(car_inspection_id: @car_inspection.id)
+          end
         else
-          redirect_to edit_car_inspection_path(car_inspection_id: @car_inspection.id)
+          flash[:warning] = "No está autorizado"
+          redirect_to root_path
         end
       end
-    rescue
-      raise
+    rescue Exception => exc
+      flash[:danger] = exc.message
+      redirect_to car_inspections_index
     end
   end
 
