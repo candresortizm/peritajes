@@ -127,11 +127,13 @@
         <%= inspection_comment.text_area :comment, rows: '6', disabled: true %>
       <%end%>
     <%end%>
-    <%all_points += category_total%>
-    <%all_car += category_car%>
-    <h1>POSIBLES CATEGORÍA: <%=category_total%></h1>
-    <h1>CARRO EN CATEGORÍA: <%=category_car%></h1>
-    <h1>PORCENTAJE: <%=category_car*100/category_total%>%</h1>
+    <% if !question_category[0].name.eql?("Accesorios") %>
+      <%all_points += category_total%>
+      <%all_car += category_car%>
+      <h1>POSIBLES CATEGORÍA: <%=category_total%></h1>
+      <h1>CARRO EN CATEGORÍA: <%=category_car%></h1>
+      <h1>PORCENTAJE: <%=category_car*100/category_total%>%</h1>
+    <% end %>
   <%end%>
   <br>
   <h1>PUNTOS POSIBLES: <%=all_points%></h1>

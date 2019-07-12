@@ -208,7 +208,16 @@ Question.create([
   { key: "steering_wheel", text_query: "Operación del volante de extremo a extremo", question_category_id: 1, question_type: "range", order_question: 15, points: 20 },
   { key: "steering_system_on_hot_engine_state", text_query: "Funcionamiento del sistema de dirección del motor", question_category_id: 1, question_type: "range", order_question: 16, points: 20 },
   { key: "turbo_hook", text_query: "Enganche del turbo", question_category_id: 1, question_type: "good_bad_na", order_question: 17, points: 10 },
-  { key: "non_centered_driving_wheel", text_query: "Volante descentrado", question_category_id: 1, question_type: "yes_or_no", order_question: 18, points: 55 }
+  { key: "air_conditioner_a", text_query: "Aire acondicionado", question_category_id: 6, question_type: "yes_no_na", order_question: 1, points: 0 },
+  { key: "sliding_roof_a", text_query: "Techo corredizo", question_category_id: 6, question_type: "yes_no_na", order_question: 2, points: 0 },
+  { key: "sunroof_a", text_query: "Claraboya", question_category_id: 6, question_type: "yes_no_na", order_question: 3, points: 0 },
+  { key: "electric_glasses_a", text_query: "Vidrios eléctricos", question_category_id: 6, question_type: "yes_no_na", order_question: 4, points: 0 },
+  { key: "hydraulic_steering_a", text_query: "Dirección hidráulica", question_category_id: 6, question_type: "yes_no_na", order_question: 5, points: 0 },
+  { key: "central_blocking_a", text_query: "Bloqueo central", question_category_id: 6, question_type: "yes_no_na", order_question: 6, points: 0 },
+  { key: "alarm_a", text_query: "Alarma", question_category_id: 6, question_type: "yes_no_na", order_question: 7, points: 0 },
+  { key: "leather_upholstery_a", text_query: "Tapicería en cuero", question_category_id: 6, question_type: "yes_no_na", order_question: 8, points: 0 },
+  { key: "explorer_lights_a", text_query: "Luces exploradoras", question_category_id: 6, question_type: "yes_no_na", order_question: 9, points: 0 },
+  { key: "abs_brakes", text_query: "Frenos ABS", question_category_id: 6, question_type: "yes_no_na", order_question: 10, points: 0 },
 ])
 
 DocumentType.create([
