@@ -1,6 +1,12 @@
-<h1>Búsqueda de peritajes</h1>
-<%= form_tag(car_inspections_search_path, method: "post") do %>
-  <%= label_tag(:q, "Ingrese la placa del vehìculo:") %>
-  <%= text_field_tag :plate, nil, placeholder: "ABC123", required: true, pattern: "[A-Z]{3}[0-9]{3}", class:"plate_input" %>
-  <%= submit_tag("Buscar") %>
-<% end %>
+<article class="center_form search_inspection">
+  <div class="">
+    <h1>Búsqueda de peritajes</h1>
+    <%= form_tag(car_inspections_search_path, method: "post") do %>
+      <div class="field">
+        <%= label_tag(:q, "Ingrese la placa del vehìculo:") %><br>
+        <%= text_field_tag :plate, nil, placeholder: "ABC123", required: true, pattern: "[A-Z]{3}[0-9]{3}", class:"plate_input", title:"Tres número y tres letras, sin espacio ni guión" %>
+      </div>
+      <%= submit_tag("Buscar") %>
+    <% end %>
+  </div>
+</article>

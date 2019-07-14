@@ -23,13 +23,83 @@
   margin: 5%;
 }
 
-
 input::placeholder {
-  color: #e4e4e4;
+  color: #A0A0A0;
 }
 
 input.plate_input{
   text-transform: uppercase;
+}
+
+input[type=text]:valid {
+    color: green;
+}
+
+.index_table{
+  margin-bottom: 30px;
+  .select_state{
+    margin: 10px 0px;
+    padding: 5px;
+  }
+  .header_table{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 10px 0px;
+    text-align: center;
+    a.new_object_link {
+      background-color: #4CAF50;
+      width: 150px;
+      height: 100%;
+      padding: 5px;
+      border: 1px solid #000;
+      text-align: center;
+      display: block;
+      border: none;
+      color: white;
+      border-radius:3px;
+    }
+  }
+}
+
+.clase_x{
+  display: flex;
+  justify-content: space-between;
+}
+
+@media all and (min-width: 960px) {
+    body{
+      font-size: 18px;
+    }
+    h1{
+      font-size: 2.5rem;
+      align-self: center;
+    }
+}
+
+@media all and (max-width: 959px) and (min-width: 600px) {
+    body{
+      font-size: 16px;
+    }
+    h1{
+      font-size: 2rem;
+      align-self: center;
+    }
+}
+
+@media all and (max-width: 599px) and (min-width: 320px) {
+    body{
+        font-size: 12px;
+    }
+    h1{
+      font-size: 1.5rem;
+      align-self: center;
+    }
+}
+
+/* Unmatched */
+input[type=text]:invalid {
+    color: red;
 }
 
 .alert{
@@ -41,7 +111,7 @@ input[type="submit"]{
   background-color: #4CAF50;
   border: none;
   color: white;
-  padding: 5px 5px;
+  padding: 10px 5px;
   text-align: center;
   text-decoration: none;
   display: inline-block;

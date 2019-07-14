@@ -1,36 +1,44 @@
-<h1>Peritos</h1>
-<table>
-  <thead>
-    <tr>
-      <th>Fecha vinculación</th>
-      <th>Email</th>
-    </tr>
-  </thead>
-  <tbody>
-    <%@car_experts.each do |element|%>
+<div class="index_table">
+  <div class="header_table">
+    <h1>Peritos</h1>
+      <%= link_to('Nuevo perito', new_concessionaire_user_path(type:"CarExpert"), method: :get, class:"new_object_link") %>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Fecha vinculación</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@car_experts.each do |element|%>
+        <tr>
+          <td><%=element.created_at%></td>
+          <td><%=element.email%></td>
+        </tr>
+      <%end%>
+    </tbody>
+  </table>
+</div>
+<div class="index_table">
+  <div class="header_table">
+    <h1>Tramitadores</h1>
+    <%= link_to('Nuevo tramitador', new_concessionaire_user_path(type:"Dispatcher"), method: :get, class:"new_object_link") %>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Fecha vinculación</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@dispatchers.each do |element|%>
       <tr>
         <td><%=element.created_at%></td>
         <td><%=element.email%></td>
       </tr>
-    <%end%>
-  </tbody>
-</table>
-<%= link_to('Nuevo perito', new_concessionaire_user_path(type:"CarExpert"), method: :get) %>
-<h1>Tramitadores</h1>
-<table>
-  <thead>
-    <tr>
-      <th>Fecha vinculación</th>
-      <th>Email</th>
-    </tr>
-  </thead>
-  <tbody>
-    <%@dispatchers.each do |element|%>
-      <tr>
-        <td><%=element.created_at%></td>
-        <td><%=element.email%></td>
-      </tr>
-    <%end%>
-  </tbody>
-</table>
-<%= link_to('Nuevo tramitador', new_concessionaire_user_path(type:"Dispatcher"), method: :get) %>
+      <%end%>
+    </tbody>
+  </table>
+</div>

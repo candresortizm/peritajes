@@ -28,25 +28,43 @@
         :html => {class: 'new_car_inspection'}, data:{remote: true}, multipart: true do |f|%>
       <%= f.hidden_field :car_expert_id, value: current_user.id %>
       <%= f.hidden_field :car_id, value: @car_inspection.car.id %>
-      <%= f.label(:owner, "Dueño") %>
-      <%= f.text_field :owner, required: true %><br>
-      <%= f.label(:kilometraje, "Kilometraje") %>
-      <%= f.number_field :kilometraje, {value: nil, min:0, max:2000000, required: true}%><br>
+      <div class="clase_x">
+        <%= f.label(:owner, "Dueño") %>
+        <%= f.text_field :owner, required: true %><br>
+      </div>
+      <div class="clase_x">
+        <%= f.label(:kilometraje, "Kilometraje") %>
+        <%= f.number_field :kilometraje, {value: nil, min:0, max:2000000, required: true}%><br>
+      </div>
       <%= f.fields_for :car_attributes, @car_inspection.car do |car|%>
-        <%= car.label(:color, "Color") %>
-        <%= car.text_field :color, required: true %><br>
-        <%= car.label(:car_type, "Tipo de carro") %>
-        <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name",selected: @car_inspection.car.car_type_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_inspection.car.id.nil?} %></br>
-        <%= car.label(:car_brand, "Marca") %>
-        <%= car.select :car_brand_id, options_from_collection_for_select(@car_brands, "id", "name",selected: @car_inspection.car.car_brand_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_inspection.car.id.nil?} %></br>
-        <%= car.label(:model, "Modelo") %>
-        <%= car.text_field :model, disabled: !@car_inspection.car.id.nil?, required: true %><br>
-        <%= car.label(:year, "Año") %>
-        <%= car.number_field :year, {disabled: !@car_inspection.car.id.nil?, required: true, min:1950, max:Time.zone.now.year+1} %><br>
-        <%= car.label(:year, "VIN") %>
-        <%= car.text_field :vin, disabled: !@car_inspection.car.id.nil?, required: true %><br>
-        <%= car.label(:year, "Placa") %>
-        <%= car.text_field :plate, disabled: !@car_inspection.car.id.nil?, required: true, class:"plate_input" %><br>
+        <div class="clase_x">
+          <%= car.label(:color, "Color") %>
+          <%= car.text_field :color, required: true %><br>
+        </div>
+        <div class="clase_x">
+          <%= car.label(:car_type, "Tipo de carro") %>
+          <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name",selected: @car_inspection.car.car_type_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_inspection.car.id.nil?} %></br>
+        </div>
+        <div class="clase_x">
+          <%= car.label(:car_brand, "Marca") %>
+          <%= car.select :car_brand_id, options_from_collection_for_select(@car_brands, "id", "name",selected: @car_inspection.car.car_brand_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_inspection.car.id.nil?} %></br>
+        </div>
+        <div class="clase_x">
+          <%= car.label(:model, "Modelo") %>
+          <%= car.text_field :model, disabled: !@car_inspection.car.id.nil?, required: true %><br>
+        </div>
+        <div class="clase_x">
+          <%= car.label(:year, "Año") %>
+          <%= car.number_field :year, {disabled: !@car_inspection.car.id.nil?, required: true, min:1950, max:Time.zone.now.year+1} %><br>
+        </div>
+        <div class="clase_x">
+          <%= car.label(:year, "VIN") %>
+          <%= car.text_field :vin, disabled: !@car_inspection.car.id.nil?, required: true %><br>
+        </div>
+        <div class="clase_x">
+          <%= car.label(:year, "Placa") %>
+          <%= car.text_field :plate, disabled: !@car_inspection.car.id.nil?, required: true, class:"plate_input" %><br>
+        </div>
       <%end%>
       <%= submit_tag("Continuar") %>
       <a class="btn btn-primary btnNext" style="display:none;">Next</a>
