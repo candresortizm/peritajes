@@ -61,6 +61,7 @@ class CarInspectionsTest < ApplicationSystemTestCase
     click_button 'Continuar'
     find('#inspection_state').find(:xpath, 'option[2]').select_option
     assert_text('VBN654')
+    binding.pry
     click_link "Cerrar sesión"
   end
 end

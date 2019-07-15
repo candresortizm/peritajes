@@ -3,41 +3,58 @@
 <%= form_for @car_process,
     url:create_car_process_path, method: :post,
     id: "car_process_form",
-    :html => {class: 'new_car_process'} do |f|%>
+    :html => {class: 'new_car_process row'} do |f|%>
   <%= f.hidden_field :dispatcher_id, value: current_user.id %>
   <%= f.hidden_field :process_type, value: params[:process_type] %>
   <%= f.hidden_field :car_id, value: @car_process.car.id %>
-  <br>
-  <br>
   <%= f.fields_for :car_attributes, @car_process.car do |car|%>
-    <%= car.label(:car_type, "Tipo de carro") %>
-    <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name",selected: @car_process.car.car_type_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_process.car.id.nil?} %></br>
-    <%= car.label(:color, "Color") %>
-    <%= car.text_field :color, disabled: !@car_process.car.id.nil?, required: true %><br>
-    <%= car.label(:car_brand, "Marca") %>
-    <%= car.select :car_brand_id, options_from_collection_for_select(@car_brands, "id", "name",selected: @car_process.car.car_brand_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_process.car.id.nil?} %></br>
-    <%= car.label(:model, "Modelo") %>
-    <%= car.text_field :model, disabled: !@car_process.car.id.nil?, required: true %><br>
-    <%= car.label(:year, "Año") %>
-    <%= car.number_field :year, {disabled: !@car_process.car.id.nil?, required: true, min:1950, max:Time.zone.now.year+1} %><br>
-    <%= car.label(:year, "VIN") %>
-    <%= car.text_field :vin, disabled: !@car_process.car.id.nil?, required: true %><br>
-    <%= car.label(:year, "Placa") %>
-    <%= car.text_field :plate, disabled: !@car_process.car.id.nil?, required: true, class:"plate_input" %><br>
+    <div class="col-md-6 col-sm-12 form-group clase_x">
+      <%= car.label(:car_type, "Tipo de carro") %>
+      <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name",selected: @car_process.car.car_type_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_process.car.id.nil?} %></br>
+    </div>
+    <div class="col-md-6 col-sm-12 form-group clase_x">
+      <%= car.label(:color, "Color") %>
+      <%= car.text_field :color, disabled: !@car_process.car.id.nil?, required: true %><br>
+    </div>
+    <div class="col-md-6 col-sm-12 form-group clase_x">
+      <%= car.label(:car_brand, "Marca") %>
+      <%= car.select :car_brand_id, options_from_collection_for_select(@car_brands, "id", "name",selected: @car_process.car.car_brand_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_process.car.id.nil?} %></br>
+    </div>
+    <div class="col-md-6 col-sm-12 form-group clase_x">
+      <%= car.label(:model, "Modelo") %>
+      <%= car.text_field :model, disabled: !@car_process.car.id.nil?, required: true %><br>
+    </div>
+    <div class="col-md-6 col-sm-12 form-group clase_x">
+      <%= car.label(:year, "Año") %>
+      <%= car.number_field :year, {disabled: !@car_process.car.id.nil?, required: true, min:1950, max:Time.zone.now.year+1} %><br>
+    </div>
+    <div class="col-md-6 col-sm-12 form-group clase_x">
+      <%= car.label(:year, "VIN") %>
+      <%= car.text_field :vin, disabled: !@car_process.car.id.nil?, required: true %><br>
+    </div>
+    <div class="col-md-6 col-sm-12 form-group clase_x">
+      <%= car.label(:year, "Placa") %>
+      <%= car.text_field :plate, disabled: !@car_process.car.id.nil?, required: true, class:"plate_input" %><br>
+    </div>
+    <div class="col-md-6 col-sm-12 form-group clase_x">
+    </div>
   <%end%>
-  <br>
-  <br>
   <%@doc_types.each do |doc_type|%>
-    <%= f.fields_for :car_documents, @car_process.car_documents.build do |car_document| %>
-      <h3><%= doc_type.name %></h3>
-      <%= car_document.hidden_field :document_type_id, value: doc_type.id %>
-      <%= car_document.hidden_field :state, value: 'open' %>
-      <%= car_document.label(:document, "Documento") %>
-      <%= car_document.file_field(:document) %><br>
-      <label> Comentario </label>
-      <%= car_document.text_area :comment, rows: '6' %><br>
-    <%end%>
+    <div class="col-md-6 col-sm-12 form-group">
+      <%= f.fields_for :car_documents, @car_process.car_documents.build do |car_document| %>
+        <h3><%= doc_type.name %></h3>
+        <%= car_document.hidden_field :document_type_id, value: doc_type.id %>
+        <%= car_document.hidden_field :state, value: 'open' %>
+        <%= car_document.label(:document, "Documento") %>
+        <%= car_document.file_field(:document) %><br>
+        <label> Comentario </label>
+        <%= car_document.text_area :comment, rows: '6' %><br>
+      <%end%>
+    </div>
   <%end%>
-  <%= f.select :state, options_for_select(@process_states),{include_blank: "Seleccione"}, {required:true} %></br>
-  <%= submit_tag("Finalizar") %>
+  <div class="col-md-6 col-sm-12 form-group">
+    <%= f.label(:state, "Estado del proceso de documentación") %>
+    <%= f.select :state, options_for_select(@process_states),{include_blank: "Seleccione"}, {required:true} %>
+    <%= submit_tag("Finalizar") %>
+  </div>
 <% end %>

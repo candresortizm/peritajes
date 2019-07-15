@@ -1,25 +1,31 @@
-<h1>Procesos de documentación</h1>
-<ul class="nav nav-tabs">
+<div class="index_table">
+  <div class="header_table">
+    <h1>Procesos de documentación</h1>
+    <%if current_dispatcher %>
+      <%= link_to('Nuevo proceso', validation_car_process_path, method: :get, class:"new_object_link") %>
+    <%end%>
+  </div>
+  <ul class="nav nav-tabs">
     <li class="nav-item">
       <%= link_to "Compra", "#", remote: true, class:"nav-link active", data:{toggle:"tab", type:"buy"} %>
     </li>
     <li class="nav-item">
       <%= link_to "Venta", "#", remote: true, class:"nav-link", data:{toggle:"tab", type:"sell"} %>
     </li>
-</ul>
-<article class="index_car_inspections tab-content">
-  <%= select_tag :process_state, options_for_select(@process_states, selected:"open") %>
-  <div class="tab-pane active" id="buy">
-    <%= render "car_processes_table" %>
-  </div>
-  <div class="tab-pane" id="sell">
-  </div>
-</article>
+  </ul>
+
+  <article class="index_car_inspections tab-content">
+    <%= select_tag :process_state, options_for_select(@process_states, selected:"open") %>
+    <div class="tab-pane active" id="buy">
+      <%= render "car_processes_table" %>
+    </div>
+    <div class="tab-pane" id="sell">
+    </div>
+  </article>
+</div>
 
 
-<%if current_dispatcher %>
-  <%= link_to('Nuevo proceso', validation_car_process_path, method: :get) %>
-<%end%>
+
 
 <script type="text/javascript">
   //Función para prevenir hacer la petición nuevamente si la pestaña clickeada es la activa.

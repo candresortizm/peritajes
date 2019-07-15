@@ -1,70 +1,107 @@
 <h1>Peritaje</h1>
-
+<ul class="nav nav-tabs">
+    <li class="nav-item" data-number="1">
+      <a class="nav-link active" href="#general_info" data-toggle="tab">
+        Información del peritaje
+      </a>
+    </li>
+    <%@questions.each_with_index do |category,index|%>
+      <li class="nav-item" data-number="<%=index+2%>">
+        <a class="nav-link" href="#<%=I18n.transliterate(category[0].name.downcase.gsub(" ","_"))%>" data-toggle="tab">
+          <%=category[0].name%>
+        </a>
+      </li>
+    <%end%>
+</ul>
 <%= form_for @car_inspection,
-    url:create_car_inspection_path, method: :post,
-    id: "car_inspection_form",
-    :html => {class: 'new_car_inspection'}, multipart: true do |f|%>
-  <%= f.label(:created_at, "Fecha") %>
-  <%= f.text_field :created_at, value:@car_inspection.created_at.getlocal.strftime("%Y-%m-%d %H:%M"), disabled: true %><br>
-  <%= f.label(:owner, "Dueño") %>
-  <%= f.text_field :owner, disabled: true %><br>
-  <%= f.label(:kilometraje, "Kilometraje") %>
-  <%= f.text_field :kilometraje, disabled: true %><br>
-  <%= f.fields_for :car do |car|%>
-    <%= car.label(:color, "Color") %>
-    <%= car.text_field :color, disabled: true %><br>
-    <%= car.label(:car_type, "Tipo de carro") %>
-    <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name", selected: @car_inspection.car.car_type_id.to_s),{}, {:disabled=> true} %></br>
-    <%= car.label(:car_brand, "Marca") %>
-    <%= car.select :car_brand_id, options_from_collection_for_select(@car_brands, "id", "name",selected: @car_inspection.car.car_brand_id),{}, {disabled:true} %></br>
-    <%= car.label(:model, "Modelo") %>
-    <%= car.text_field :model, disabled: true %><br>
-    <%= car.label(:year, "Año") %>
-    <%= car.text_field :year, disabled: true %><br>
-    <%= car.label(:year, "VIN") %>
-    <%= car.text_field :vin, disabled: true %><br>
-    <%= car.label(:year, "Placa") %>
-    <%= car.text_field :plate, disabled: true, class:"plate_input" %><br>
-  <%end%>
-  <div class="upload carthumb photoshoot__upload">
-    <label> Foto frontal </label>
-    <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_front.url%>">
-  </div>
-  <div class="upload carthumb photoshoot__upload">
-    <label> Foto lado derecho </label>
-    <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_right.url%>">
-  </div>
-  <div class="upload carthumb photoshoot__upload">
-    <label> Foto atras </label>
-    <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_back.url%>">
-  </div>
-  <div class="upload carthumb photoshoot__upload">
-    <label> Foto lado izquierdo </label>
-    <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_left.url%>">
-  </div>
-  <div class="upload carthumb photoshoot__upload">
-    <label> Foto motor </label>
-    <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_motor.url%>">
-  </div>
-  <div class="upload carthumb photoshoot__upload">
-    <label> Foto interior </label>
-    <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_inside.url%>">
-  </div>
-  <br>
-  <br>
-  <br>
-  <br>
+        url:create_car_inspection_path, method: :post,
+        id: "car_inspection_form",
+        :html => {class: 'new_car_inspection'}, multipart: true do |f|%>
+  <article class="tab-content">
+    <div class="tab-pane active row" data-number="1" id="general_info">
+      <div class="col-md-6 col-sm-12 form-group clase_x">
+        <%= f.label(:created_at, "Fecha") %>
+        <%= f.text_field :created_at, value:@car_inspection.created_at.getlocal.strftime("%Y-%m-%d %H:%M"), disabled: true %><br>
+      </div>
+      <%if current_user%>
+        <div class="col-md-6 col-sm-12 form-group clase_x">
+          <%= f.label(:owner, "Dueño") %>
+          <%= f.text_field :owner, disabled: true %><br>
+        </div>
+      <%end%>
+      <div class="col-md-6 col-sm-12 form-group clase_x">
+        <%= f.label(:kilometraje, "Kilometraje") %>
+        <%= f.text_field :kilometraje, disabled: true %>
+      </div>
+      <%= f.fields_for :car do |car|%>
+        <div class="col-md-6 col-sm-12 form-group clase_x">
+          <%= car.label(:color, "Color") %>
+          <%= car.text_field :color, disabled: true %><br>
+        </div>
+        <div class="col-md-6 col-sm-12 form-group clase_x">
+          <%= car.label(:car_type, "Tipo de carro") %>
+          <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name", selected: @car_inspection.car.car_type_id.to_s),{}, {:disabled=> true} %></br>
+        </div>
+        <div class="col-md-6 col-sm-12 form-group clase_x">
+          <%= car.label(:car_brand, "Marca") %>
+          <%= car.select :car_brand_id, options_from_collection_for_select(@car_brands, "id", "name",selected: @car_inspection.car.car_brand_id),{}, {disabled:true} %></br>
+        </div>
+        <div class="col-md-6 col-sm-12 form-group clase_x">
+          <%= car.label(:model, "Modelo") %>
+          <%= car.text_field :model, disabled: true %><br>
+        </div>
+        <div class="col-md-6 col-sm-12 form-group clase_x">
+          <%= car.label(:year, "Año") %>
+          <%= car.text_field :year, disabled: true %><br>
+        </div>
+        <div class="col-md-6 col-sm-12 form-group clase_x">
+          <%= car.label(:year, "VIN") %>
+          <%= car.text_field :vin, disabled: true %><br>
+        </div>
+        <div class="col-md-6 col-sm-12 form-group clase_x">
+          <%= car.label(:year, "Placa") %>
+          <%= car.text_field :plate, disabled: true, class:"plate_input" %><br>
+        </div>
+      <%end%>
+      <div class="upload carthumb photoshoot__upload col-md-6 col-sm-12 form-group">
+        <label> Foto frontal </label>
+        <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_front.url%>">
+      </div>
+      <div class="upload carthumb photoshoot__upload col-md-6 col-sm-12 form-group">
+        <label> Foto lado derecho </label>
+        <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_right.url%>">
+      </div>
+      <div class="upload carthumb photoshoot__upload col-md-6 col-sm-12 form-group">
+        <label> Foto atras </label>
+        <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_back.url%>">
+      </div>
+      <div class="upload carthumb photoshoot__upload col-md-6 col-sm-12 form-group">
+        <label> Foto lado izquierdo </label>
+        <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_left.url%>">
+      </div>
+      <div class="upload carthumb photoshoot__upload col-md-6 col-sm-12 form-group">
+        <label> Foto motor </label>
+        <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_motor.url%>">
+      </div>
+      <div class="upload carthumb photoshoot__upload col-md-6 col-sm-12 form-group">
+        <label> Foto interior </label>
+        <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@car_inspection.photo_inside.url%>">
+      </div>
+    </div>
+
   <%all_car = 0%>
   <%all_points = 0%>
-  <%@questions.each do |question_category|%>
-    <h3><%=question_category[0].name%></h3>
-    <%category_total=0%>
-    <%category_car=0%>
-    <%question_category[1].each_with_index do |question,index|%>
-      <p><%=question[0].text_query%></p>
-      <%= f.fields_for :car_answers, question[1] do |car_answer| %>
-        <%case question[0].question_type%>
-        <%when "range"%>
+  <%@questions.each_with_index do |question_category,index|%>
+    <div class="tab-pane" data-number="<%=index+2 %>" id="<%=I18n.transliterate(question_category[0].name.downcase.gsub(" ","_"))%>">
+      <h3><%=question_category[0].name%></h3>
+      <%category_total=0%>
+      <%category_car=0%>
+      <%question_category[1].each_with_index do |question,index|%>
+        <div class="row">
+          <p><%=question[0].text_query%></p>
+          <%= f.fields_for :car_answers, question[1] do |car_answer| %>
+          <%case question[0].question_type%>
+          <%when "range"%>
           <%category_car+=((question[1].answer-1)/2)*question[0].points%>
           <%category_total+=question[0].points%>
           <%= car_answer.radio_button(:answer, "1", {disabled: true}) %>
@@ -73,14 +110,14 @@
           <%= car_answer.label(:so_so, "Aceptable") %>
           <%= car_answer.radio_button(:answer, "3", {disabled: true}) %>
           <%= car_answer.label(:Good, "Bien") %>
-        <%when "yes_or_no"%>
+          <%when "yes_or_no"%>
           <%category_car+=((question[1].answer-1)/2)*question[0].points%>
           <%category_total+=question[0].points if question[1].answer!=1%>
           <%= car_answer.radio_button(:answer, "3", disabled: true) %>
           <%= car_answer.label(:very_bad, "Si") %>
           <%= car_answer.radio_button(:answer, "1", disabled: true) %>
           <%= car_answer.label(:bad, "No") %>
-        <%when "yes_no_na"%>
+          <%when "yes_no_na"%>
           <%category_car+=((question[1].answer-1)/2)*question[0].points if question[1].answer!=0%>
           <%category_total+=question[0].points if question[1].answer!=0%>
           <%= car_answer.radio_button(:answer, "3", disabled: true) %>
@@ -89,14 +126,14 @@
           <%= car_answer.label(:so_so, "No") %>
           <%= car_answer.radio_button(:answer, "0", disabled: true) %>
           <%= car_answer.label(:good, "No aplica") %>
-        <%when "good_bad"%>
+          <%when "good_bad"%>
           <%category_car+=((question[1].answer-1)/2)*question[0].points%>
           <%category_total+=question[0].points if question[1].answer!=1%>
           <%= car_answer.radio_button(:answer, "3", disabled: true) %>
           <%= car_answer.label(:bad, "Si") %>
           <%= car_answer.radio_button(:answer, "1", disabled: true) %>
           <%= car_answer.label(:good, "No") %>
-        <%when "good_bad_na"%>
+          <%when "good_bad_na"%>
           <%category_car+=((question[1].answer-1)/2)*question[0].points if question[1].answer!=0%>
           <%category_total+=question[0].points if question[1].answer!=0%>
           <%= car_answer.radio_button(:answer, "1", disabled: true) %>
@@ -105,38 +142,38 @@
           <%= car_answer.label(:so_so, "Mal") %>
           <%= car_answer.radio_button(:answer, "0", disabled: true) %>
           <%= car_answer.label(:good, "No aplica") %>
-        <%when "text"%>
+          <%when "text"%>
           <%= car_answer.text_field :answer, disabled: true %><br>
-        <%else%>
+          <%else%>
           <label><%=question[0].question_type%></label>
-        <%end%>
-        <%if !@inspection_photos[question[0].id].nil?%>
+          <%end%>
+          <%if !@inspection_photos[question[0].id].nil?%>
           <div class="upload carthumb photoshoot__upload">
             <label> Foto </label>
             <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@inspection_photos[question[0].id].first.image.url%>">
           </div>
+          <%end%>
+          <%end%>
+        </div>
+      <%end%>
+      <%if !@comments[question_category[0].id].nil? %>
+        <%= f.fields_for :inspection_comments, @comments[question_category[0].id] do |inspection_comment| %>
+          <label> Comentarios para <%= question_category[0].name %> </label><br>
+          <%= inspection_comment.hidden_field :question_category_id, value: question_category[0].id %>
+          <%= inspection_comment.text_area :comment, rows: '6', disabled: true %>
         <%end%>
       <%end%>
-    <%end%>
-    <br>
-    <br>
-    <%if !@comments[question_category[0].id].nil? %>
-      <%= f.fields_for :inspection_comments, @comments[question_category[0].id] do |inspection_comment| %>
-        <label> Comentarios para <%= question_category[0].name %> </label><br>
-        <%= inspection_comment.hidden_field :question_category_id, value: question_category[0].id %>
-        <%= inspection_comment.text_area :comment, rows: '6', disabled: true %>
-      <%end%>
-    <%end%>
-    <% if !question_category[0].name.eql?("Accesorios") %>
-      <%all_points += category_total%>
-      <%all_car += category_car%>
-      <h1>POSIBLES CATEGORÍA: <%=category_total%></h1>
-      <h1>CARRO EN CATEGORÍA: <%=category_car%></h1>
-      <h1>PORCENTAJE: <%=category_car*100/category_total%>%</h1>
-    <% end %>
+      <% if !question_category[0].name.eql?("Accesorios") %>
+        <%all_points += category_total%>
+        <%all_car += category_car%>
+        <h1>POSIBLES CATEGORÍA: <%=category_total%></h1>
+        <h1>CARRO EN CATEGORÍA: <%=category_car%></h1>
+        <h1>PORCENTAJE: <%=category_car*100/category_total%>%</h1>
+      <% end %>
+    </div>
   <%end%>
-  <br>
   <h1>PUNTOS POSIBLES: <%=all_points%></h1>
   <h1>PUNTOS CARRO: <%=all_car%></h1>
   <h1>PORCENTAJE CARRO: <%=all_car*100/all_points%>%</h1>
+</article>
 <% end %>
