@@ -25,30 +25,50 @@
     <%= form_for @car_inspection,
         url:create_car_inspection_path, method: :post,
         id: "car_inspection_form",
-        :html => {class: 'new_car_inspection'}, data:{remote: true}, multipart: true do |f|%>
+        :html => {class: 'new_car_inspection row'}, data:{remote: true}, multipart: true do |f|%>
       <%= f.hidden_field :car_expert_id, value: current_user.id %>
       <%= f.hidden_field :car_id, value: @car_inspection.car.id %>
-      <%= f.label(:owner, "Dueño") %>
-      <%= f.text_field :owner, required: true %><br>
-      <%= f.label(:kilometraje, "Kilometraje") %>
-      <%= f.text_field :kilometraje, required: true %><br>
+      <div class="col-md-6 col-sm-12 form-group clase_x">
+        <%= f.label(:owner, "Dueño") %>
+        <%= f.text_field :owner, required: true %>
+      </div>
+      <div class="col-md-6 col-sm-12 form-group clase_x">
+        <%= f.label(:kilometraje, "Kilometraje") %>
+        <%= f.text_field :kilometraje, required: true %>
+      </div>
       <%= f.fields_for :car_attributes, @car_inspection.car do |car|%>
-        <%= car.label(:color, "Color") %>
-        <%= car.text_field :color, required: true %><br>
-        <%= car.label(:car_type, "Tipo de carro") %>
-        <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name",selected: @car_inspection.car.car_type_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_inspection.car.id.nil?} %></br>
-        <%= car.label(:car_brand, "Marca") %>
-        <%= car.select :car_brand_id, options_from_collection_for_select(@car_brands, "id", "name",selected: @car_inspection.car.car_brand_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_inspection.car.id.nil?} %></br>
-        <%= car.label(:model, "Modelo") %>
-        <%= car.text_field :model, disabled: !@car_inspection.car.id.nil?, required: true %><br>
-        <%= car.label(:year, "Año") %>
-        <%= car.text_field :year, disabled: !@car_inspection.car.id.nil?, required: true %><br>
-        <%= car.label(:year, "VIN") %>
-        <%= car.text_field :vin, disabled: !@car_inspection.car.id.nil?, required: true %><br>
-        <%= car.label(:year, "Placa") %>
-        <%= car.text_field :plate, disabled: !@car_inspection.car.id.nil?, required: true, class:"plate_input" %><br>
+        <div class="col-md-6 col-sm-12 form-group clase_x">
+          <%= car.label(:color, "Color") %>
+          <%= car.text_field :color, required: true %>
+        </div>
+        <div class="col-md-6 col-sm-12 form-group clase_x">
+          <%= car.label(:car_type, "Tipo de carro") %>
+          <%= car.select :car_type_id, options_from_collection_for_select(@car_types, "id", "name",selected: @car_inspection.car.car_type_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_inspection.car.id.nil?} %>
+        </div>
+        <div class="col-md-6 col-sm-12 form-group clase_x">
+          <%= car.label(:car_brand, "Marca") %>
+          <%= car.select :car_brand_id, options_from_collection_for_select(@car_brands, "id", "name",selected: @car_inspection.car.car_brand_id),{include_blank: "Seleccione"}, {required:true, disabled:!@car_inspection.car.id.nil?} %>
+        </div>
+        <div class="col-md-6 col-sm-12 form-group clase_x">
+          <%= car.label(:model, "Modelo") %>
+          <%= car.text_field :model, disabled: !@car_inspection.car.id.nil?, required: true %>
+        </div>
+        <div class="col-md-6 col-sm-12 form-group clase_x">
+          <%= car.label(:year, "Año") %>
+          <%= car.text_field :year, disabled: !@car_inspection.car.id.nil?, required: true %>
+        </div>
+        <div class="col-md-6 col-sm-12 form-group clase_x">
+          <%= car.label(:year, "VIN") %>
+          <%= car.text_field :vin, disabled: !@car_inspection.car.id.nil?, required: true %>
+        </div>
+        <div class="col-md-6 col-sm-12 form-group clase_x">
+          <%= car.label(:year, "Placa") %>
+          <%= car.text_field :plate, disabled: !@car_inspection.car.id.nil?, required: true, class:"plate_input" %>
+        </div>
       <%end%>
-      <%= submit_tag("Continuar") %>
+      <div class="col-md-12 col-sm-12 form-group clase_x">
+        <%= submit_tag("Continuar") %>
+      </div>
     <%end%>
   </div>
   <%@questions.each_with_index do |question_category,index|%>
@@ -57,108 +77,113 @@
       <%= form_for @car_inspection,
         url:update_car_inspection_path, method: :put,
         id: "car_inspection_form",
-        :html => {class: 'new_car_inspection'}, data:{remote: true}, multipart: true do |f|%>
+        :html => {class: 'new_car_inspection row'}, data:{remote: true}, multipart: true do |f|%>
         <%= f.hidden_field :id, value: @car_inspection.id %>
         <%= f.hidden_field :completed_tabs, value: index+2 %>
         <%question_category[1].each_with_index do |question,index|%>
-          <span><%=question.text_query%></span><br>
-          <%= f.fields_for :car_answers, !@answers[question.id].nil? ? @answers[question.id] : @car_inspection.car_answers.build do |car_answer| %>
-            <%= car_answer.hidden_field :question_id, value: question.id %>
-            <%if !@answers[question.id].nil?%>
-              <%= car_answer.hidden_field :id, value: @answers[question.id].id%>
-            <%end%>
-            <div class="radio_button">
-            <%case question.question_type%>
-            <%when "range"%>
-              <label class="red">
-                <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
-                <span>Mal</span>
-              </label>
-              <label class="yellow">
-                <%= car_answer.radio_button(:answer, "2", {required: true, data:{'question-type':question.question_type}}) %>
-                <span>Aceptable</span>
-              </label>
-              <label class="green">
-                <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
-                <span>Bien</span>
-              </label>
-            <%when "yes_or_no"%>
-              <label class="green">
-                <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
-                <span>Si</span>
-              </label>
-              <label class="red">
-                <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
-                <span>No</span>
-              </label>
-            <%when "yes_no_na"%>
-              <label class="green">
-                <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
-                <span>Si</span>
-              </label>
-              <label class="red">
-                <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
-                <span>No</span>
-              </label>
-              <label class="yellow">
-                <%= car_answer.radio_button(:answer, "0", {required: true, data:{'question-type':question.question_type}}) %>
-                <span>No Aplica</span>
-              </label>
-            <%when "good_bad"%>
-              <label class="green">
-                <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
-                <span>Bien</span>
-              </label>
-              <label class="red">
-                <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
-                <span>Mal</span>
-              </label>
-            <%when "good_bad_na"%>
-              <label class="green">
-                <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
-                <span>Bien</span>
-              </label>
-              <label class="red">
-                <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
-                <span>Mal</span>
-              </label>
-              <label class="yellow">
-                <%= car_answer.radio_button(:answer, "0", {required: true, data:{'question-type':question.question_type}}) %>
-                <span>No Aplica</span>
-              </label>
-            <%when "text"%>
-              <%= car_answer.text_field :answer, required: true %><br>
-            <%else%>
-              <label><%=question.question_type%></label>
-            <%end%>
-            </div>
-            <%= f.fields_for :inspection_photos, @car_inspection.inspection_photos.build do |inspection_photo| %>
-              <div class="upload carthumb photoshoot__upload">
-                <%= inspection_photo.hidden_field :question_id, value: question.id %>
-                <%= inspection_photo.file_field(:image, accept: 'image/png,image/gif,image/jpeg') %>
-                <%if @photos[question.id].nil?%>
-                    <img class="img-thumbnail center-block" alt="your image" target="_blank" src="" style="display: none;">
-                <%else%>
-                    <%= inspection_photo.hidden_field :id, value: @photos[question.id].id%>
-                    <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@photos[question.id].image.url%>">
-                <%end%>
+          <div class="col-md-6 col-sm-12 form-group">
+            <p><%="#{index+1}. #{question.text_query}"%>
+            <%= f.fields_for :car_answers, !@answers[question.id].nil? ? @answers[question.id] : @car_inspection.car_answers.build do |car_answer| %>
+              <%= car_answer.hidden_field :question_id, value: question.id %>
+              <%if !@answers[question.id].nil?%>
+                <%= car_answer.hidden_field :id, value: @answers[question.id].id%>
+              <%end%>
+              <div class="radio_button">
+              <%case question.question_type%>
+              <%when "range"%>
+                <label class="red">
+                  <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
+                  <span>Mal</span>
+                </label>
+                <label class="yellow">
+                  <%= car_answer.radio_button(:answer, "2", {required: true, data:{'question-type':question.question_type}}) %>
+                  <span>Aceptable</span>
+                </label>
+                <label class="green">
+                  <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
+                  <span>Bien</span>
+                </label>
+              <%when "yes_or_no"%>
+                <label class="green">
+                  <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
+                  <span>Si</span>
+                </label>
+                <label class="red">
+                  <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
+                  <span>No</span>
+                </label>
+              <%when "yes_no_na"%>
+                <label class="green">
+                  <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
+                  <span>Si</span>
+                </label>
+                <label class="red">
+                  <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
+                  <span>No</span>
+                </label>
+                <label class="yellow">
+                  <%= car_answer.radio_button(:answer, "0", {required: true, data:{'question-type':question.question_type}}) %>
+                  <span>No Aplica</span>
+                </label>
+              <%when "good_bad"%>
+                <label class="green">
+                  <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
+                  <span>Bien</span>
+                </label>
+                <label class="red">
+                  <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
+                  <span>Mal</span>
+                </label>
+              <%when "good_bad_na"%>
+                <label class="green">
+                  <%= car_answer.radio_button(:answer, "3", {required: true, data:{'question-type':question.question_type}}) %>
+                  <span>Bien</span>
+                </label>
+                <label class="red">
+                  <%= car_answer.radio_button(:answer, "1", {required: true, data:{'question-type':question.question_type}}) %>
+                  <span>Mal</span>
+                </label>
+                <label class="yellow">
+                  <%= car_answer.radio_button(:answer, "0", {required: true, data:{'question-type':question.question_type}}) %>
+                  <span>No Aplica</span>
+                </label>
+              <%when "text"%>
+                <%= car_answer.text_field :answer, required: true %>
+              <%else%>
+                <label><%=question.question_type%></label>
+              <%end%>
               </div>
+              <%= f.fields_for :inspection_photos, @car_inspection.inspection_photos.build do |inspection_photo| %>
+                <div class="upload carthumb photoshoot__upload">
+                  <%= inspection_photo.hidden_field :question_id, value: question.id %>
+                  <button type="button" class="btn btn-default btn-lg photo_button">
+                    <i class="fa fa-camera"></i> Subir foto
+                  </button>
+                  <%= inspection_photo.file_field(:image, accept: 'image/png,image/gif,image/jpeg',style:"width:100%;") %>
+                  <%if @photos[question.id].nil?%>
+                      <img class="img-thumbnail center-block" alt="your image" target="_blank" src="" style="display: none;">
+                  <%else%>
+                      <%= inspection_photo.hidden_field :id, value: @photos[question.id].id%>
+                      <img class="img-thumbnail center-block" alt="your image" target="_blank" src="<%=@photos[question.id].image.url%>">
+                  <%end%>
+                </div>
+              <%end%>
             <%end%>
-            <br>
-          <%end%>
+          </div>
         <%end%>
-        <br><br>
-        <%= f.fields_for :inspection_comments, @car_inspection.inspection_comments.build do |inspection_comment| %>
-          <label> Comentarios para <%= question_category[0].name %> </label>
-            <%= inspection_comment.hidden_field :question_category_id, value: question_category[0].id %>
-          <%if @comments[question_category[0].id].nil?%>
-            <%= inspection_comment.text_area :comment, value: @comments[question_category[0].id], rows: '6' %>
-          <%else%>
-            <%= inspection_comment.hidden_field :id, value: @comments[question_category[0].id].id%>
-            <%= inspection_comment.text_area :comment, value: @comments[question_category[0].id].comment, rows: '6' %>
+        <div class="col-md-12 col-sm-12 form-group">
+          <%= f.fields_for :inspection_comments, @car_inspection.inspection_comments.build do |inspection_comment| %>
+            <label> Comentarios para <%= question_category[0].name %> </label>
+              <%= inspection_comment.hidden_field :question_category_id, value: question_category[0].id %>
+            <%if @comments[question_category[0].id].nil?%>
+              <%= inspection_comment.text_area :comment, value: @comments[question_category[0].id], rows: '6' %>
+            <%else%>
+              <%= inspection_comment.hidden_field :id, value: @comments[question_category[0].id].id%>
+              <%= inspection_comment.text_area :comment, value: @comments[question_category[0].id].comment, rows: '6' %>
+            <%end%>
           <%end%>
-        <%end%>
-        <%= submit_tag("Continuar") %>
+          <%= submit_tag("Continuar") %>
+        </div>
       <%end%>
     </div>
   <%end%>
@@ -259,5 +284,11 @@
   // Everytime the [input:file] change do
   $(":file").change(function(){
       readURL(this);
+  });
+
+  document.querySelectorAll('.new_car_inspection .photo_button').forEach(function(element){
+     element.addEventListener('click', e => {
+        e.target.parentNode.querySelector("input[type='file']").click();
+     });
   });
 </script>

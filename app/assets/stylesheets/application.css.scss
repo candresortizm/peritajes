@@ -31,8 +31,8 @@ input.plate_input{
   text-transform: uppercase;
 }
 
-input[type=text]:valid {
-    color: green;
+.tab-pane{
+  margin: 20px 0px;
 }
 
 .index_table{
@@ -65,6 +65,15 @@ input[type=text]:valid {
 .clase_x{
   display: flex;
   justify-content: space-between;
+  input,select{
+    width: 100%;
+    padding-right: 20%;
+  }
+  label{
+    width: 100%;
+    text-align: center;
+    padding-right: 10px;
+  }
 }
 
 @media all and (min-width: 960px) {
