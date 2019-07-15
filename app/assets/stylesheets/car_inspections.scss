@@ -18,6 +18,11 @@
       font-size: 25px;
     }
   }
+  &.row{
+    input[type="file"] {
+      display: none;
+    }
+  }
   .radio_button {
     display: flex;
     align-items: center;
@@ -64,9 +69,6 @@
         // display: none;
       }
     }
-  }
-  input[type="file"] {
-    display: none;
   }
 }
 
