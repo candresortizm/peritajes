@@ -82,7 +82,7 @@
         <%= f.hidden_field :completed_tabs, value: index+2 %>
         <%question_category[1].each_with_index do |question,index|%>
           <div class="col-md-6 col-sm-12 form-group">
-            <p><%="#{index+1}. #{question.text_query}"%>
+            <p><%="#{index+1}. #{question.text_query}"%></p>
             <%= f.fields_for :car_answers, !@answers[question.id].nil? ? @answers[question.id] : @car_inspection.car_answers.build do |car_answer| %>
               <%= car_answer.hidden_field :question_id, value: question.id %>
               <%if !@answers[question.id].nil?%>

@@ -137,7 +137,7 @@ class V1::CarInspectionsController < ApplicationController
   def show
     begin
       ActiveRecord::Base.transaction do
-        @car_inspection = CarInspection.includes(:car).find(params[:car_inspection_id])
+        @car_inspection = CarInspection.includes(:car, car_expert: :concessionaire).find(params[:car_inspection_id])
         @car_types = CarType.all
         @car_brands = CarBrand.all
         @inspection_photos = InspectionPhoto.where(car_inspection_id: params[:car_inspection_id]).group_by{|photo| photo.question_id}
