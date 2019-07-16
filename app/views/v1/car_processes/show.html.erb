@@ -39,23 +39,25 @@
   <br>
   <%@doc_types.each do |doc_type|%>
     <div class="col-md-6 col-sm-12 form-group">
-      <%= f.fields_for :car_documents, @car_process.car_documents.build do |car_document| %>
+      <div class="document_field">
+        <%= f.fields_for :car_documents, @car_process.car_documents.build do |car_document| %>
         <%= car_document.hidden_field :document_type_id, value: doc_type.id %>
         <%= car_document.hidden_field :state, value: 'open' %>
         <h3><%= doc_type.name %></h3>
         <%if !@documents[doc_type.id].nil?%>
-          <%= car_document.hidden_field :id, value: @documents[doc_type.id].id%>
-          <a href="<%= @documents[doc_type.id].document.url %>" id="download_file_<%=car_document.index%>" target="_blank">
-            <p>Descargar archivo</p>
-          </a>
+        <%= car_document.hidden_field :id, value: @documents[doc_type.id].id%>
+        <a href="<%= @documents[doc_type.id].document.url %>" id="download_file_<%=car_document.index%>" target="_blank">
+          <p>Descargar archivo</p>
+        </a>
         <%end%>
         <%if current_dispatcher and @car_process.state.eql?("open")%>
-          <%= car_document.label(:document, "Documento") %>
-          <%= car_document.file_field(:document) %><br>
+        <%= car_document.label(:document, "Documento") %>
+        <%= car_document.file_field(:document) %><br>
         <%end%>
         <label> Comentario </label>
         <%= car_document.text_area :comment, value: @documents[doc_type.id].nil? ? '' : @documents[doc_type.id].comment, rows: '6', disabled: (!current_dispatcher or !@car_process.state.eql?("open")) %><br>
-      <%end%>
+        <%end%>
+      </div>
     </div>
   <%end%>
   <div class="col-md-6 col-sm-12 form-group">

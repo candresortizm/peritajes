@@ -41,7 +41,8 @@
   <%end%>
   <%@doc_types.each do |doc_type|%>
     <div class="col-md-6 col-sm-12 form-group">
-      <%= f.fields_for :car_documents, @car_process.car_documents.build do |car_document| %>
+      <div class="document_field">
+        <%= f.fields_for :car_documents, @car_process.car_documents.build do |car_document| %>
         <h3><%= doc_type.name %></h3>
         <%= car_document.hidden_field :document_type_id, value: doc_type.id %>
         <%= car_document.hidden_field :state, value: 'open' %>
@@ -49,7 +50,8 @@
         <%= car_document.file_field(:document) %><br>
         <label> Comentario </label>
         <%= car_document.text_area :comment, rows: '6' %><br>
-      <%end%>
+        <%end%>
+      </div>
     </div>
   <%end%>
   <div class="col-md-6 col-sm-12 form-group">
