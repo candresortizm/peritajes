@@ -56,7 +56,7 @@ class V1::CarInspectionsController < ApplicationController
           @car_inspection.car = !car.nil? ? car : Car.new(plate:params[:plate])
           @car_types = CarType.all
           @car_brands = CarBrand.all
-          @questions = QuestionCategory.includes(:questions).order(order_category: :desc).to_a.map{ |category| [category,category.questions.order(order_question: :desc).to_a] }
+          @questions = QuestionCategory.includes(:questions).order(order_category: :desc).to_a.map{ |category| [category,category.questions.order(order_question: :asc).to_a] }
         else
           flash[:warning] = "No está autorizado"
           redirect_to root_path
@@ -97,7 +97,7 @@ class V1::CarInspectionsController < ApplicationController
           @answers = CarAnswer.where(car_inspection_id:params["car_inspection_id"]).map{|answer| [answer.question_id,answer]}.to_h
           @photos = InspectionPhoto.where(car_inspection_id:params["car_inspection_id"]).map{|photo| [photo.question_id,photo]}.to_h
           @comments = InspectionComment.where(car_inspection_id:params["car_inspection_id"]).map{ |comment| [comment.question_category_id,comment]}.to_h
-          @questions = QuestionCategory.includes(:questions).order(order_category: :desc).to_a.map{ |category| [category,category.questions.order(order_question: :desc).to_a] }
+          @questions = QuestionCategory.includes(:questions).order(order_category: :desc).to_a.map{ |category| [category,category.questions.order(order_question: :asc).to_a] }
         else
           flash[:warning] = "No está autorizado"
           redirect_to root_path
