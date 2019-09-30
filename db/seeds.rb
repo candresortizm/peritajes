@@ -190,7 +190,7 @@ Question.create([
   { key: "front_right_original_bolts", text_query: "Pernos originales frontal derecha", question_category_id: 5, question_type: "yes_or_no", order_question: 20, points: 8 },
   { key: "front_right_tire_alignment", text_query: "Posición de las llantas frontal derecha", question_category_id: 5, question_type: "good_bad", order_question: 21, points: 5 },
   { key: "front_right_shock_absorber", text_query: "Amortiguadores delanteros frontal derecha", question_category_id: 5, question_type: "good_bad", order_question: 22, points: 8 },
-  { key: "wheel_noises", text_query: "Ruidos en las llantas", question_category_id: 5, question_type: "yes_or_no", order_question: 23, points: 55 },
+  { key: "wheel_noises", text_query: "No tiene ruidos en las llantas", question_category_id: 5, question_type: "yes_or_no", order_question: 23, points: 55 },
 #ACCESORIOS
   { key: "air_conditioner_a", text_query: "Aire acondicionado", question_category_id: 6, question_type: "yes_no_na", order_question: 1, points: 0 },
   { key: "sliding_roof_a", text_query: "Techo corredizo", question_category_id: 6, question_type: "yes_no_na", order_question: 2, points: 0 },

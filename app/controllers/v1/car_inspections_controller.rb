@@ -113,9 +113,11 @@ class V1::CarInspectionsController < ApplicationController
       ActiveRecord::Base.transaction do
         if current_user.type.eql?("CarExpert")
           @car_inspection = CarInspection.find(car_inspection_params["id"])
-          unless @car_inspection.completed_tabs.include?(car_inspection_params["completed_tabs"])
+          unless @car_inspection.completed_tabs.include?(car_inspection_params["completed_tabs"].to_i)
             car_inspection_params["completed_tabs"] = @car_inspection.completed_tabs << car_inspection_params["completed_tabs"]
             car_inspection_params["state"] = "completed" if car_inspection_params["completed_tabs"].size == 8
+          else
+            car_inspection_params["completed_tabs"] = @car_inspection.completed_tabs
           end
           @car_inspection.update(car_inspection_params)
           if @car_inspection.state.eql?("completed")
